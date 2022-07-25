@@ -1,0 +1,21 @@
+/* import css property */
+@use '@styleProps' as *;
+
+.Wrap {
+  height:calc( $VH );
+  overflow: auto;
+  background-color: $lc1;
+  padding: $m2;
+  .Footer {
+    position: fixed;
+    bottom:0;
+    right:0;
+    padding: $m1 $m2;
+  }
+  @media (max-width:$w3) {
+    .Form {
+      padding: $m2;
+      min-width:0;
+    }
+  }
+}

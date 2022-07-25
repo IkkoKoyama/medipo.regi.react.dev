@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": false,
+    "baseUrl": "./",
+    "paths":{
+      "@styleProps" : ["src/@uni/@styles/var"],
+      
+      "@appWare" : ["src/app/@core/middleware"]
+    },
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration":true,
+
+    "allowJs": true,
+    "declaration": false,
+    // "emitDeclarationOnly": true,
+    "outDir": "./dist",
+
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+  },
+  "exclude": [
+    "node_modules",
+    "public"
+  ]
+}
