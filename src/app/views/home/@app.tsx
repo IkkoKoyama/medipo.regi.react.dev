@@ -27,6 +27,8 @@ import { AccountPage } from './Account/page';
 
 import { HomePage } from './Home/page';
 
+import { CreateEventPage } from './CreateEvent/page';
+
 let Pages =
 <PageRouter
   list={[
@@ -35,7 +37,8 @@ let Pages =
       body :
       <>
         <LayoutHNC
-          responsiveNavBar='left'
+          responsiveNavBar='bottom'
+          // responsiveNavBar='left'
           headerProps={{
             color : 'plain',
             sticky : true,
@@ -45,22 +48,43 @@ let Pages =
             appearance : 'cell',
             color : 'plain',
             sticky : true,
-            border : 'border',
+            border : 'none',
             menus : [{
               type : 'link',
-              icon : <Icon>fal home</Icon>,
+              icon : <Icon>fad home</Icon>,
               title : 'ホーム',
               href : '/',
-              tipsContent :
-              <>
-                <Icon children='fal home' /> ホーム
-              </>
+              tipsContent : 'ホーム'
             },{
               type : 'link',
-              icon : <Icon>fal user-circle</Icon>,
+              icon : <Icon>fad search</Icon>,
+              title : 'イベント一覧',
+              tipsContent : 'イベント一覧',
+              href : '/event-list'
+            },{
+              type : 'link',
+              icon : <Icon>fad plus-square</Icon>,
+              title : 'イベント作成',
+              tipsContent : 'イベントを作成する',
+              href : '/event-create'
+            },{
+              type : 'link',
+              icon : <Icon>fad user-circle</Icon>,
               title : 'アカウント',
               tipsContent : 'アカウント',
               href : '/account'
+            },{
+              type : 'link',
+              icon : <Icon>fad layer-group</Icon>,
+              title : 'イベントページ',
+              tipsContent : 'イベントページ',
+              href : '/eventPage'
+            },{
+              type : 'link',
+              icon : <Icon>fad gears</Icon>,
+              title : '環境設定',
+              tipsContent : '環境設定',
+              href : '/settings'
             }]
           }}
           content={
@@ -71,8 +95,8 @@ let Pages =
                     path : '/',
                     body : <HomePage />
                   },{
-                    path : '/account',
-                    body : <AccountPage />
+                    path : '/event-create',
+                    body : <CreateEventPage />
                   }
                 ]}
               />

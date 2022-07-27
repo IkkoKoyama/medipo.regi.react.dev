@@ -82,7 +82,7 @@ namespace Atoms {
 
   /* atoms.flex */
   type FlexProps = TagProps & {
-    children : any
+    children? : ReactElement
     gap? : gapProp
     auto? : boolean
     center? : boolean
@@ -93,7 +93,7 @@ namespace Atoms {
     justify? : 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
   }
   type FlexBoxProps = TagProps & {
-    children:any
+    children?:ReactElement
     cols?:GridNumberProp | 'auto' | 'none'
     center?:boolean
   }
@@ -155,13 +155,13 @@ namespace Mols {
   
   /* mols.cardBox */
   type CardBoxProps = TagProps & {
-    appearance?:'plain' | 'cloud'
-    type?:string
-    title?:string
-    header?:string | JSX.Element
-    body:string | JSX.Element
-    footer?:string | JSX.Element
-    space?:ParginProp
+    appearance? : 'plain' | 'cloud' | 'border' | 'inBorder'
+    type? : string
+    title? : string
+    header? : string | JSX.Element
+    body : string | JSX.Element
+    footer? : string | JSX.Element
+    space? : ParginProp
   }
   
   /* mols.list  */
@@ -495,8 +495,12 @@ namespace AMOT {
     AppTitle : FNC< Atoms.LogoProps >
     AppLogoH : FNC< Atoms.LogoProps >
     AppLogoV : FNC< Atoms.LogoProps >
-
-    RaccoIcon : FNC< Atoms.LogoProps >
+  }
+  interface APP {
+    logo : {
+      icon : JSX.Element | FC
+      title : JSX.Element | FC
+    }
   }
 }
 interface AMOT {

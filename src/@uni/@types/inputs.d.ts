@@ -145,8 +145,13 @@ namespace Input {
       label? : ReactElement
 
       placeholder? : string
-      multiple? : true
+      multiple? : boolean
       appearance? : 'border' | 'cloud' | 'vivid' | 'alfa'
+
+      customAddButton? : {
+        ( onActiveCallBack : Button.onChangeCallBack ) : ReactElement
+      }
+      defaultDisplay? : boolean
     } & (
       {
         dynamic : false
@@ -244,9 +249,13 @@ namespace Input {
       accept? : 'image'
     }
     type CustomFile = File & {
-      fileId : string
-      fileName : string
-      dataUrl : string
+      Id : string
+      FileName : string
+      Size : number
+      Mime : string
+      Encoding : 'base64'
+      DataUrl : string
+      Key? : string
     }
   }
   namespace List {
@@ -263,7 +272,7 @@ namespace Input {
       tabIndex? : -1
 
       value? : ( string | number )[]
-      list : OptionProps[]
+      list : CellProps[]
       align : 'col' | 'inlineCol' | 'row'
       justify? : 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
       appearance? : 'border' | 'cloud' | 'vivid' | 'vividBorder' | 'icon' | 'iconBorder' | 'iconCloud' | 'plain'

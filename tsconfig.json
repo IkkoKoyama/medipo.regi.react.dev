@@ -6,9 +6,11 @@
     "sourceMap": false,
     "baseUrl": "./",
     "paths":{
-      "@styleProps" : ["src/@uni/@styles/var"],
+      "@styleProps" : [ "src/@uni/@styles/var" ],
       
-      "@appWare" : ["src/app/@core/middleware"]
+      "@appComps" : [ "src/app/components" ],
+      "@appComps/*" : [ "src/app/components/*" ],
+      "@appWare" : [ "src/app/@core/middleware" ]
     },
     "strict": true,
     "skipLibCheck": true,

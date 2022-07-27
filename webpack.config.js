@@ -7,8 +7,8 @@ module.exports = (() => {
   BrowserSync = require('browser-sync-webpack-plugin'),
   BrowserSync_option = {
     host: 'localhost',
-    port: 10101,
-    proxy: 'http://localhost:10100/',
+    port: 10201,
+    proxy: 'http://localhost:10200/',
     open:false,
     notify : false
   }
@@ -17,6 +17,7 @@ module.exports = (() => {
     'js/rct/incognito': './src/app/views/incognito/@app.tsx',
     'js/rct/home': './src/app/views/home/@app.tsx',
     'js/vnl/appWare': './src/app/@core/middleware.tsx',
+    'js/vnl/logo': './src/app/@core/logo.tsx',
 
     'css/uni': './src/app/styles/@app.uni.scss'
   }
@@ -107,7 +108,7 @@ module.exports = (() => {
               loader : "ts-loader",
               options : {
                 // transpileOnly:true,
-                configFile : path.resolve(__dirname,'tsconfig.json')
+                configFile : path.resolve( __dirname,'tsconfig.json' )
               }
             }
           ],
@@ -115,13 +116,14 @@ module.exports = (() => {
       ]
     },
     resolve : {
-      modules : ['node_modules'],
-      extensions : ['.js','.jsx','.tsx','ts'],
+      modules : [ 'node_modules' ],
+      extensions : [ '.js','.jsx','.tsx','ts' ],
       alias : {
         '~' : `${ __dirname }/src`,
-        '@styleProps' : path.resolve(__dirname,'src/@uni/@styles/var'),
+        '@styleProps' : path.resolve( __dirname,'src/@uni/@styles/var' ),
 
-        '@appWare' : path.resolve(__dirname,'src/app/@core/middleware')
+        '@appComps' : path.resolve( __dirname,'src/app/components' ),
+        '@appWare' : path.resolve( __dirname,'src/app/@core/middleware' )
       }
     },
   }

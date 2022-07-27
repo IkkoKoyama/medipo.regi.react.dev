@@ -14,8 +14,7 @@ const {
   },
   logos : {
     MinifyIcon,
-
-    RaccoIcon
+    AppIcon
   }
 } = AMOT;
 
@@ -46,24 +45,6 @@ export class SignIn extends Component {
       window.location.href = `http://localhost:10001/loginShare?hash=${ hash }&url=${ currentUrl.encode() }&appname=${ Env.AppName }`;
     }
   }
-  Console() {
-    let content =
-    <>
-      <Button
-        type="main"
-        onClickCallBack={() => {
-          this.getLoginShareToken( );
-        }}
-        miniLoader={ true }
-        rippleEffect={ true }
-        padding={ [ 1,2 ] }
-        tabIndex={ -1 }
-        children={ 'セッションリンク' }
-      />
-    </>;
-    
-    return content;
-  }
   render() {
     return (
       <Box maxWidth={ 36 }>
@@ -87,7 +68,7 @@ export class SignIn extends Component {
               align='center'
               justify='center'
             >
-              <RaccoIcon size='L' />
+              <AppIcon size='L' />
               <Box
                 fontSize={ 4 }
                 fontWeight={ 3 }
@@ -118,7 +99,17 @@ export class SignIn extends Component {
               下のボタンからインタラクションを完了してください。
             </Paragraph>
           </Box>
-          { this.Console() }
+          <Button
+            type="main"
+            onClickCallBack={() => {
+              this.getLoginShareToken( );
+            }}
+            miniLoader={ true }
+            rippleEffect={ true }
+            padding={ [ 1,2 ] }
+            tabIndex={ -1 }
+            children={ 'インタラクト' }
+          />
         </Flex>
       </Box>
     );

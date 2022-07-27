@@ -84,18 +84,15 @@ const IncognitoPlate:FNC<{ children:ReactElement }> = ( props ) => {
 let root = $( '#root' )[ 0 ];
 let Pages =
 <PageRouter
-  list={[
-    {
-      path : '/design',
-      body : <DesignBook />
-    },{
+  list={
+    [{
       path : '*',
       body : 
       <IncognitoPlate>
         <SignIn />
       </IncognitoPlate>
-    }
-  ]}
+    }]
+  }
 />;
 
 if ( root ) Render( {
