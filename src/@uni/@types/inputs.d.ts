@@ -1,26 +1,23 @@
 namespace Input {
   type Types = {
-    Hidden    :  (  props:Hidden.Props    ) => JSX.Element
-    Text      :  (  props:Text.Props      ) => JSX.Element
-    TextArea  :  (  props:TextArea.Props  ) => JSX.Element
-    Select    :  (  props:Select.Props    ) => JSX.Element
-    Search    :  (  props:Search.Props    ) => JSX.Element
-    Time      :  (  props:Time.Props      ) => JSX.Element
-    File      :  (  props:Filer.Props     ) => JSX.Element
-    List      :  (  props:List.Props      ) => JSX.Element
-    Switch    :  (  props:Switch.Props    ) => JSX.Element
-    Slider    :  (  props:Slider.Props    ) => JSX.Element
+    Hidden    :  (   props : Hidden.BoxProps    ) => JSX.Element
+    Text      :  (   props : Text.BoxProps      ) => JSX.Element
+    Time      :  (   props : Time.BoxProps      ) => JSX.Element
+    TextArea  :  (   props : TextArea.BoxProps  ) => JSX.Element
+    Select    :  (   props : Select.BoxProps    ) => JSX.Element
+    Search    :  (   props : Search.BoxProps    ) => JSX.Element
+    Cell      :  (   props : Cell.BoxProps      ) => JSX.Element
+    Radio     :  (   props : List.BoxProps      ) => JSX.Element
+    CheckBox  :  (   props : List.BoxProps      ) => JSX.Element
+    File      :  (   props : Filer.BoxProps     ) => JSX.Element
+    Switch    :  (   props : Switch.BoxProps    ) => JSX.Element
+    Slider    :  (   props : Slider.BoxProps    ) => JSX.Element
   }
 
   namespace Uni {
-    type Core = {
-      componentId : string
-    }
     type Grouping = {
-      className? : string
       name? : string
       form? : string
-      id? : string
     }
     type LifeCycle = {
       forceOverRide? : boolean
@@ -30,42 +27,65 @@ namespace Input {
     }
   }
   namespace Hidden {
-    type Props = Uni.Grouping & {
-
+    type BoxProps = Uni.Grouping & {
+      id? : string
       required? : true
-
       value? : string | number
+    }
+    type Props = BoxProps & {
+      componentId : string
     }
   }
   namespace Text {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
       tabIndex? : -1
 
+      id? : string
+
+      disabled? : boolean
       required? : true
       hideRequiredSign? : boolean
 
       label? : ReactElement
 
-      styles? : OriginalStyleProps
-
       delegationFormSubmit? : true
 
       value? : string
       placeholder? : string
-      appearance? : 'border' | 'cloud' | 'themeCloud' | 'plain'
 
+      indicator? : ReactElement
       autoComplete? : 'off'
-
-      subIndicator? : ReactElement
-      indicatorRightPosition? : ParginProp
-      onKeydownCallBack? : {
-        ( event:any ) : any
+      onKeydown? : {
+        ( event:React.KeyboardEvent < HTMLInputElement > ) : void
       }
-    } & (
-      OthersProps |
-      PostalProps |
-      PasswordProps
-    )
+      onFocus? : {
+        ( event:React.FocusEvent < HTMLInputElement,Element > ) : void
+      }
+      onClick? : {
+        ( event:React.MouseEvent < HTMLInputElement,MouseEvent > ) : void
+      }
+      appearance? : {
+        format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        input? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        indicator? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
+    } & ( OthersProps | PostalProps | PasswordProps )
+
+    type Props = BoxProps & {
+      className : string
+      indicatorClassName? : string
+      componentId : string
+    }
 
     type OthersProps = {
       restrict? : 'number' | 'tel' | 'price' | 'email' | 'url' | 'fileName'
@@ -93,113 +113,27 @@ namespace Input {
       onGeoCodingCallBack? : never
     }
   }
-  namespace TextArea {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
-      tabIndex? : -1
-
-      required? : true
-      hideRequiredSign? : boolean
-
-      label? : ReactElement
-
-      styles? : OriginalStyleProps
-
-      delegationFormSubmit? : true
-
-
-      value? : string
-      placeholder? : string
-      appearance? : 'border' | 'cloud' | 'themeCloud' | 'plain'
-      rows? : number
-    }
-  }
-  namespace Select {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
-      required? : true
-      hideRequiredSign? : boolean
-
-      label? : ReactElement
-
-      styles? : OriginalStyleProps
-
-      delegationFormSubmit? : true
-
-      value? : string | number
-      placeholder? : string
-      appearance? : 'border' | 'cloud' | 'themeCloud' | 'plain'
-      options : OptionProps[]
-
-      indicator? : false
-      indicatorRightPosition? : ParginProp
-    }
-    type OptionProps = {
-      value : string | number
-      label : string
-    }
-  }
-  namespace Search {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
-      required? : true
-      hideRequiredSign? : boolean
-
-      label? : ReactElement
-
-      placeholder? : string
-      multiple? : boolean
-      appearance? : 'border' | 'cloud' | 'vivid' | 'alfa'
-
-      customAddButton? : {
-        ( onActiveCallBack : Button.onChangeCallBack ) : ReactElement
-      }
-      defaultDisplay? : boolean
-    } & (
-      {
-        dynamic : false
-        list : OptionProps[]
-        value? : ValueProps
-      } | {
-        dynamic : true
-        list : onSearchCallBack
-        value? : OptionCellProps[]
-      }
-    )
-
-    type ValueProps = ( string | number )[]
-    type OptionProps = OptionCellProps | OptionTitleProps
-    type OptionCellProps = {
-      value : string | number
-      keyword : string
-      icon? : ReactElement
-      label : ReactElement
-
-      type? : void
-    }
-    type OptionTitleProps = {
-      type : 'title'
-      content : ReactElement
-      value? : void
-
-      label? : void
-      keyword? : void
-    }
-    type onSearchCallBack = {
-      (
-        value : string
-      )
-      : Promise< OptionProps[] >
-    }
-  }
   namespace Time {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      id? : string
       required? : true
       hideRequiredSign? : boolean
 
       label? : ReactElement
 
-      styles? : OriginalStyleProps
       delegationFormSubmit? : true
 
-      appearance? : 'border' | 'cloud' | 'themeCloud'
+      appearance? : {
+        format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        input? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
     } & (
       {
         type : 'clock' | 'date' | 'week' | 'month' | 'year' | 'dateWareki'
@@ -209,6 +143,10 @@ namespace Input {
         value? : [ string,string ]
       }
     )
+    type Props = BoxProps & {
+      className : string
+      componentId : string
+    }
 
     type Series = 'clock' | 'date' | 'week' | 'month' | 'year' | 'clocks' | 'dates' | 'weeks' | 'months' | 'years' | 'dateWareki'
     type Eras = 'year' | 'reiwa' | 'heisei' | 'shouwa' | 'taisho' | 'meiji'
@@ -233,35 +171,211 @@ namespace Input {
       type CoreProps = Omit< Props,'type' >
     }
   }
-  namespace Filer {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
+  namespace TextArea {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      tabIndex? : -1
+
+      disabled? : boolean
+
       required? : true
       hideRequiredSign? : boolean
 
       label? : ReactElement
 
-      custom? : boolean
-      value? : CustomFile[]
+      delegationFormSubmit? : true
+
+      value? : string
       placeholder? : string
-      appearance? : 'border' | 'cloud' | 'themeCloud' | 'plain'
-      multiple? : true
-      fileNameEdit? : boolean
-      accept? : 'image'
+
+      rows? : number
+
+      autoComplete? : 'off'
+      onKeydownCallBack? : {
+        ( event:React.KeyboardEvent< HTMLTextAreaElement > ) : void
+      }
+      appearance? : {
+        format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        input? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
     }
-    type CustomFile = File & {
-      Id : string
-      FileName : string
-      Size : number
-      Mime : string
-      Encoding : 'base64'
-      DataUrl : string
-      Key? : string
+
+    type Props = BoxProps & {
+      className : string
+      componentId : string
+    }
+  }
+  namespace Select {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      id? : string
+      required? : true
+      hideRequiredSign? : boolean
+
+      label? : ReactElement
+
+      delegationFormSubmit? : true
+
+      value? : string | number
+      placeholder? : string
+      appearance? : {
+        format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        input? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
+
+      list : OptionProps[]
+
+      indicator? : boolean
+    }
+    type Props = BoxProps & {
+      className : string
+      componentId : string
+    }
+
+    type OptionProps = {
+      value : string | number
+      label : string
+    }
+  }
+  namespace Search {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      required? : true
+      hideRequiredSign? : boolean
+
+      label? : ReactElement
+
+      placeholder? : string
+      limit? : number
+      appearance? : {
+        format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        input? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        cell? : {
+          className? : string
+          style? : OriginalStyleProps
+          custom? : CustomCellProps
+        }
+        indicator? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
+
+      value? : OptionCellProps[]
+      list : OptionProps[]
+      onDynamicSearchCallBack? : onSearchCallBack
+    }
+    type Props = BoxProps & {
+      inputClassName : string
+      cellClassName : string
+      componentId : string
+    }
+
+    type CustomCellProps = {
+      ( props : {
+        props : OptionCellProps,
+        deleteCallBack : Atoms.Button.onClickCallBackProps
+      } ) : ReactElement
+    }
+
+    type OptionProps = OptionCellProps | OptionTitleProps
+    type OptionCellProps = {
+      type? : 'cell'
+      value : string | number
+      keyword : string
+      icon? : ReactElement
+      label : ReactElement
+      opt? : plainObject
+    }
+    type OptionTitleProps = {
+      type : 'title'
+      content : ReactElement
+    }
+    type onSearchCallBack = {
+      ( keyword : string )
+      : Promise< OptionProps[] >
+    }
+  }
+  namespace Cell {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      required? : true
+      hideRequiredSign? : boolean
+
+      label? : ReactElement
+
+      placeholder? : string
+      limit? : number
+      appearance? : {
+        format? : 'border' | 'cloud'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        cell? : {
+          className? : string
+          style? : OriginalStyleProps
+          custom? : CustomCellProps
+        }
+      }
+      addButton? : {
+        ( onActiveCallBack : Button.onChangeCallBack ) : ReactElement
+      }
+
+      value? : OptionCellProps[]
+      list : OptionProps[]
+      onDynamicSearchCallBack? : onSearchCallBack
+    }
+
+    type Props = BoxProps & {
+      cellClassName : string
+      componentId : string
+    }
+
+    type CustomCellProps = {
+      ( props : {
+        props : OptionCellProps,
+        deleteCallBack : Atoms.Button.onClickCallBackProps
+      } ) : ReactElement
+    }
+
+    type OptionProps = OptionCellProps | OptionTitleProps
+    type OptionCellProps = {
+      type? : 'cell'
+      value : string | number
+      keyword : string
+      icon? : ReactElement
+      label : ReactElement
+      opt? : plainObject
+    }
+    type OptionTitleProps = {
+      type : 'title'
+      content : ReactElement
+    }
+    type onSearchCallBack = {
+      ( keyword : string )
+      : Promise< OptionProps[] >
     }
   }
   namespace List {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
-      type : 'radio' | 'checkbox'
-
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
       required? : true
       hideRequiredSign? : boolean
 
@@ -273,24 +387,92 @@ namespace Input {
 
       value? : ( string | number )[]
       list : CellProps[]
-      align : 'col' | 'inlineCol' | 'row'
-      justify? : 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
-      appearance? : 'border' | 'cloud' | 'vivid' | 'vividBorder' | 'icon' | 'iconBorder' | 'iconCloud' | 'plain'
+
       gap? : gapProp
-      cellStyles? : OriginalStyleProps
-      checkedCellStyles? : OriginalStyleProps
-      cellClassName? : string
-      checkedCellClassName? : string
+      align? : 'col' | 'inlineCol' | 'row'
+      justify? : 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
+
+      appearance? : {
+        format? : 'border' | 'cloud' | 'vivid' | 'vividBorder' | 'icon' | 'iconBorder' | 'iconCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        cell? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        checked? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
+    }
+    type Props = BoxProps & {
+      type : 'radio' | 'checkbox'
+      cellClassName : string
+      checkedClassName : string
+      componentId : string
     }
     type CellProps = {
       value : string | number
       label : ReactElement
-      styles? : OriginalStyleProps
-      checkedStyles? : OriginalStyleProps
+      appearance? : {
+        style? : OriginalStyleProps
+        checkedStyle? : OriginalStyleProps
+        className? : string
+        checkedClassName? : string
+      }
+    }
+  }
+  namespace Filer {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      required? : true
+      hideRequiredSign? : boolean
+      id? : string
+
+      label? : ReactElement
+
+      displayFileInfo? : boolean
+
+      value? : CustomFile[]
+      placeholder? : string
+      limit? : number
+
+      appearance? : {
+        format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
+        box? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+        cell? : {
+          className? : string
+          style? : OriginalStyleProps
+        }
+      }
+
+      fileNameEdit? : boolean
+      accept? : 'image'
+    }
+    type Props = BoxProps & {
+      cellClassName : string
+      componentId : string
+    }
+
+    type CustomFile = File & {
+      Id : string
+      FileName : string
+      Size : number
+      Mime : string
+      Encoding : 'base64'
+      DataUrl : string
+      Key? : string
     }
   }
   namespace Switch {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      id? : string
+
       value? : boolean
 
       label? : ReactElement
@@ -298,15 +480,23 @@ namespace Input {
       forceOverRide? : boolean
       onChangeCallBack? : OnChangeCallBack
     }
+    type Props = BoxProps & {
+      componentId : string
+    }
   }
   namespace Slider {
-    type Props = Uni.Grouping & Uni.LifeCycle & {
+    type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      id? : string
+
       value? : number
       min : number
       max : number
       step : number
       showLabels? : true
       label? : ReactElement
+    }
+    type Props = BoxProps & {
+      componentId : string
     }
   }
   namespace Validation {

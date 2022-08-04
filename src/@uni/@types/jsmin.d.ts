@@ -16,7 +16,7 @@ namespace Jsmin {
   type Childs = Jsmin.Child[ ]
 
   interface jsMin {
-    new (v? : Args) : Method
+    new ( v?:Args ) : Method
   }
   
   interface Method {
@@ -33,19 +33,19 @@ namespace Jsmin {
     for( v:ForFunction,n?:number ) : Jsmin.Childs[]
     is : Jsmin.IsCheck;
     click() : Jsmin.Method
-    on( ...args:Jsmin.OnArgs ) : Jsmin.Method
-    off( ...args:Jsmin.OffArgs ) : Jsmin.Method
+    on( ... args:Jsmin.OnArgs ) : Jsmin.Method
+    off( ... args:Jsmin.OffArgs ) : Jsmin.Method
 
-    attr( ...v:Jsmin.AttrArgs ) : Jsmin.Method | string
+    attr( ... v:Jsmin.AttrArgs ) : Jsmin.Method | string
     html( v:Jsmin.Doms ) : Jsmin.Method
     empty() : Jsmin.Method
-    append( ...args:Jsmin.AppendArgs ) : Jsmin.Method
+    append( ... args:Jsmin.AppendArgs ) : Jsmin.Method
     remove() : Jsmin.Method
     val() : string;
     find( v:Jsmin.Doms | Jsmin.Child ) : Jsmin.Method
     parent( v?:string ) : Jsmin.Method
-    before( ...v:Jsmin.Doms[] ) : Jsmin.Method
-    after( ...v:Jsmin.Doms[] ) : Jsmin.Method
+    before( ... v:Jsmin.Doms[] ) : Jsmin.Method
+    after( ... v:Jsmin.Doms[] ) : Jsmin.Method
     children( v?:string | number ) : Jsmin.Method
 
     addClass( v:string ) : Jsmin.Method
@@ -98,7 +98,7 @@ namespace Jsmin {
   interface EventCallback {
     ( this:HTMLElement,e:Event ) : any
   } 
-  type EventType = 'input' | 'click' | 'mouseover' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mousewheel' | 'touchstart' | 'touchmove' | 'touchend' | 'keypress' | 'keydown' | 'keyup' | 'change' | 'focus' | 'dragstart' | 'drag' | 'dragend' | 'dragover' | 'dragleave' | 'drop' | 'beforeunload'
+  type EventType = 'input' | 'click' | 'mouseover' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mousewheel' | 'touchstart' | 'touchmove' | 'touchend' | 'keypress' | 'keydown' | 'keyup' | 'change' | 'focus' | 'dragstart' | 'drag' | 'dragend' | 'dragover' | 'dragleave' | 'drop' | 'beforeunload' | 'scroll'
   type EventOption = {
     passive? : boolean
   }

@@ -1,16 +1,18 @@
-type FNC< P > = React.FC<P>;
+type FNC< P > = React.FC< P >;
 
 namespace Glob {
   /* glob.Props */
-  type PropsLeveling = {
-    ( props : plainObject ) : plainObject
+  type StyleConvertProps = {
+    ( props:plainObject ) : plainObject & {
+      className : string
+    }
   }
   /** glob.render  */
   type RenderProps = {
     (
       props : {
         base : Element,
-        content : ReactElement,
+        content : React.ReactNode,
         nonRouter? : boolean
       }
     ) : void;
@@ -28,18 +30,27 @@ namespace Glob {
 namespace Atoms {
   /* atoms.box */
   type BoxProps = TagProps & {
-    children?:ReactElement
+    children? : ReactElement
+    onClick? : {
+      ( event : React.MouseEvent < HTMLDivElement,MouseEvent > ) : void
+    }
+    onScroll? : {
+      ( event : React.UIEvent < HTMLDivElement,UIEvent > ) : void
+    }
   }
   type SpanProps = TagProps & {
-    children?:ReactElement
+    children? : ReactElement
+    onClick? : {
+      ( event : React.MouseEvent < HTMLDivElement,MouseEvent > ) : void
+    }
   }
   type ParagraphProps = TagProps & {
-    children?:ReactElement
+    children? : ReactElement
   }
   type LoadingProps = {
     theme? : boolean
   }
-  
+
   namespace Canvas {
     type Props = OriginalComponentProps & {
       width? : string
@@ -48,18 +59,34 @@ namespace Atoms {
   }
   /* atoms.button */
   namespace Button {
-    type OnCallBackProps = {
-      ( element:HTMLElement,event:React.ChangeEvent< any > ):void
+    type onClickCallBackProps = {
+      (
+        event : React.MouseEvent< HTMLElement >,
+        option? : any
+      ) : void
+    }
+    type onFocusCallBackProps = {
+      (
+        event : React.FocusEvent< HTMLElement >,
+        option? : any
+      ) : void
+    }
+    type onMouseOverCallBackProps = {
+      (
+        event : React.MouseEvent< HTMLElement >,
+        option? : any
+      ) : void
     }
     type UniProps = TagProps & {
       type? : 'main' | 'sub' | 'normal' | 'shy' | 'clear' | 'pale' | 'cancel' | 'border' | 'trans' | 'borderVivid' | 'delete' | 'link' | 'plain'
       tabIndex? : number
-      onClickCallBack? : OnCallBackProps
-      onMouseOverCallBack? : OnCallBackProps
-      onFocusCallBack? : OnCallBackProps
+      onClickCallBack? : onClickCallBackProps
+      onFocusCallBack? : onFocusCallBackProps
+      onMouseOverCallBack? : onMouseOverCallBackProps
       children? : ReactElement
       delegationClickEvent? : delegateClickEventProps[]
       'aria-label'? : string
+      disabled? : boolean
     }
     type delegateClickEventProps = 'auxEnter' | 'enter' | 'space'
     namespace Button {
@@ -91,54 +118,62 @@ namespace Atoms {
     type? : 'row' | 'row-r' | 'col' | 'col-r'
     align? : 'center' | 'top' | 'bottom'
     justify? : 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
+
+    onClick? : {
+      ( event : React.MouseEvent < HTMLDivElement,MouseEvent > ) : void
+    }
   }
   type FlexBoxProps = TagProps & {
-    children?:ReactElement
-    cols?:GridNumberProp | 'auto' | 'none'
-    center?:boolean
+    children? : ReactElement
+    cols? : GridNumberProp | 'auto' | 'none'
+    center? : boolean
   }
   
   /* atoms.grid */
   type GridProps = TagProps & {
-    children:any
-    gap?:gapProp
-    center?:boolean
-    cols:GridNumberProp | string
+    children : any
+    gap? : gapProp
+    center? : boolean
+    cols : GridNumberProp | string
+
+    onClick? : {
+      ( event : React.MouseEvent < HTMLDivElement,MouseEvent > ) : void
+    }
   }
   type GridBoxProps = TagProps & {
-    children:any
+    children : any
   }
   
   /* atoms.icon */
   type IconProps = TagProps & {
-    children:string
+    children : string
   }
   
   /* atoms.image */
   type ImageProps = TagProps & {
     src : string
-    alt : string
+    alt? : string
     showExpand? : boolean
   }
   
   /* atoms.logo */
   type LogoProps = TagProps & {
-    size?:'S' | 'R' | 'L' | '2L' | '3L'
+    size? : 'S' | 'R' | 'L' | '2L' | '3L'
   }
   
   /* atoms.switchList  */
   type SwitchsProps = {
-    appearance?:'plain' | 'cloud' | 'border'
-    name:string
-    form?:string
-    value:string | number
-    list:SwitchListProp[]
-    onChangeEvent?:Input.OnChangeCallBack
+    appearance? : 'plain' | 'cloud' | 'border'
+    name : string
+    form? : string
+    value : string | number
+    list : SwitchListProp[]
+    onChangeEvent? : Input.OnChangeCallBack
   }
   type SwitchListProp = {
-    value:string | number
-    label:ReactElement
-    id?:string
+    value : string | number
+    label : ReactElement
+    id? : string
   }
 }
 
@@ -187,8 +222,21 @@ namespace Mols {
       type? : 'th' | 'td'
       content : ReactElement
     }[][]
-
     colStyle? : OriginalStyleProps
+  }
+
+  /** mols.MFButton */
+  type MFButtonProps = TagProps & {
+    content : ReactElement
+    details : {
+      content : ReactElement
+      onClickCallBack : Atoms.Button.onClickCallBackProps
+    }[]
+    onClickCallBack : Atoms.Button.onClickCallBackProps
+    button? : {
+      className? : string
+      style? : OriginalStyleProps
+    }
   }
 }
 
@@ -220,28 +268,36 @@ namespace Orgs {
   }
   
   /** orgs.tab  */
-  type TabProps = ComProps & {
+  type TabProps = {
     tabIndex : number
-    tabChangeCallBack? : {
+    tabIndexChangeCallBack? : {
       ( index : number ) : void
     }
-    appearance? : 'border' | 'vivid' | 'simple'
-    headerFreeSpace? : ReactElement
-    headerLabelName : string
-    headerBottomBorder? : boolean
-    list : {
-      title : any,
-      content : any
-    }[]
-  } & (
-    {
-      headerSticky : true
-      stickyTarget : string[]
-    } | {
-      headerSticky? : false
-      stickyTarget? : void
+    header : {
+      labelName : string
+      freeSpace? : ReactElement
+      id? : string
+      format? : 'plain' | 'border' | 'cloud'
+      stickyTarget? : string[]
+      gap? : gapProp
+      className? : string
+      style? : OriginalStyleProps
+      label? : {
+        format? : 'border' | 'plain'
+        className? : string
+        style? : OriginalStyleProps
+        checkedClassName? : string
+        checkedStyle? : OriginalStyleProps
+      }
     }
-  )
+    contentTemplate? : {
+      ( children : ReactElement ) : ReactElement
+    }
+    contents : {
+      label : ReactElement,
+      content : ReactElement
+    }[]
+  }
 
   type LayoutContentProps = {
     size? : 'S' | 'R' | 'L' | 'XL' | 'MAX'
@@ -271,10 +327,12 @@ namespace Orgs {
         defaultLength?: void
         filter? : void
         
+        rowClickCallBack? : void
+
         order? : void
         defaultOrder? : void
       } | {
-        dragable? : void
+        dragable? : false
         dragableCallBack? : void
         
         disableConsole? : true
@@ -285,6 +343,10 @@ namespace Orgs {
         lengthChange?: number[]
         defaultLength?: number
         filter? : true | number[]
+
+        rowClickCallBack? : {
+          ( rowId : string ) : void
+        }
         
         order? : boolean | number[]
         defaultOrder? : DataTable.OrderProps
@@ -431,7 +493,7 @@ namespace AMOT {
     __Route : typeof ReactRouterDom.Route
     __Link : typeof ReactRouterDom.Link
 
-    Props : Glob.PropsLeveling
+    StyleConvert : Glob.StyleConvertProps
     useStore : Glob.useStoreProps
     Render : Glob.RenderProps
   }
@@ -464,6 +526,7 @@ namespace AMOT {
     List : FNC< Mols.ListProps >
     Table : FNC< Mols.TableProps >
     Accordion : FNC< Mols.AccordionProps >
+    MFButton : FNC< Mols.MFButtonProps >
   }
   interface Orgs {
     Tab : FNC< Orgs.TabProps >
@@ -498,8 +561,8 @@ namespace AMOT {
   }
   interface APP {
     logo : {
-      icon : JSX.Element | FC
-      title : JSX.Element | FC
+      icon : FNC<{}>
+      title : FNC<{}>
     }
   }
 }

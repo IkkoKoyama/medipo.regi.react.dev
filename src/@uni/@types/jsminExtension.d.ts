@@ -64,7 +64,6 @@ type GeocodeResult = {
 }
 
 interface String {
-  trimClassName() : string
   zen2hanNumber() : string
   partOverride( begin:number,string:string ) : string
 }

@@ -57,8 +57,7 @@ export const CreateEventPage:FNC<{}> = () => {
               placeholder='サブタイトルを入力'
               delegationFormSubmit={ true }
             />
-            <Input.List
-              type='radio'
+            <Input.Radio
               required={ true }
               form={ 'eventCreate' }
               label={ '公開範囲' }

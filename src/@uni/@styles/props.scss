@@ -2,57 +2,57 @@
 :root {
   & {
     $themeColorObjs: (
-      cObj0  : ( R: 87, G: 85, B:216,     hex:#5755d8,   hsl: hsl( 241, 63%, 59%), alfa1:.25, alfa2:.15 ),
-      cObj1  : ( R:237, G: 89, B: 84,     hex:#ed5954,   hsl: hsl(   2, 81%, 63%), alfa1:.25, alfa2:.15 ),
-      cObj2  : ( R: 28, G:113, B:233,     hex:#1c71e9,   hsl: hsl( 215, 82%, 51%), alfa1:.25, alfa2:.15 ),
-      cObj3  : ( R: 20, G:189, B:130,     hex:#14bd82,   hsl: hsl( 159, 81%, 41%), alfa1:.25, alfa2:.15 ),
-      cObj4  : ( R:238, G:104, B: 63,     hex:#ee683f,   hsl: hsl(  14, 84%, 59%), alfa1:.25, alfa2:.15 ),
+      cObj0  : ( R: 87, G: 85, B:216,     hex:#5755d8 ),
+      cObj1  : ( R:237, G: 89, B: 84,     hex:#ed5954 ),
+      cObj2  : ( R: 28, G:113, B:233,     hex:#1c71e9 ),
+      cObj3  : ( R: 20, G:189, B:130,     hex:#14bd82 ),
+      cObj4  : ( R:238, G:104, B: 63,     hex:#ee683f ),
 
-      cObj5  : ( R:179, G: 20, B: 44,     hex:#b3142c,  hsl: hsl( 351, 80%, 39%), alfa1:.25, alfa2:.15 ),
-      cObj6  : ( R:241, G:142, B:158,     hex:#f18e9e,  hsl: hsl( 350, 78%, 75%), alfa1:.25, alfa2:.15 ),
-      cObj7  : ( R:211, G: 39, B: 96,     hex:#d32760,  hsl: hsl( 340, 69%, 49%), alfa1:.25, alfa2:.15 ),
-      cObj8  : ( R:235, G: 15, B:231,     hex:#eb0fe7,  hsl: hsl( 301, 88%, 49%), alfa1:.25, alfa2:.15 ),
-      cObj9  : ( R:108, G: 45, B: 90,     hex:#6c2d5a,  hsl: hsl( 317, 41%, 30%), alfa1:.25, alfa2:.15 ),
-      cObj10 : ( R: 56, G: 10, B: 97,     hex:#380a61,  hsl: hsl( 272, 81%, 21%), alfa1:.25, alfa2:.15 ),
-      cObj11 : ( R:123, G: 54, B:201,     hex:#7b36c9,  hsl: hsl( 268, 58%, 50%), alfa1:.25, alfa2:.15 ),
-      cObj12 : ( R: 99, G: 61, B:235,     hex:#633deb,  hsl: hsl( 253, 81%, 58%), alfa1:.25, alfa2:.15 ),
-      cObj13 : ( R: 85, G: 44, B:246,     hex:#552cf6,  hsl: hsl( 252, 92%, 57%), alfa1:.25, alfa2:.15 ),
-      cObj14 : ( R: 51, G: 51, B: 71,     hex:#333347,  hsl: hsl( 240, 16%, 24%), alfa1:.25, alfa2:.15 ),
-      cObj15 : ( R:100, G:100, B:175,     hex:#6464af,  hsl: hsl( 240, 32%, 54%), alfa1:.25, alfa2:.15 ),
-      cObj16 : ( R:142, G:145, B:235,     hex:#8e91eb,  hsl: hsl( 238, 70%, 74%), alfa1:.25, alfa2:.15 ),
-      cObj17 : ( R: 70, G: 79, B:109,     hex:#464f6d,  hsl: hsl( 226, 22%, 35%), alfa1:.25, alfa2:.15 ),
-      cObj18 : ( R: 16, G: 75, B:203,     hex:#104bcb,  hsl: hsl( 221, 85%, 43%), alfa1:.25, alfa2:.15 ),
-      cObj19 : ( R: 12, G: 65, B:151,     hex:#0c4197,  hsl: hsl( 217, 85%, 32%), alfa1:.25, alfa2:.15 ),
-      cObj20 : ( R:147, G:171, B:200,     hex:#93abc8,  hsl: hsl( 213, 33%, 68%), alfa1:.25, alfa2:.15 ),
-      cObj21 : ( R:181, G:184, B:186,     hex:#b5b8ba,  hsl: hsl( 204,  3%, 72%), alfa1:.25, alfa2:.15 ),
-      cObj22 : ( R:  3, G:132, B:171,     hex:#0384ab,  hsl: hsl( 194, 97%, 34%), alfa1:.25, alfa2:.15 ),
-      cObj23 : ( R: 83, G:189, B:213,     hex:#53bdd5,  hsl: hsl( 191, 61%, 58%), alfa1:.25, alfa2:.15 ),
-      cObj24 : ( R:103, G:165, B:173,     hex:#67a5ad,  hsl: hsl( 187, 30%, 54%), alfa1:.25, alfa2:.15 ),
-      cObj25 : ( R:  3, G:157, B:171,     hex:#039dab,  hsl: hsl( 185, 97%, 34%), alfa1:.25, alfa2:.15 ),
-      cObj26 : ( R:  7, G: 86, B: 90,     hex:#07565a,  hsl: hsl( 183, 86%, 19%), alfa1:.25, alfa2:.15 ),
-      cObj27 : ( R:  9, G: 99, B:109,     hex:#09636d,  hsl: hsl( 186, 85%, 23%), alfa1:.25, alfa2:.15 ),
-      cObj28 : ( R: 10, G:189, B:159,     hex:#0abd9f,  hsl: hsl( 170, 90%, 39%), alfa1:.25, alfa2:.15 ),
-      cObj30 : ( R: 60, G:150, B: 96,     hex:#3c9660,  hsl: hsl( 144, 43%, 41%), alfa1:.25, alfa2:.15 ),
-      cObj31 : ( R:  0, G:189, B:  0,     hex:#00bd00,  hsl: hsl( 120, 100%, 37%), alfa1:.25, alfa2:.15 ),
-      cObj29 : ( R:160, G:189, B:147,     hex:#a0bd93,  hsl: hsl( 101, 24%, 66%), alfa1:.25, alfa2:.15 ),
-      cObj32 : ( R:182, G:208, B: 11,     hex:#b6d00b,  hsl: hsl(  68, 90%, 43%), alfa1:.25, alfa2:.15 ),
-      cObj33 : ( R:204, G:204, B:199,     hex:#ccccc7,  hsl: hsl(  60,  5%, 79%), alfa1:.25, alfa2:.15 ),
-      cObj34 : ( R:255, G:200, B:  0,     hex:#ffc800,  hsl: hsl( 47, 100%, 50%), alfa1:.25, alfa2:.15 ),
-      cObj35 : ( R:222, G:171, B: 69,     hex:#deab45,  hsl: hsl(  40, 70%, 57%), alfa1:.25, alfa2:.15 ),
-      cObj36 : ( R:221, G:190, B:151,     hex:#ddbe97,  hsl: hsl(  33, 51%, 73%), alfa1:.25, alfa2:.15 ),
-      cObj37 : ( R:238, G:224, B:119,     hex:#eee077,  hsl: hsl(  53, 78%, 70%), alfa1:.25, alfa2:.15 ),
-      cObj38 : ( R:244, G:205, B:113,     hex:#f4cd71,  hsl: hsl(  42, 86%, 70%), alfa1:.25, alfa2:.15 ),
-      cObj39 : ( R:245, G:170, B: 20,     hex:#f5aa14,  hsl: hsl(  40, 92%, 52%), alfa1:.25, alfa2:.15 ),
-      cObj40 : ( R:245, G:130, B: 36,     hex:#f58224,  hsl: hsl(  27, 91%, 55%), alfa1:.25, alfa2:.15 ),
-      cObj41 : ( R:122, G: 84, B: 67,     hex:#7a5443,  hsl: hsl(  19, 29%, 37%), alfa1:.25, alfa2:.15 ),
-      cObj42 : ( R: 81, G: 53, B: 41,     hex:#513529,  hsl: hsl(  18, 33%, 24%), alfa1:.25, alfa2:.15 ),
-      cObj43 : ( R:183, G:158, B:154,     hex:#b79e9a,  hsl: hsl(   8, 17%, 66%), alfa1:.25, alfa2:.15 ),
-      cObj44 : ( R:225, G: 40, B: 20,     hex:#e12814,  hsl: hsl(   6, 84%, 48%), alfa1:.25, alfa2:.15 ),
-      cObj45 : ( R:206, G: 89, B: 85,     hex:#ce5955,  hsl: hsl(   2, 55%, 57%), alfa1:.25, alfa2:.15 ),
-      cObj46 : ( R:128, G:128, B:128,     hex:#808080,  hsl: hsl(   0,  0%, 50%), alfa1:.25, alfa2:.15 ),
-      cObj47 : ( R: 94, G: 94, B: 94,     hex:#5e5e5e,  hsl: hsl(   0,  0%, 37%), alfa1:.25, alfa2:.15 ),
+      cObj5  : ( R:179, G: 20, B: 44,     hex:#b3142c ),
+      cObj6  : ( R:241, G:142, B:158,     hex:#f18e9e ),
+      cObj7  : ( R:211, G: 39, B: 96,     hex:#d32760 ),
+      cObj8  : ( R:235, G: 15, B:231,     hex:#eb0fe7 ),
+      cObj9  : ( R:108, G: 45, B: 90,     hex:#6c2d5a ),
+      cObj10 : ( R: 56, G: 10, B: 97,     hex:#380a61 ),
+      cObj11 : ( R:123, G: 54, B:201,     hex:#7b36c9 ),
+      cObj12 : ( R: 99, G: 61, B:235,     hex:#633deb ),
+      cObj13 : ( R: 85, G: 44, B:246,     hex:#552cf6 ),
+      cObj14 : ( R: 51, G: 51, B: 71,     hex:#333347 ),
+      cObj15 : ( R:100, G:100, B:175,     hex:#6464af ),
+      cObj16 : ( R:142, G:145, B:235,     hex:#8e91eb ),
+      cObj17 : ( R: 70, G: 79, B:109,     hex:#464f6d ),
+      cObj18 : ( R: 16, G: 75, B:203,     hex:#104bcb ),
+      cObj19 : ( R: 12, G: 65, B:151,     hex:#0c4197 ),
+      cObj20 : ( R:147, G:171, B:200,     hex:#93abc8 ),
+      cObj21 : ( R:181, G:184, B:186,     hex:#b5b8ba ),
+      cObj22 : ( R:  3, G:132, B:171,     hex:#0384ab ),
+      cObj23 : ( R: 83, G:189, B:213,     hex:#53bdd5 ),
+      cObj24 : ( R:103, G:165, B:173,     hex:#67a5ad ),
+      cObj25 : ( R:  3, G:157, B:171,     hex:#039dab ),
+      cObj26 : ( R:  7, G: 86, B: 90,     hex:#07565a ),
+      cObj27 : ( R:  9, G: 99, B:109,     hex:#09636d ),
+      cObj28 : ( R: 10, G:189, B:159,     hex:#0abd9f ),
+      cObj30 : ( R: 60, G:150, B: 96,     hex:#3c9660 ),
+      cObj31 : ( R:  0, G:189, B:  0,     hex:#00bd00 ),
+      cObj29 : ( R:160, G:189, B:147,     hex:#a0bd93 ),
+      cObj32 : ( R:182, G:208, B: 11,     hex:#b6d00b ),
+      cObj33 : ( R:204, G:204, B:199,     hex:#ccccc7 ),
+      cObj34 : ( R:255, G:200, B:  0,     hex:#ffc800 ),
+      cObj35 : ( R:222, G:171, B: 69,     hex:#deab45 ),
+      cObj36 : ( R:221, G:190, B:151,     hex:#ddbe97 ),
+      cObj37 : ( R:238, G:224, B:119,     hex:#eee077 ),
+      cObj38 : ( R:244, G:205, B:113,     hex:#f4cd71 ),
+      cObj39 : ( R:245, G:170, B: 20,     hex:#f5aa14 ),
+      cObj40 : ( R:245, G:130, B: 36,     hex:#f58224 ),
+      cObj41 : ( R:122, G: 84, B: 67,     hex:#7a5443 ),
+      cObj42 : ( R: 81, G: 53, B: 41,     hex:#513529 ),
+      cObj43 : ( R:183, G:158, B:154,     hex:#b79e9a ),
+      cObj44 : ( R:225, G: 40, B: 20,     hex:#e12814 ),
+      cObj45 : ( R:206, G: 89, B: 85,     hex:#ce5955 ),
+      cObj46 : ( R:128, G:128, B:128,     hex:#808080 ),
+      cObj47 : ( R: 94, G: 94, B: 94,     hex:#5e5e5e ),
 
-      cObj48 : ( R: 13, G: 13, B: 13,     hex:#0d0d0d,  hsl: hsl(   0,  0%,  5%), alfa1:.25, alfa2:.15 ),
+      cObj48 : ( R: 13, G: 13, B: 13,     hex:#0d0d0d ),
     );
     $tcKeys:map-keys( $themeColorObjs );
 
@@ -65,27 +65,20 @@
       $G : map-get( $obj,G );
       $B : map-get( $obj,B );
 
-      $alfa1:map-get( $obj,alfa1 );
-      $alfa2:map-get( $obj,alfa2 );
-
-      --cR#{ $i } : #{ $R };
-      --cG#{ $i } : #{ $G };
-      --cB#{ $i } : #{ $B };
-
-      --cAlfa#{ $i }_1 : #{ $alfa1 };
-      --cAlfa#{ $i }_2 : #{ $alfa2 };
+      --cRGB#{ $i } : #{ $R },#{ $G },#{ $B };
     }
 
     --cRGB : 0,0,0;
-    --cAlfa1 : 1;
-    --cAlfa2 : 1;
+    --cAlfa1 : .25;
+    --cAlfa2 : .15;
+    --cAlfa3 : .1;
   }
 
 
   & {
     /* sub colors */
-    --cPos : 54,194,124;
-    --cNeg : 246,70,93;
+    --cPosi : 54,194,124;
+    --cNega : 246,70,93;
     --cWarn : 255,187,0;
     --cDark : 69,74,80;
     /* font size */
@@ -132,7 +125,7 @@
   // --gridunit:.625rem;
   /* view height */
   --vh : 100vh;
-  @supports (-webkit-touch-callout: none) {
+  @supports ( -webkit-touch-callout: none)  {
     --vh : -webkit-fill-available;
   }
   --nh : 0px;
@@ -142,61 +135,14 @@
 
 @mixin DARK {
   & {
-    --c0Alfa1  : .4;  --c0Alfa2  : .25;
-    --c1Alfa1  : .4;  --c1Alfa2  : .25;
-    --c2Alfa1  : .4;  --c2Alfa2  : .25;
-    --c3Alfa1  : .4;  --c3Alfa2  : .25;
-    --c4Alfa1  : .4;  --c4Alfa2  : .25;
-    --c5Alfa1  : .4;  --c5Alfa2  : .25;
-    --c6Alfa1  : .4;  --c6Alfa2  : .25;
-    --c7Alfa1  : .4;  --c7Alfa2  : .25;
-    --c8Alfa1  : .4;  --c8Alfa2  : .25;
-    --c9Alfa1  : .4;  --c9Alfa2  : .25;
-    --c10Alfa1 : .4;  --c10Alfa2 : .25;
-    --c11Alfa1 : .4;  --c11Alfa2 : .25;
-    --c12Alfa1 : .4;  --c12Alfa2 : .25;
-    --c13Alfa1 : .4;  --c13Alfa2 : .25;
-    --c14Alfa1 : .4;  --c14Alfa2 : .25;
-    --c15Alfa1 : .4;  --c15Alfa2 : .25;
-    --c16Alfa1 : .4;  --c16Alfa2 : .25;
-    --c17Alfa1 : .4;  --c17Alfa2 : .25;
-    --c18Alfa1 : .4;  --c18Alfa2 : .25;
-    --c19Alfa1 : .4;  --c19Alfa2 : .25;
-    --c20Alfa1 : .4;  --c20Alfa2 : .25;
-    --c21Alfa1 : .4;  --c21Alfa2 : .25;
-    --c22Alfa1 : .4;  --c22Alfa2 : .25;
-    --c23Alfa1 : .4;  --c23Alfa2 : .25;
-    --c24Alfa1 : .4;  --c24Alfa2 : .25;
-    --c25Alfa1 : .4;  --c25Alfa2 : .25;
-    --c26Alfa1 : .4;  --c26Alfa2 : .25;
-    --c27Alfa1 : .4;  --c27Alfa2 : .25;
-    --c28Alfa1 : .4;  --c28Alfa2 : .25;
-    --c29Alfa1 : .4;  --c29Alfa2 : .25;
-    --c30Alfa1 : .4;  --c30Alfa2 : .25;
-    --c31Alfa1 : .4;  --c31Alfa2 : .25;
-    --c32Alfa1 : .4;  --c32Alfa2 : .25;
-    --c33Alfa1 : .4;  --c33Alfa2 : .25;
-    --c34Alfa1 : .4;  --c34Alfa2 : .25;
-    --c35Alfa1 : .4;  --c35Alfa2 : .25;
-    --c36Alfa1 : .4;  --c36Alfa2 : .25;
-    --c37Alfa1 : .4;  --c37Alfa2 : .25;
-    --c38Alfa1 : .4;  --c38Alfa2 : .25;
-    --c39Alfa1 : .4;  --c39Alfa2 : .25;
-    --c40Alfa1 : .4;  --c40Alfa2 : .25;
-    --c41Alfa1 : .4;  --c41Alfa2 : .25;
-    --c42Alfa1 : .4;  --c42Alfa2 : .25;
-    --c43Alfa1 : .4;  --c43Alfa2 : .25;
-    --c44Alfa1 : .4;  --c44Alfa2 : .25;
-    --c45Alfa1 : .4;  --c45Alfa2 : .25;
-    --c46Alfa1 : .4;  --c46Alfa2 : .25;
-    --c47Alfa1 : .4;  --c47Alfa2 : .25;
-    --c48Alfa1 : .4;  --c48Alfa2 : .25;
+    --cAlfa1  : .45;
+    --cAlfa2  : .3;
   }
   & {
     --lc1 : 32,33,36;--lc11 : 40,40,45;
-    --lc2 : 50,50,50;
-    --lc3 : 48,50,50;
-    --lc4 : 30,30,30;
+    --lc2 : 40,40,40;
+    --lc3 : 50,50,50;
+    --lc4 : 74,70,70;
     --lcBase : 34,36,40;
   
     --fc1 : rgb( 230,230,230 );
@@ -204,6 +150,7 @@
     --fc3 : rgb( 180,180,180 );
     --fc4 : rgb( 100,100,100 );
     --fc5 : rgb( 80,80,80 );
+    --fc6 : rgb( 60,60,60 );
     --fcLogoTitle : rgb( 200,220,230 );
   
     --bc1 : rgba( 150,150,150 );
@@ -218,15 +165,11 @@ body {
   &.ThemeColor {
     @for $i from 0 to 49 {
       &#{ $i } {
-        // --cHex : var( --cHex#{ $i } );
-        --cRGB : var( --cR#{ $i } ),var( --cG#{ $i } ),var( --cB#{ $i } );
-
-        --cAlfa1 : var( --cAlfa#{ $i }_1 );
-        --cAlfa2 : var( --cAlfa#{ $i }_2 );
+        --cRGB : var( --cRGB#{ $i } );
       }
     }
   }
-  &.DarkMode {
+  &.DisplayMode {
     &0 {}
     &1 { @include DARK(); }
     &2 {

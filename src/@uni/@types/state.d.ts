@@ -1,23 +1,14 @@
-type ReactElement = FC | JSX.Element | string | number
+type ReactElement = React.ReactNode | React.ReactNode[]
+
 type GridNumberProp = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 type gapProp = -2 | -1 | 0 | 1 | 2 | 3 | 4 | 6 | 8 | 12
 
-type ComProps = {
-  componentId? : string
-}
 type TagProps = {
   style? : React.CSSProperties
-  // 'aria-label'? : string
-  // styles? : OriginalStyleProps
-} & OriginalComponentProps & ComProps & OriginalStyleProps
-
-type OriginalComponentProps = {
-  tabIndex? : number
-  disabled? : boolean
   className? : string
-  
   id? : string
-}
+} & OriginalStyleProps
+
 type OriginalStyleProps = {
   customStyle? : React.CSSProperties
 
@@ -32,7 +23,6 @@ type OriginalStyleProps = {
   whiteSpace? : WhiteSpaceProps
   
   backgroundColor? : backgroundColorProp
-
 
   boxShadow? : boxShadowProps
 
@@ -72,13 +62,11 @@ type OriginalStyleProps = {
   width? : SizeProps
   height? : SizeProps
 
-  rippleEffect? : true
-  rippleEffectThemeColor? : true
-  expandEffect? : true
-  puddingEffect? : true
+  rippleEffect? : boolean | 'theme' | 'posi' | 'nega' | 'warn'
+  expandEffect? : boolean
+  puddingEffect? : boolean
 
-  miniLoader? : boolean
-  miniLoaderThemeColor? : boolean
+  miniLoader? : boolean | 'theme'
 
   customScroll? : boolean
 

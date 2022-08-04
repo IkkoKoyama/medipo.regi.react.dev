@@ -32,7 +32,7 @@ namespace Modal {
       header? : ReactElement | false
       body : ReactElement
       footer : {
-        ( callBackModalClose : Atoms.Button.OnCallBackProps ) : ReactElement
+        ( callBackModalClose : Atoms.Button.onClickCallBackProps ) : ReactElement
       } | false
     } | {
       custom : true
@@ -40,7 +40,7 @@ namespace Modal {
       body? : undefined
       footer? : undefined
       content : {
-        ( callBackModalClose : Atoms.Button.OnCallBackProps ) : ReactElement
+        ( callBackModalClose : Atoms.Button.onClickCallBackProps ) : ReactElement
       }
     }
   )
@@ -82,7 +82,7 @@ namespace Toast {
     } | {
       type : 'custom'
       closeButton : {
-        ( callback : Atoms.Button.OnCallBackProps ) : ReactElement
+        ( callback : Atoms.Button.onClickCallBackProps ) : ReactElement
       }
       content : {
         ( closeButton:ReactElement ) : ReactElement
@@ -123,8 +123,16 @@ namespace Tips {
   }
 }
 
+namespace Console {
+  interface Method {
+    launch : {
+      () : void
+    }
+  }
+}
 
 var Modal : Modal.Method
 var Toast : Toast.Method
 var Loader : Loader.Method
-var Tips : Tips.M
+var Tips : Tips.Method
+var Console : Console.Method
