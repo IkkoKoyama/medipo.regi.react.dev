@@ -1,22 +1,23 @@
-export {}
+export { }
 
 let {
-  glob : {
+  glob: {
     React,
     Render
   },
-  atoms : {
+  atoms: {
     Icon
   },
-  mols : {
+  mols: {
   },
-  orgs : {
+  orgs: {
     PageRouter
   },
-  temps : {
-    LayoutHNC
+  temps: {
+    LayoutHNC,
+    LayoutHC
   },
-  logos : {
+  logos: {
   }
 } = AMOT;
 
@@ -28,89 +29,101 @@ import { AccountPage } from './Account/page';
 import { HomePage } from './Home/page';
 
 import { CreateEventPage } from './CreateEvent/page';
+import { EventsPage } from './Events/page';
+import { EventPage } from './Event/page';
+import { ManagerPage } from './Manager/page';
+
 
 let Pages =
-<PageRouter
-  list={[
-    {
-      path : '*',
-      body :
-      <>
-        <LayoutHNC
-          responsiveNavBar='bottom'
-          // responsiveNavBar='left'
-          headerProps={{
-            color : 'plain',
-            sticky : true,
-            border : 'border'
-          }}
-          navProps={{
-            appearance : 'cell',
-            color : 'plain',
-            sticky : true,
-            border : 'none',
-            menus : [{
-              type : 'link',
-              icon : <Icon>fad home</Icon>,
-              title : 'ホーム',
-              href : '/',
-              tipsContent : 'ホーム'
-            },{
-              type : 'link',
-              icon : <Icon>fad search</Icon>,
-              title : 'イベント一覧',
-              tipsContent : 'イベント一覧',
-              href : '/event-list'
-            },{
-              type : 'link',
-              icon : <Icon>fad plus-square</Icon>,
-              title : 'イベント作成',
-              tipsContent : 'イベントを作成する',
-              href : '/event-create'
-            },{
-              type : 'link',
-              icon : <Icon>fad user-circle</Icon>,
-              title : 'アカウント',
-              tipsContent : 'アカウント',
-              href : '/account'
-            },{
-              type : 'link',
-              icon : <Icon>fad layer-group</Icon>,
-              title : 'イベントページ',
-              tipsContent : 'イベントページ',
-              href : '/eventPage'
-            },{
-              type : 'link',
-              icon : <Icon>fad gears</Icon>,
-              title : '環境設定',
-              tipsContent : '環境設定',
-              href : '/settings'
-            }]
-          }}
-          content={
-            <>
-              <PageRouter
-                list={[
-                  {
-                    path : '/',
-                    body : <HomePage />
-                  },{
-                    path : '/event-create',
-                    body : <CreateEventPage />
-                  }
-                ]}
-              />
-            </>
-          }
-        />
-      </>
-    }
-  ]}
-/>;
+  <PageRouter
+    list={ [
+      {
+        path: '*',
+        body:
+          <>
+            <LayoutHNC
+              responsiveNavBar='bottom'
+              headerProps={ {
+                color: 'plain',
+                sticky: true,
+                border: 'border',
+                freeSpace:
+                  <>
+                    ホーム
+                  </>
+              } }
+              navProps={ {
+                color: 'plain',
+                sticky: true,
+                border: 'border',
+                menus: [ {
+                  type: 'link',
+                  icon: <Icon d='fal home' />,
+                  href: '/',
+                  label: 'ホーム',
+                  tipsContent: 'ホーム'
+                },{
+                  type: 'link',
+                  icon: <Icon d='fal search' />,
+                  href: '/events',
+                  label: 'Events',
+                  tipsContent: 'event'
+                },{
+                  type: 'link',
+                  icon: <Icon d='fal plus-square' />,
+                  href: '/create-event',
+                  label: 'イベント作成',
+                  tipsContent: 'イベント作成'
+                },{
+                  type: 'link',
+                  icon: <Icon d='fal user-circle' />,
+                  href: '/account',
+                  label: 'アカウント',
+                  tipsContent: 'アカウント'
+                },{
+                  type: 'link',
+                  icon: <Icon d='fal folder-gear' />,
+                  href: '/manages',
+                  label: 'マネジメント',
+                  tipsContent: 'マネジメント'
+                } ]
+              } }
+              contentProps={ {
+                color: 'plain',
+                body:
+                  <PageRouter
+                    list={ [
+                      {
+                        path: '/',
+                        body: <HomePage />
+                      },{
+                        path: '/create-event',
+                        body: <CreateEventPage />
+                      },{
+                        path: '/events',
+                        body: <EventsPage />
+                      },{
+                        path : '/event',
+                        body : <EventPage />
+                      },{
+                        path: '/account',
+                        body: <AccountPage />
+                      },{
+                        path: '/manages',
+                        body: <ManagerPage />
+                      }
+                    ] }
+                  />
+              } }
+            />
+          </>
+      }
+    ] }
+  />;
 
 
-let root = $('#root')[ 0 ];
+let root = $( '#root' )[ 0 ];
 if ( root ) Render( {
-  base : root,
-  content : Pages
+  base: root,
+  content: Pages
 } );

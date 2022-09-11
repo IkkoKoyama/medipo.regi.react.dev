@@ -1,0 +1,34 @@
+/* import css property */
+@use '@styleProps' as *;
+
+.Console {
+  top : $HH;
+  z-index: 2;
+}
+
+.Body {
+  z-index: 1;
+}
+
+.Cell {
+  transition: $at1;
+  cursor: pointer;
+  &:hover {
+    background-color: $lc3;
+  }
+}
+
+.CellLink {
+  position: absolute;
+  top : 0;
+  left : 0;
+  right : 0;
+  bottom : 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.Float {
+  position: relative;
+  z-index: 2;
+}

@@ -2,7 +2,6 @@
 @use '@styleProps' as *;
 
 .Button {
-  margin:1rem;
   color : inherit;
   &:hover {
     .Icon {
@@ -86,13 +85,13 @@
   }
   &.Type_ {
     &heart.Open_true .Icon {
-      fill : $cNeg;
+      fill : $cNega;
     }
     &star.Open_true .Icon {
       fill : rgb( 255,105,0 );
     }
     &thumbs-up.Open_true .Icon {
-      fill : $cPos;
+      fill : $cPosi;
     }
   }
   &.Animation {

@@ -1,6 +1,7 @@
 /* import css property */
 @use '@styleProps' as *;
 
+
 .Closing {
   position: sticky;
   top : calc( $HH + $m2 );

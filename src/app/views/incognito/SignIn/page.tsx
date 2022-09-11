@@ -36,13 +36,27 @@ export class SignIn extends Component {
   async getLoginShareToken() {
     let result = await $.fetch({
       method : 'post',
-      url : '/loginShare'
+      url : '/signLink'
     });
 
     if ( result.ok ) {
       let { hash } = result.body;
-      let currentUrl = new URL( location as any ).href;
-      window.location.href = `http://localhost:10001/loginShare?hash=${ hash }&url=${ currentUrl.encode() }&appname=${ Env.AppName }`;
+      let origin = new URL( location as any ).origin;
+      window.location.href = `http://localhost:10001/signLink?hash=${ hash }&url=${ origin.encode() }&appname=${ Env.AppName }`;
+    }
+  }
+  componentDidMount() {
+    {
+      let redirectUrl = new URL( location.toString() ).href;
+
+      $.setCookie( {
+        name : 'signInRedirectUrl',
+        value : redirectUrl
+      } );
+      $.setCookie( {
+        name : 'incognito',
+        value : '1'
+      } )
     }
   }
   render() {
@@ -54,7 +68,6 @@ export class SignIn extends Component {
           border={ 2 }
           padding={ 3 }
           borderRadius={ 3 }
-          minWidth={ 36 }
           maxWidth={ 36 }
           backgroundColor={ 1 }
           margin={ [ 'auto',0 ] }
@@ -93,21 +106,21 @@ export class SignIn extends Component {
               />
             </Flex>
             <Paragraph fontColor={ 2 }>
-              racco は minify プラットフォームアプリの一つです。
-              minify でセッションリンクを許可すると, racco をご利用できるようになります。
+              racco は minify プラットフォームアプリケーションの一つです。
+              <br />
+              minify でサインリンクを許可すると racco をご利用できるようになります。
               <br />
               下のボタンからインタラクションを完了してください。
             </Paragraph>
           </Box>
           <Button
             type="main"
-            onClickCallBack={() => {
+            onClick={() => {
               this.getLoginShareToken( );
             }}
             miniLoader={ true }
             rippleEffect={ true }
             padding={ [ 1,2 ] }
-            tabIndex={ -1 }
             children={ 'インタラクト' }
           />
         </Flex>

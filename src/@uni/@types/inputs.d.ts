@@ -48,13 +48,14 @@ namespace Input {
 
       label? : ReactElement
 
-      delegationFormSubmit? : true
+      delegationFormSubmit? : boolean
 
       value? : string
       placeholder? : string
 
       indicator? : ReactElement
-      autoComplete? : 'off'
+      autoComplete? : 'off' | 'none' | string
+      autoCapitalize? : 'off' | 'none' | string
       onKeydown? : {
         ( event:React.KeyboardEvent < HTMLInputElement > ) : void
       }
@@ -97,13 +98,13 @@ namespace Input {
       clearButton? : true
       onGeoCodingCallBack : {
         (
-          result : {
-            addr : string,
-            location : {
-              lat : number,
-              lng : number
-            }
-          }
+          result : GeocodeResultBody
+        ) : void
+      }
+      disableGetCurrentLocation? : boolean
+      onGetCurrentLocationCallBack : {
+        (
+          result : GeocodeResultBody
         ) : void
       }
     }
@@ -121,7 +122,7 @@ namespace Input {
 
       label? : ReactElement
 
-      delegationFormSubmit? : true
+      delegationFormSubmit? : boolean
 
       appearance? : {
         format? : 'border' | 'cloud' | 'themeCloud' | 'plain'
@@ -182,14 +183,15 @@ namespace Input {
 
       label? : ReactElement
 
-      delegationFormSubmit? : true
+      delegationFormSubmit? : boolean
 
       value? : string
       placeholder? : string
 
       rows? : number
 
-      autoComplete? : 'off'
+      autoComplete? : 'off' | 'none' | string
+      autoCapitalize? : 'off' | 'none' | string
       onKeydownCallBack? : {
         ( event:React.KeyboardEvent< HTMLTextAreaElement > ) : void
       }
@@ -219,7 +221,9 @@ namespace Input {
 
       label? : ReactElement
 
-      delegationFormSubmit? : true
+      tabIndex? : -1
+
+      delegationFormSubmit? : boolean
 
       value? : string | number
       placeholder? : string
@@ -251,10 +255,13 @@ namespace Input {
   }
   namespace Search {
     type BoxProps = Uni.Grouping & Uni.LifeCycle & {
+      id? : string
       required? : true
       hideRequiredSign? : boolean
 
       label? : ReactElement
+
+      delegationFormSubmit? : boolean
 
       placeholder? : string
       limit? : number
@@ -272,6 +279,7 @@ namespace Input {
           className? : string
           style? : OriginalStyleProps
           custom? : CustomCellProps
+          flexAuto? : boolean
         }
         indicator? : {
           className? : string
@@ -333,6 +341,7 @@ namespace Input {
           className? : string
           style? : OriginalStyleProps
           custom? : CustomCellProps
+          flexAuto? : boolean
         }
       }
       addButton? : {
@@ -381,15 +390,18 @@ namespace Input {
 
       label? : ReactElement
 
-      delegationFormSubmit? : true
+      delegationFormSubmit? : boolean
 
       tabIndex? : -1
 
       value? : ( string | number )[]
       list : CellProps[]
 
+      hideInput? : boolean
+
       gap? : gapProp
-      align? : 'col' | 'inlineCol' | 'row'
+      wrap? : boolean
+      align? : 'col' | 'inlineCol' | 'row' | 'rowFlex'
       justify? : 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
 
       appearance? : {
@@ -460,13 +472,11 @@ namespace Input {
     }
 
     type CustomFile = File & {
-      Id : string
-      FileName : string
-      Size : number
-      Mime : string
-      Encoding : 'base64'
-      DataUrl : string
-      Key? : string
+      fileId : string
+      fileName : string
+      dataUrl : string
+      dataUrlEncoding : 'base64'
+      key? : string
     }
   }
   namespace Switch {
@@ -476,6 +486,10 @@ namespace Input {
       value? : boolean
 
       label? : ReactElement
+
+      tabIndex? : -1
+
+      color? : 'theme' | 'posi' | 'nega' | 'warn'
 
       forceOverRide? : boolean
       onChangeCallBack? : OnChangeCallBack

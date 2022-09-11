@@ -33,6 +33,7 @@ namespace Jsmin {
     for( v:ForFunction,n?:number ) : Jsmin.Childs[]
     is : Jsmin.IsCheck;
     click() : Jsmin.Method
+    focus() : Jsmin.Method
     on( ... args:Jsmin.OnArgs ) : Jsmin.Method
     off( ... args:Jsmin.OffArgs ) : Jsmin.Method
 
@@ -69,6 +70,8 @@ namespace Jsmin {
     jsmin( v:Jsmin.IsCheck.Args ) : v is Jsmin.Method
     str( v:Jsmin.IsCheck.Args ) : v is string
     string( v:Jsmin.IsCheck.Args ) : v is string
+    bool( v:Jsmin.IsCheck.Args ) : v is boolean
+    boolean( v:Jsmin.IsCheck.Args ) : v is boolean
     num( v:Jsmin.IsCheck.Args ) : v is number
     number( v:Jsmin.IsCheck.Args ) : v is number
     arr( v:Jsmin.IsCheck.Args ) : v is any[]
@@ -139,9 +142,15 @@ interface Jsmin {
   uuidGen( v?:number ) : string
   createElement : ( v:Jsmin.CreateElement.Args ) => HTMLElement
 
-  setCookie( name:string,value:string,age?:number,path?:string,domain?:string ) : void
+  setCookie( props : {
+    name : string,
+    value : string,
+    age? : number,
+    path? : string,
+    domain? : string
+  } ) : void
   getCookie( name:string ) : string
-  ajax( o:Jsmin.Fetch.Args ) : Promise<Jsmin.Fetch.Response>
+  ajax( o:Jsmin.Fetch.Args ) : Promise< Jsmin.Fetch.Response >
 
   getStyleProperty( property:string ) : string
   setStyleProperty( property:string,value:string ) : void
@@ -181,8 +190,7 @@ interface String {
 namespace Array {
   type OrderProps = {
     direction : 'ASC' | 'DESC',
-    firstDimension? : string | number,
-    secondDimension? : string | number,
+    keys? : ( string | number )[],
     numeral? : boolean
   }
 }

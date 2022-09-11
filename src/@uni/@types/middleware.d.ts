@@ -1,51 +1,61 @@
 namespace Modal {
   interface Method {
-    deploy : {
-      ( props : Modal.Props ) : Modal.Method
-    },
-    toggle : {
-      () : Modal.Method
-    },
-    open : {
-      ( props : Modal.Props ) : void
-    },
-    close : {
-      ( eventType?:CloseEventType ) : void
-    }  
-    imageOpen : {
-      ( src:string ) : void
+    contents : Modal.Props[]
+    toggle: {
+      ( props: Modal.Props ): void
+    }
+    add: {
+      ( props: Modal.Props ): void
+    }
+    remove: {
+      ( modalId: string | null,eventType?: CloseEventType ): void
+    }
+    open: {
+      ( props: Modal.Props ): void
+    }
+    close: {
+      (): void
     }
   }
 
   type Props = {
-    modalId : string
-    position : 'center' | 'left' | 'right'
-    custom? : boolean
-    toggle? : boolean
-    className? : string
-    size? : 'S' | 'R' | 'L' | 'XL'
-    delegationAroundClickClose? : boolean
-    delegationEscapeKeyClose? : boolean
-  } & (
-    {
-      custom? : false
-      header? : ReactElement | false
-      body : ReactElement
-      footer : {
-        ( callBackModalClose : Atoms.Button.onClickCallBackProps ) : ReactElement
-      } | false
-    } | {
-      custom : true
-      header? : undefined
-      body? : undefined
-      footer? : undefined
-      content : {
-        ( callBackModalClose : Atoms.Button.onClickCallBackProps ) : ReactElement
-      }
+    modalId: string
+    type: 'center' | 'left' | 'right' | 'image' | 'free'
+    closeDelegationEscapeKey?: boolean
+    closeDelgationAroundClick?: boolean
+    openAfterCallBack?: {
+      (): void
     }
-  )
+  } & (
+      CenterLeftRightProps | ImageProps | FreeProps
+    )
+
   type ImageProps = {
-    src : string
+    type : 'image'
+    src: string
+  }
+  type CenterLeftRightProps = {
+    type: 'center' | 'left' | 'right'
+    className?: string
+    styles?: OriginalStyleProps
+    size?: 'S' | 'R' | 'L' | 'XL' | 'MAX'
+    header: {
+      ( callBackModalClose: Atoms.Button.onClickProps ): ReactElement
+    } | ReactElement | false
+    body: {
+      ( callBackModalClose: Atoms.Button.onClickProps ): ReactElement
+    } | ReactElement
+    footer: {
+      ( callBackModalClose: Atoms.Button.onClickProps ): ReactElement
+    } | ReactElement | false
+  }
+  type FreeProps = {
+    type : 'free'
+    closeDelgationAroundClick? : void
+    body : {
+      ( callBackModalClose: Atoms.Button.onClickProps ): ReactElement
+    } | ReactElement
+    parent : string
   }
 
   type CloseEventType = 'escape'
@@ -54,50 +64,50 @@ namespace Modal {
 
 namespace Toast {
   interface Method {
-    add : {
-      ( props : Toast.Props ) : void
+    add: {
+      ( props: Toast.AddProps ): void
     },
-    remove : {
-      ( toastId : string ) : void
+    remove: {
+      ( toastId: string ): void
     }
   }
-  type Props = {
-    toastId : string
-    type : 'plain' | 'message' | 'custom'
-    hideInterval? : boolean
-    hideTime? : number
-    appearance? : 'plain' | 'dark' | 'theme' | 'border' | 'posi' | 'nega' | 'warn'
-    soundEffect? : 'dageki' | 'papo' | 'mokkin'
+  type AddProps = {
+    toastId: string
+    type: 'plain' | 'message' | 'custom'
+    hideInterval?: boolean
+    hideTime?: number
+    appearance?: 'plain' | 'dark' | 'theme' | 'border' | 'posi' | 'nega' | 'warn'
+    soundEffect?: 'dageki' | 'papo' | 'mokkin'
   } & (
-    {
-      type : 'message'
-      senderImage? : string
-      senderName : string
-      message : ReactElement
-      hideCloseButton? : boolean
-    } | {
-      type : 'plain'
-      message : ReactElement
-      hideCloseButton? : boolean
-    } | {
-      type : 'custom'
-      closeButton : {
-        ( callback : Atoms.Button.onClickCallBackProps ) : ReactElement
+      {
+        type: 'message'
+        senderImage?: string
+        senderName: string
+        message: ReactElement
+        hideCloseButton?: boolean
+      } | {
+        type: 'plain'
+        message: ReactElement
+        hideCloseButton?: boolean
+      } | {
+        type: 'custom'
+        closeButton: {
+          ( callback: Atoms.Button.onClickProps ): ReactElement
+        }
+        content: {
+          ( closeButton: ReactElement ): ReactElement
+        }
       }
-      content : {
-        ( closeButton:ReactElement ) : ReactElement
-      }
-    }
-  )
+    )
 }
 
 
 namespace Loader {
   interface Method {
-    active : {
-      ( type? : Loader.TypeProps | Loader.TypeProps[] ) : void
+    active: {
+      ( type?: Loader.TypeProps | Loader.TypeProps[] ): void
     }
-    stop() : void
+    stop(): void
   }
   type Props = {
 
@@ -107,32 +117,32 @@ namespace Loader {
 
 namespace Tips {
   interface Method {
-    launch : {
+    launch: {
       (
-        props : Tips.Props
-      ) : void
+        props: Tips.Props
+      ): void
     }
-    hide() : void
+    hide(): void
   }
   type Props = {
-    type : TipsEffectPositionProps,
-    styles : OriginalStyleProps,
-    editable? : boolean,
-    content : ReactElement,
-    OriginalRect : DOMRect
+    type: TipsEffectPositionProps,
+    styles: OriginalStyleProps,
+    editable?: boolean,
+    content: ReactElement,
+    OriginalRect: DOMRect
   }
 }
 
 namespace Console {
   interface Method {
-    launch : {
-      () : void
+    launch: {
+      (): void
     }
   }
 }
 
-var Modal : Modal.Method
-var Toast : Toast.Method
-var Loader : Loader.Method
-var Tips : Tips.Method
-var Console : Console.Method
+var Modal: Modal.Method
+var Toast: Toast.Method
+var Loader: Loader.Method
+var Tips: Tips.Method
+var Console: Console.Method

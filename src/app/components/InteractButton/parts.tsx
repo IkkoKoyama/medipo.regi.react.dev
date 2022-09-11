@@ -203,7 +203,7 @@ export const InteractButton:FNC< InteractButtonProps > = ( props ) => {
           </Box>
         </>
       }
-      onClickCallBack={ () => {
+      onClick={ () => {
         set_check( !val_check );
       } }
     />

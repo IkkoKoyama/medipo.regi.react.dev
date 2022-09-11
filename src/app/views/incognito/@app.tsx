@@ -40,13 +40,14 @@ const IncognitoPlate:FNC<{ children:ReactElement }> = ( props ) => {
           { children }
           <Box
             className={ style.Footer }
-            hideWhenPhone={ false }
+            phoneStyles={{
+              position : 'relative'
+            }}
             children={
               <Flex
                 justify='right'
                 align='center'
                 gap={ 1 }
-                hideWhenPhone={ true }
                 children={
                   <>
                     <Span

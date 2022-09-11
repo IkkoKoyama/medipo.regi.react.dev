@@ -44,7 +44,7 @@ declare var Env : {
 }
 declare var Usr : {
   level : number
-  imageId : string
+  profileImage : string
   email : string
   anonmity : number
   kana : string
@@ -87,8 +87,11 @@ declare var FS : {
     top : string
   }
 }
+declare var Temps : {
+  [ key : string ] : any
+}
 declare var StoreComponents : {
   [ key : string ] : plainObject
 }
 
-var google : any;
+var ExcelJS : any;
