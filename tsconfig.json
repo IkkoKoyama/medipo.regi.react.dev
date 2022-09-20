@@ -10,6 +10,7 @@
       
       "@appComps" : [ "src/app/components" ],
       "@appComps/*" : [ "src/app/components/*" ],
+
       "@appWare" : [ "src/app/@core/middleware" ]
     },
     "strict": true,
