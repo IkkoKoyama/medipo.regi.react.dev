@@ -61,7 +61,7 @@ const TimeLine: FNC<{}> = () => {
               children={
                 <>
                   <Img
-                    src={ FS.usr.top }
+                    src={ FS.usr.profile.display }
                     borderRadius={ 100 }
                   />
                 </>
@@ -199,7 +199,7 @@ const TimeLine: FNC<{}> = () => {
     <Flex
       type='col'
       gap={ 2 }
-      auto={ true }
+      cols='auto'
       phoneStyles={ {
         gap: 0,
       } }

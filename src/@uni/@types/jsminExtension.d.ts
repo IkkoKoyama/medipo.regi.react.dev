@@ -1,143 +1,157 @@
-var deviceId : string
+var deviceId: string
 interface JsminExtension {
-  UpdateUsrImg( v:string ) : void
-  FormCollect( form:string ) : Promise < {
-    valid : number
-    data : plainObject
-  } >
-  fetch( o : {
-    method : "get" | "post" | "option"
-    url : string
-    mode? : "cors" | "navigate" | "no-cors" | "same-origin"
-    credentials?  :"include" | "omit" | "same-origin"
-    header? : RequestInit['headers']
-    body? : plainObject | string
-    timeout? : number
-    onSuccess?(
-      resolve : Function,
-      reject : Function,
-      result : any,
-      option : {
-        time : number
-      }
-    ) : void
-    trafficControl? : number | false
-    exclusive? : false
-  }) : Jsmin.Fetch.Response
-  fetchProgression:boolean
-  getCursor( event:Event ) : {
-    x : number
-    y : number
+  UpdateUsrImg( v: string ): void
+  FormCollect( form: string ): Promise<{
+    valid: number
+    data: plainObject
+  }>
+  fetch(
+    params: JsminExtension.Fetch.params,
+    callback?: JsminExtension.Fetch.callback
+  ): Jsmin.Fetch.Response
+  fetchList : string[]
+  getCursor( event: Event ): {
+    x: number
+    y: number
   }
-  getCurrentLocation : {
-    () : Promise<{
-      ok : false
-      status : number
-      body : {
-        reason : any
+  getCurrentLocation: {
+    (): Promise<{
+      ok: false
+      status: number
+      body: {
+        reason: any
       }
     } | {
-      ok : true
-      status : 200
-      body : {
-        lat : number
-        lng : number
+      ok: true
+      status: 200
+      body: {
+        lat: number
+        lng: number
       }
     }>
   }
-  getGeocode : {
-    ( props : GeoCodeProps ) : Promise< GeocodeResult >
+  getGeocode: {
+    ( props: GeoCodeProps ): Promise<GeocodeResult>
   }
-  integrateMultipleRequest : {
-    ( callback : Function,time : number ) : void
+  integrateMultipleRequest: {
+    ( callback: Function,time: number ): void
   }
-  copyToClipBoard : {
-    ( type:'string' | 'image',data:any ) : void
+  copyToClipBoard: {
+    ( type: 'string' | 'image',data: any ): void
   }
-  CDNReader : {
-    ( url : string ) : void
+  CDNReader: {
+    ( url: string ): void
   }
 
-  FileReader : {
-    ( file : File ) : Promise< ProgressEvent<FileReader> >
+  FileReader: {
+    ( file: File ): Promise<ProgressEvent<FileReader>>
   }
-  ImageLoader : {
-    ( dataUrl : string ) : Promise< HTMLImageElement >
+  ImageLoader: {
+    ( dataUrl: string ): Promise<HTMLImageElement>
   }
-  base64ToBlob : {
-    ( data:string,type:base64ToBlobTypeProps ) : any
+  base64ToBlob: {
+    ( data: string,type: base64ToBlobTypeProps ): any
   }
-  MapView : MapView.init
+  MapView: MapView.init
+}
+
+namespace JsminExtension {
+  namespace Fetch {
+    type params = {
+      name? : string
+      method: "get" | "post" | "option"
+      url: string
+      mode?: "cors" | "navigate" | "no-cors" | "same-origin"
+      credentials?: "include" | "omit" | "same-origin"
+      header?: RequestInit[ 'headers' ]
+      body?: plainObject | string
+      timeout?: number
+      loaderEffect? : 'top' | 'corner'
+      onSuccess?(
+        resolve: Function,
+        reject: Function,
+        result: any,
+        option: {
+          time: number
+        }
+      ): void
+      trafficControl?: number
+      preventMultiRequest? : boolean
+    }
+    type callback = {
+      ( result: Jsmin.Fetch.Response ): void
+    }
+  }
 }
 
 namespace MapView {
   type init = {
-    ( props : constructorProps ) : Promise< MapMethods >
+    ( props: constructorProps ): Promise<MapMethods>
   }
   type constructorProps = {
-    target : HTMLElement
-    options : google.maps.MapOptions
+    target: HTMLElement
+    options: google.maps.MapOptions
   }
   type MapMethods = {
-    ok : boolean
-    map : google.maps.Map | undefined
-    setMarker : {
-      ( props : setMarkerProps ) : MapMethods
+    ok: boolean
+    map: google.maps.Map | undefined
+    setMarker: {
+      ( props: setMarkerProps ): MapMethods
     }
-    setCircle : {
-      ( props : setCircleProps ) : MapMethods
+    setCircle: {
+      ( props: setCircleProps ): MapMethods
     }
-    setInfoWindow : {
-      ( props : setInfoWindowProps ) : MapMethods
+    setInfoWindow: {
+      ( props: setInfoWindowProps ): MapMethods
     }
   }
 
   type setMarkerProps = {
-    id : string
-    options : google.maps.MarkerOptions
+    id: string
+    options: google.maps.MarkerOptions
   }
   type setCircleProps = {
-    id : string
-    options : google.maps.CircleOptions
+    id: string
+    options: google.maps.CircleOptions
   }
   type setInfoWindowProps = {
-    id : string
-    options : google.maps.InfoWindowOptions
+    id: string
+    options: google.maps.InfoWindowOptions
   }
 }
 
 type base64ToBlobTypeProps = 'image/png' | 'image/jpeg'
 
 type GeoCodeProps = {
-  type : 'address'
-  params : string
+  type: 'address'
+  params: string
 } | {
-  type : 'location'
-  params : {
-    lat : number
-    lng : number
+  type: 'location'
+  params: {
+    lat: number
+    lng: number
   }
 }
 type GeocodeResult = {
-  ok : true
-  status : 200
-  body : GeocodeResultBody
+  ok: true
+  status: 200
+  body: GeocodeResultBody
 } | {
-  ok : false
-  status : number
-  body : any
+  ok: false
+  status: number
+  body: any
 }
 type GeocodeResultBody = {
-  postal : string
-  addr : string
-  location : {
-    lat : number
-    lng : number
+  postal: string
+  addr: string
+  location: {
+    lat: number
+    lng: number
   }
-  rowData : any
+  rowData: any
 }
 
 interface String {
-  zen2hanNumber() : string
-  partOverride( begin:number,string:string ) : string
+  zen2hanNumber(): string
+  partOverride( begin: number,string: string ): string
 }

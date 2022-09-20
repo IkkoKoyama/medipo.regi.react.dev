@@ -164,7 +164,7 @@ namespace Input {
         value : string
         connectId : string
         callback : PropagateValueCallBack
-        set_open : React.Dispatch< React.SetStateAction< boolean > >
+        modalId : string
       }
       type PropagateValueCallBack = {
         ( value : string[] ) : void
@@ -261,6 +261,8 @@ namespace Input {
 
       label? : ReactElement
 
+      indicator? : ReactElement
+
       delegationFormSubmit? : boolean
 
       placeholder? : string
@@ -279,7 +281,7 @@ namespace Input {
           className? : string
           style? : OriginalStyleProps
           custom? : CustomCellProps
-          flexAuto? : boolean
+          flexCols? : 'auto' | 'even'
         }
         indicator? : {
           className? : string
@@ -300,7 +302,7 @@ namespace Input {
     type CustomCellProps = {
       ( props : {
         props : OptionCellProps,
-        deleteCallBack : Atoms.Button.onClickCallBackProps
+        deleteCallBack : Atoms.Button.onClickProps
       } ) : ReactElement
     }
 
@@ -341,7 +343,7 @@ namespace Input {
           className? : string
           style? : OriginalStyleProps
           custom? : CustomCellProps
-          flexAuto? : boolean
+          flexCols? : 'auto' | 'even'
         }
       }
       addButton? : {
@@ -361,7 +363,7 @@ namespace Input {
     type CustomCellProps = {
       ( props : {
         props : OptionCellProps,
-        deleteCallBack : Atoms.Button.onClickCallBackProps
+        deleteCallBack : Atoms.Button.onClickProps
       } ) : ReactElement
     }
 

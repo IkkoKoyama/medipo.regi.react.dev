@@ -121,7 +121,7 @@ module.exports = (() => {
       alias : {
         '~' : `${ __dirname }/src`,
         '@styleProps' : path.resolve( __dirname,'src/@uni/@styles/var' ),
-
+        
         '@appComps' : path.resolve( __dirname,'src/app/components' ),
         '@appWare' : path.resolve( __dirname,'src/app/@core/middleware' )
       }

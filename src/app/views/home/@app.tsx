@@ -6,7 +6,8 @@ let {
     Render
   },
   atoms: {
-    Icon
+    Icon,
+    Link
   },
   mols: {
   },
@@ -33,6 +34,10 @@ import { EventsPage } from './Events/page';
 import { EventPage } from './Event/page';
 import { ManagerPage } from './Manager/page';
 
+import {
+  RegionObjectPage
+} from './Region/page';
+
 
 let Pages =
   <PageRouter
@@ -45,11 +50,16 @@ let Pages =
               responsiveNavBar='bottom'
               headerProps={ {
                 color: 'plain',
-                sticky: true,
                 border: 'border',
+                sticky: true,
                 freeSpace:
                   <>
-                    ホーム
+                    <Link
+                      type='link'
+                      href=''
+                      fontSize={ 1 }
+                      children={ 'raccoとは' }
+                    />
                   </>
               } }
               navProps={ {
@@ -66,14 +76,14 @@ let Pages =
                   type: 'link',
                   icon: <Icon d='fal search' />,
                   href: '/events',
-                  label: 'Events',
-                  tipsContent: 'event'
+                  label: '探す',
+                  tipsContent: 'イベントを探す'
                 },{
                   type: 'link',
                   icon: <Icon d='fal plus-square' />,
                   href: '/create-event',
-                  label: 'イベント作成',
-                  tipsContent: 'イベント作成'
+                  label: '作る',
+                  tipsContent: 'イベントを作成する'
                 },{
                   type: 'link',
                   icon: <Icon d='fal user-circle' />,
@@ -111,6 +121,9 @@ let Pages =
                       },{
                         path: '/manages',
                         body: <ManagerPage />
+                      },{
+                        path : '/region/obj',
+                        body : <RegionObjectPage />
                       }
                     ] }
                   />
@@ -121,9 +134,7 @@ let Pages =
     ] }
   />;
 
-
-let root = $( '#root' )[ 0 ];
-if ( root ) Render( {
-  base: root,
+Render( {
+  base: '#MAIN',
   content: Pages
 } );

@@ -82,7 +82,6 @@ const IncognitoPlate:FNC<{ children:ReactElement }> = ( props ) => {
   );
 }
 
-let root = $( '#root' )[ 0 ];
 let Pages =
 <PageRouter
   list={
@@ -96,7 +95,7 @@ let Pages =
   }
 />;
 
-if ( root ) Render( {
-  base : root,
+Render( {
+  base : '#MAIN',
   content : Pages
 } );

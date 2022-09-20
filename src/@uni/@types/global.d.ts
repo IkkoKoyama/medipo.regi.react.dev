@@ -11,14 +11,12 @@ interface PrototypeObject {
 
 
 declare var userDevice : string;
-declare var userIsPhoneSize : boolean;
-declare var userIsTabletSize : boolean;
+declare var userIsMiniDisplay : boolean;
 declare var userIsPhone : boolean;
 declare var userIsMouseDevice : boolean;
 declare var userIsTouchDevice : boolean;
 declare var userIsIOS : boolean;
 
-declare var root : any;
 declare var socket : any;
 declare var Env : {
   readonly AppAlias : string
@@ -55,9 +53,17 @@ declare var Usr : {
     themeColor? : string
     displayMode? : string
   }
+  az : {
+    sub : string
+  }
 }
-declare var Comm : {
-  
+declare var Org: {
+  level: number
+  id: number
+  uuid: string
+  name: string
+  apps: number[]
+  usr: plainObject
 }
 
 declare var Cdn : {
@@ -65,7 +71,7 @@ declare var Cdn : {
   readonly devEnv : string
   readonly app : string
   readonly usr : string
-  readonly comm : string
+  readonly org : string
 }
 declare var FS : {
   readonly minify : {
@@ -83,8 +89,11 @@ declare var FS : {
   }
   readonly usr : {
     incognitorTop : string
-    incognitorHead : string
-    top : string
+    profile : {
+      icon : string
+      display : string
+      image : string
+    }
   }
 }
 declare var Temps : {

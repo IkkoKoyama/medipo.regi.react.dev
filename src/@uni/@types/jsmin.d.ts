@@ -18,44 +18,62 @@ namespace Jsmin {
   interface jsMin {
     new ( v?:Args ) : Method
   }
-  
+
   interface Method {
-    [ index: number ]: Jsmin.Child
     [ Symbol.iterator ]() : void
+    [ index: number ]: Jsmin.Child
     length : number
     queue : Function[]
+    queueProcess : boolean
+    synchronous : boolean
     warn? : string
     src? : Jsmin.Args
     srcType? : string
 
     jsMin : Jsmin.jsMin
+
     get( v?:number ) : Jsmin.Childs
     for( v:ForFunction,n?:number ) : Jsmin.Childs[]
-    is : Jsmin.IsCheck;
+    is : Jsmin.IsCheck
+
+    sync() : Jsmin.Method
+    async() : Jsmin.Method
+    await( time:number ) : Jsmin.Method
+    abort() : Jsmin.Method
+    callback : {
+      ( fn : {
+        ( jsmin : Jsmin.Method ) : void
+      } ) : Jsmin.Method
+    }
+
     click() : Jsmin.Method
     focus() : Jsmin.Method
+
     on( ... args:Jsmin.OnArgs ) : Jsmin.Method
     off( ... args:Jsmin.OffArgs ) : Jsmin.Method
 
-    attr( ... v:Jsmin.AttrArgs ) : Jsmin.Method | string
     html( v:Jsmin.Doms ) : Jsmin.Method
     empty() : Jsmin.Method
     append( ... args:Jsmin.AppendArgs ) : Jsmin.Method
     remove() : Jsmin.Method
-    val() : string;
-    find( v:Jsmin.Doms | Jsmin.Child ) : Jsmin.Method
-    parent( v?:string ) : Jsmin.Method
     before( ... v:Jsmin.Doms[] ) : Jsmin.Method
     after( ... v:Jsmin.Doms[] ) : Jsmin.Method
+    find( v:Jsmin.Doms | Jsmin.Child ) : Jsmin.Method
+    parent( v?:string ) : Jsmin.Method
     children( v?:string | number ) : Jsmin.Method
 
-    addClass( v:string ) : Jsmin.Method
-    removeClass( v:string ) : Jsmin.Method
+    show() : Jsmin.Method
+    hide() : Jsmin.Method
+    addClass( v:string | string[] ) : Jsmin.Method
+    removeClass( v:string | string[] ) : Jsmin.Method
     toggleClass( v:string ) : Jsmin.Method
     hasClass( v:string ) : boolean
     css( v:React.CSSProperties ) : Jsmin.Method
-    show() : Jsmin.Method
-    hide() : Jsmin.Method
+
+    getAttribute( key : string ) : string
+    setAttribute( key : string,value:string ) : Jsmin.Method
+    val() : string
+
     position() : DOMRect
   }
   type ForFunction = {
@@ -108,7 +126,6 @@ namespace Jsmin {
   type OnArgs = [ EventType,Jsmin.EventCallback ] | [ EventType,Jsmin.EventCallback,EventOption ] | [ EventType,Jsmin.Doms,Jsmin.EventCallback ] | [ EventType,Jsmin.Doms,Jsmin.EventCallback,EventOption ]
   type OffArgs = [ 'ALL' ] | [ Jsmin.EventType ] | [ Jsmin.EventType,Jsmin.EventCallback ] | [ Jsmin.EventType,Jsmin.Doms ] | [ Jsmin.EventType,Jsmin.Doms,Jsmin.EventCallback ]
   type AppendArgs = [ Jsmin.Doms ] | [ Jsmin.Doms,Jsmin.Method ]
-  type AttrArgs = [ string ] | [ string,string ]
 
   namespace Fetch {
     interface Args {
@@ -160,6 +177,7 @@ interface Jsmin {
     scrollY,
     scrollX
   }
+  getUrlSearchParams( url? : string ) : plainObject
 }
 interface JsminExtension {
 }

@@ -1,30 +1,32 @@
 namespace Modal {
   interface Method {
-    contents : Modal.Props[]
-    toggle: {
-      ( props: Modal.Props ): void
-    }
-    add: {
-      ( props: Modal.Props ): void
-    }
-    remove: {
-      ( modalId: string | null,eventType?: CloseEventType ): void
-    }
-    open: {
-      ( props: Modal.Props ): void
-    }
-    close: {
-      (): void
-    }
+    contents : {
+      open : boolean
+      props : Modal.Props
+    }[]
+    toggle( props: Modal.Props ): void
+    add( props: Modal.Props ): void
+    remove( modalId: string ): void
+    removeALL() : void
+    hide( modalId : string | null,eventType?: CloseEventType ) : void
+    hideALL() : void
+    show( modalId : string ) : void
+    update( props: Modal.Props ): void
   }
 
   type Props = {
     modalId: string
     type: 'center' | 'left' | 'right' | 'image' | 'free'
     closeDelegationEscapeKey?: boolean
-    closeDelgationAroundClick?: boolean
-    openAfterCallBack?: {
+    closeDelegationAroundClick?: boolean
+    openAfter?: {
       (): void
+    }
+    hideAfter? : {
+      (): void
+    }
+    removeAfter?: {
+      () : void
     }
   } & (
       CenterLeftRightProps | ImageProps | FreeProps
@@ -51,11 +53,11 @@ namespace Modal {
   }
   type FreeProps = {
     type : 'free'
-    closeDelgationAroundClick? : void
     body : {
       ( callBackModalClose: Atoms.Button.onClickProps ): ReactElement
     } | ReactElement
-    parent : string
+    parent : string | EventTarget | HTMLElement
+    styles? : OriginalStyleProps
   }
 
   type CloseEventType = 'escape'

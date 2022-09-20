@@ -22,7 +22,7 @@ const {
   orgs: {
     LayoutContent,
     Cropper,
-    Tab
+    TabContent
   }
 } = AMOT;
 
@@ -143,15 +143,14 @@ export const EventPage: FNC<{}> = () => {
                         </>
                       }
                     />
-                    <Tab
-                      tabIndex={ 0 }
-                      header={ {
-                        labelName: 'testTabLabel',
+                    <TabContent
+                      defaultTabIndex={ 0 }
+                      tabBar={ {
                         stickyTarget: [
                           '#TopHeader'
                         ]
                       } }
-                      contentTemplate={ ( children ) => {
+                      bodyTemplate={ ( children ) => {
                         return (
                           <Box
                             paddingTop={ 2 }
@@ -164,8 +163,8 @@ export const EventPage: FNC<{}> = () => {
                       } }
                       contents={ [
                         {
-                          label: 'イベント詳細',
-                          content:
+                          tab: 'イベント詳細',
+                          body:
                             <>
                               <Flex
                                 type='col'
@@ -245,7 +244,7 @@ export const EventPage: FNC<{}> = () => {
                                             children={
                                               <>
                                                 <Img
-                                                  src={ FS.usr.top }
+                                                  src={ FS.usr.incognitorTop }
                                                   width={ 4 }
                                                   height={ 4 }
                                                   borderRadius={ 100 }
@@ -376,11 +375,11 @@ export const EventPage: FNC<{}> = () => {
                               />
                             </>
                         },{
-                          label: 'コメント',
-                          content: 'Comments'
+                          tab: 'コメント',
+                          body: 'Comments'
                         },{
-                          label: '参加予定のユーザー',
-                          content: 'Users'
+                          tab: '参加予定のユーザー',
+                          body: 'Users'
                         }
                       ] }
                     />
@@ -409,7 +408,7 @@ export const EventPage: FNC<{}> = () => {
                       children={
                         <>
                           <Img
-                            src={ FS.usr.top }
+                            src={ FS.usr.profile.icon }
                             width={ 3 }
                             height={ 3 }
                             borderRadius={ 100 }
@@ -438,11 +437,11 @@ export const EventPage: FNC<{}> = () => {
                       children={
                         <>
                           <Img
-                            src={ FS.usr.top }
+                            src={ FS.usr.profile.icon }
                             className={ style.MemberImage }
                           />
                           <Img
-                            src={ FS.usr.incognitorHead }
+                            src={ FS.usr.incognitorTop }
                             className={ style.MemberImage }
                           />
                           <Img
@@ -454,7 +453,7 @@ export const EventPage: FNC<{}> = () => {
                             className={ style.MemberImage }
                           />
                           <Img
-                            src={ FS.usr.top }
+                            src={ FS.usr.profile.icon }
                             className={ style.MemberImage }
                           />
                           <Box

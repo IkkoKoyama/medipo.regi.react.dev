@@ -20,7 +20,7 @@ const {
   orgs: {
     LayoutContent,
     Cropper,
-    Tab,
+    TabContent,
     Table
   }
 } = AMOT;
@@ -29,11 +29,11 @@ import style from './style.module.scss';
 
 
 import {
-  RegionContent
+  RegionDashboard
 } from './region/part';
 
 import {
-  ClubContent
+  ClubDashboard
 } from './club/part';
 
 
@@ -71,7 +71,7 @@ const EventContent: FNC<{}> = () => {
     <Flex
       gap={ 2 }
       padding={ 2 }
-      auto={ true }
+      cols='auto'
       children={
         <>
           <Table.Data
@@ -93,6 +93,8 @@ const EventContent: FNC<{}> = () => {
 }
 
 export const ManagerPage: FNC<{}> = () => {
+  let defaultTabIndex = Number( $.getCookie( 'raccoManagerTabIndex' ) ) | 0;
+
   return (
     <>
       <Box
@@ -101,31 +103,48 @@ export const ManagerPage: FNC<{}> = () => {
         children={
           <>
             <h3>managing</h3>
+            {
+              JSON.stringify(
+                Org
+              )
+            }
           </>
         }
       />
-      <Tab
-        tabIndex={ 0 }
-        header={ {
-          labelName: 'testLabelName',
-          tabListJustify: 'center',
+      <TabContent
+        defaultTabIndex={ defaultTabIndex }
+        tabBar={ {
+          justify : 'center',
           stickyTarget : [
             '#TopHeader'
           ]
         } }
+        AnimateSlide={ true }
+        onTabChange={( index ) => {
+          $.setCookie( {
+            name: 'raccoManagerTabIndex',
+            value: String( index )
+          } );
+
+          let name = [ 'region','club' ][ index ];
+          let component = global.StoreComponents[ 'managerTab-' + name ];
+          if ( component && component.refresh ) {
+            component.refresh();
+          }
+        }}
         contents={ [
           {
-            label: '地区',
-            content: <RegionContent />
+            tab: '地区',
+            body: <RegionDashboard />
           },{
-            label: 'クラブ',
-            content: <ClubContent />
+            tab: 'クラブ',
+            body: <ClubDashboard />
           },{
-            label: 'イベント',
-            content: <EventContent />
+            tab: 'イベント',
+            body: <EventContent />
           },{
-            label: '分析',
-            content: 'AnalyticsContent'
+            tab: '分析',
+            body: 'AnalyticsContent'
           }
         ] }
       />

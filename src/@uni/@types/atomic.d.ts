@@ -11,7 +11,7 @@ namespace Glob {
   type RenderProps = {
     (
       props: {
-        base: Element,
+        base: string,
         content: React.ReactNode,
         nonRouter?: boolean
       }
@@ -124,10 +124,10 @@ namespace Atoms {
   type FlexProps = TagProps & {
     children?: ReactElement
     gap?: gapProp
-    auto?: boolean
-    center?: boolean
     wrap?: boolean
-    even?: boolean
+    
+    center?: boolean
+    cols? : 'auto' | 'even' | 'none'
 
     type?: flexDirectionProp
     align?: alignItemsProp
@@ -167,7 +167,7 @@ namespace Atoms {
   type ImageProps = TagProps & {
     src: string
     alt?: string
-    showExpand?: boolean
+    showExpand?: boolean | string
   }
 
   /* atoms.logo */
@@ -235,11 +235,11 @@ namespace Mols {
   /** mols.MFButton */
   type MFButtonProps = TagProps & {
     content: ReactElement
-    details: {
-      content: ReactElement
-      onClick: Atoms.Button.onClickProps
-    }[]
     onClick: Atoms.Button.onClickProps
+    detailsModal : {
+      ( closeCallBack : Function ) : ReactElement
+    }
+    closeModalDelegationAroundClick? : boolean
   }
 }
 
@@ -271,35 +271,27 @@ namespace Orgs {
   }
 
   /** orgs.tab  */
-  type TabProps = {
-    tabIndex: number
-    tabIndexChangeCallBack?: {
-      ( index: number ): void
+  type TabContentProps = {
+    defaultTabIndex : number
+    onTabChange? : {
+      ( index : number ) : void
     }
-    header: {
-      labelName: string
+    AnimateSlide? : boolean | 'whenPhone' | 'whenTablet'
+    tabBar : {
       freeSpace?: ReactElement
-      id?: string
-      stickyTarget?: string[] | true
-      gap?: gapProp
-      className?: string
-      style?: OriginalStyleProps
-      tabListJustify?: 'center' | 'left' | 'right' | 'between' | 'around' | 'even'
-      label?: {
-        className?: string
-        style?: OriginalStyleProps
-        checkedClassName?: string
-        checkedStyle?: OriginalStyleProps
-      }
+      id? : string
+      stickyTarget? : string[] | true
+      gap? : gapProp
+      justify? : 'center' | 'left' | 'right'
+      className? : string
+      styles? : OriginalStyleProps
     }
-    wrapClassName?: string
-    wrapStyle?: OriginalStyleProps
-    contentTemplate?: {
-      ( children: ReactElement ): ReactElement
+    bodyTemplate? : {
+      ( body : ReactElement ) : ReactElement
     }
-    contents: {
-      label: ReactElement,
-      content: ReactElement
+    contents : {
+      tab : ReactElement
+      body : ReactElement
     }[]
   }
 
@@ -372,6 +364,8 @@ namespace Orgs {
       type Props = UniProps & {
         head: HeadProps[]
         rows: RowProps[]
+
+        tableId? : string
 
         stickyHead?: boolean
         stickyLeft?: boolean
@@ -450,17 +444,20 @@ namespace Orgs {
 
   namespace Cropper {
     type Props = {
-      use: 'profile' | 'head'
+      use: 'profile' | 'header'
       triggerId?: string
-      maxImageSize?: number
+      develops : {
+        size : 'icon' | 'display' | 'image'
+        maxSize? : number
+      }[]
       onProcessFinished: {
-        (
-          args: {
-            dataUrl: string,
-            blob: Blob
-          }
-        ): any
+        ( develops : developProps[] ): void
       }
+    }
+    type developProps = {
+      size : 'icon' | 'display' | 'image'
+      blob : Blob,
+      dataUrl : string
     }
   }
 }
@@ -555,6 +552,7 @@ namespace AMOT {
     useEffect: typeof React.useEffect
     useRef: typeof React.useRef
     useLocation: typeof ReactRouterDom.useLocation
+    useHistory: typeof ReactRouterDom.useHistory
     Component: typeof React.Component
     __Routes: typeof ReactRouterDom.Switch
     __Route: typeof ReactRouterDom.Route
@@ -595,7 +593,7 @@ namespace AMOT {
     MFButton: FNC<Mols.MFButtonProps>
   }
   interface Orgs {
-    Tab: FNC<Orgs.TabProps>
+    TabContent : FNC< Orgs.TabContentProps >
     Table: Orgs.Tables.Props
     PageRouter: FNC<Orgs.PageRouter.RouterProps>
     PageNotFound: FNC<{}>

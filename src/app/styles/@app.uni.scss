@@ -4,3 +4,12 @@
 body {
   --cRGB0 : 212,26,89;
 }
+
+
+.TableMemberCellImage {
+  width : $m2-5;
+  height:$m2-5;
+  border-radius: 100%;
+  margin-left: calc( -1 * $m1 );
+  box-shadow: $bs2;
+}

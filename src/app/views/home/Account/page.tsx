@@ -23,7 +23,7 @@ const {
   orgs: {
     LayoutContent,
     Cropper,
-    Tab,
+    TabContent,
     Table
   }
 } = AMOT;
@@ -37,7 +37,7 @@ const ProfileContent: FNC<{}> = () => {
     <Flex
       type='col'
       gap={ 2 }
-      auto={ true }
+      cols='auto'
       children={
         <>
           <CardBox
@@ -94,7 +94,7 @@ const ProfileContent: FNC<{}> = () => {
             }
           />
           <Flex
-            even={ true }
+            cols='even'
             gap={ 2 }
             children={
               <>
@@ -130,6 +130,13 @@ const ProfileContent: FNC<{}> = () => {
         </>
       }
     />
+  );
+}
+const LineContent:FNC<{}> = () => {
+  return (
+    <>
+      aaaa
+    </>
   );
 }
 
@@ -171,7 +178,7 @@ export const AccountPage: FNC<{}> = () => {
                 children={
                   <>
                     <Img
-                      src={ FS.usr.top }
+                      src={ FS.usr.profile.display }
                       width={ 12 }
                       height={ 12 }
                       borderRadius={ 100 }
@@ -185,12 +192,12 @@ export const AccountPage: FNC<{}> = () => {
                           <Box
                             fontSize={ 6 }
                             fontWeight={ 3 }
-                            children={ '鈴木　信弘' }
+                            children={ Org.usr.name }
                           />
                           <Box
                             fontWeight={ 3 }
                             fontColor={ 4 }
-                            children={ Usr.kana || 'すずき　のぶひろ' }
+                            children={ Usr.kana }
                           />
                         </>
                       }
@@ -240,11 +247,14 @@ export const AccountPage: FNC<{}> = () => {
                             }
                           />
                           <Cropper
-                            use='head'
+                            use='header'
                             triggerId='headerImageCropper'
-                            maxImageSize={ 150000 }
-                            onProcessFinished={ async ( args ) => {
-                              let { dataUrl } = args;
+                            develops={[
+                              { size : 'icon' },
+                              { size : 'image' }
+                            ]}
+                            onProcessFinished={ async ( develops ) => {
+                              // let { dataUrl } = args;
 
                               // set_imageData( dataUrl );
                             } }
@@ -266,7 +276,7 @@ export const AccountPage: FNC<{}> = () => {
                           children={
                             <>
                               <Img
-                                src={ FS.usr.top }
+                                src={ FS.usr.profile.display }
                                 width={ 6 }
                                 height={ 6 }
                                 borderRadius={ 100 }
@@ -278,11 +288,11 @@ export const AccountPage: FNC<{}> = () => {
                                     <Box
                                       fontSize={ 6 }
                                       fontWeight={ 3 }
-                                      children={ '鈴木　信弘' }
+                                      children={ Org.usr.name }
                                     />
                                     <Box
                                       fontSize={ 3 }
-                                      children={ Usr.kana || 'すずき　のぶひろ' }
+                                      children={ Usr.kana }
                                     />
                                   </>
                                 }
@@ -292,15 +302,15 @@ export const AccountPage: FNC<{}> = () => {
                         />
                       }
                     />
-                    <Tab
-                      tabIndex={ 0 }
-                      header={ {
-                        labelName: 'testTabLabel',
+                    <TabContent
+                      defaultTabIndex={ 0 }
+                      tabBar={ {
                         stickyTarget: [
                           '#TopHeader'
                         ]
                       } }
-                      contentTemplate={ ( children ) => {
+                      AnimateSlide={ true }
+                      bodyTemplate={ ( children ) => {
                         return (
                           <Box
                             paddingTop={ 2 }
@@ -313,23 +323,23 @@ export const AccountPage: FNC<{}> = () => {
                       } }
                       contents={ [
                         {
-                          label: 'プロフィール',
-                          content: <ProfileContent />
+                          tab: 'プロフィール',
+                          body: <ProfileContent />
                         },{
-                          label: '実績',
-                          content: '実績'
+                          tab: '実績',
+                          body: '実績'
                         },{
-                          label: 'History',
-                          content: 'History'
+                          tab: 'History',
+                          body: 'History'
                         },{
-                          label: 'LINE 通知',
-                          content: 'LINE Notification'
+                          tab: 'LINE 通知',
+                          body: 'LINE Notification'
                         },{
-                          label:
+                          tab:
                           <>
                             <Icon d='fal gear' /> 設定
                           </>,
-                          content: 'AnalyticsContent'
+                          body: 'AnalyticsContent'
                         }
                       ] }
                     />

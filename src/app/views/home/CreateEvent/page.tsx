@@ -54,7 +54,7 @@ const BasicInfoRegion: FNC<{}> = () => {
             <>
               <Flex
                 type='row'
-                auto={ true }
+                cols='auto'
                 wrap={ false }
                 borderRadius={ 2 }
                 children={
@@ -289,13 +289,17 @@ const HeaderImageRegion: FNC<{}> = () => {
             }
           />
           <Cropper
-            use='head'
+            use='header'
             triggerId='headerImageCropper'
-            maxImageSize={ 150000 }
-            onProcessFinished={ async ( args ) => {
-              let { dataUrl } = args;
-
-              set_imageData( dataUrl );
+            develops={[
+              {
+                size : 'display'
+              },{
+                size : 'image'
+              }
+            ]}
+            onProcessFinished={ async ( develops ) => {
+              set_imageData( develops[ 0 ].dataUrl );
             } }
           />
         </>
@@ -350,7 +354,7 @@ const LocationRegion: FNC<{}> = () => {
                         <>
                           <Flex
                             gap={ 2 }
-                            auto={ true }
+                            cols='auto'
                             children={
                               <>
                                 <Input.Text
@@ -379,6 +383,7 @@ const LocationRegion: FNC<{}> = () => {
                                       addr,
                                       location
                                     } = data;
+                                    console.log( data );
 
                                     set_postal( postal );
                                     set_addr( addr );
@@ -449,7 +454,7 @@ const TimeRegion: FNC<{}> = () => {
                   <>
                     <Flex
                       type='row'
-                      even={ true }
+                      cols='even'
                       wrap={ false }
                       align='top'
                       gap={ 2 }
@@ -590,7 +595,7 @@ export const CreateEventPage: FNC<{}> = () => {
               name='tag'
               appearance={{
                 cell : {
-                  flexAuto : true
+                  flexCols : 'auto'
                 }
               }}
               list={[

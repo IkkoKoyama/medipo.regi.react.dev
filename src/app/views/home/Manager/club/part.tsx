@@ -2,7 +2,8 @@ const {
   glob: {
     React,
     useState,
-    useEffect
+    useEffect,
+    useStore
   },
   atoms: {
     Box,
@@ -23,7 +24,6 @@ const {
   orgs: {
     LayoutContent,
     Cropper,
-    Tab,
     Table
   }
 } = AMOT;
@@ -39,47 +39,57 @@ const CreateModal: FNC<{}> = () => {
         padding={ 2 }
         children={
           <>
+            <Input.Text
+              name='name'
+              id='createClubNameInput'
+              form='createClub'
+              label='名前'
+              placeholder='名前を入力'
+              required={ true }
+            />
             <Input.Radio
               name='type'
               label='タイプ'
-              form='createForm'
+              form='createClub'
+              appearance={ {
+                format: 'iconBorder'
+              } }
               required={ true }
-              list={[
+              list={ [
                 {
-                  value : 1,
-                  label : 'ロータリー'
+                  value: 1,
+                  label: 'ロータリー'
                 },{
-                  value : 2,
-                  label : 'ロータアクト'
+                  value: 2,
+                  label: 'ロータアクト'
                 }
-              ]}
+              ] }
             />
             <Input.Search
               name='regionId'
-              id='regionSearch'
               label='所属地区'
-              form='createForm'
+              form='createClub'
               required={ true }
               limit={ 1 }
               list={ [] }
               onDynamicSearchCallBack={ async ( keyword ) => {
                 let result = await $.fetch( {
                   method: 'post',
-                  url: 'club/createRegionSearch',
-                  trafficControl: false,
+                  url: 'club/regionSearchOnClubCreate',
+                  trafficControl: 0,
                   body: { keyword }
                 } );
                 if ( result.ok ) {
                   let { regions } = result.body;
 
-                  let options = regions.map( ( region : any ) => {
+                  let options = regions.map( ( region: any ) => {
                     let { id,name } = region;
                     return {
-                      value : id,
-                      icon :
-                      <Icon d='map-location-dot' />,
-                      label : name,
-                      keyword : name
+                      value: id,
+                      icon:
+                        <Icon d='map-location-dot' />,
+                      label: name,
+                      keyword: name
                     }
                   } )
 
@@ -88,11 +98,11 @@ const CreateModal: FNC<{}> = () => {
                 return [];
               } }
             />
-            <Input.Text
-              name='name'
-              form='createForm'
-              label='名前'
-              placeholder='名前を入力'
+            <Input.Time
+              type='date'
+              name='sdate'
+              form='createClub'
+              label='設立年月日'
               required={ true }
             />
           </>
@@ -101,81 +111,23 @@ const CreateModal: FNC<{}> = () => {
     </>
   );
 }
-const CreateModalProps: Modal.Props = {
-  modalId: 'createClub-',
-  size: 'S',
-  type: 'center',
-  header :
-  <Box
-    padding={ [ 1,2 ] }
-    children={ 'クラブの作成' }
-  />,
-  body: <CreateModal />,
-  footer: ( closeCallBack ) => {
-    return (
-      <Flex
-        type='row'
-        wrap={ false }
-        gap={ 1 }
-        padding={ [ 1,2 ] }
-        justify='between'
-        children={
-          <>
-            <Button
-              type='border'
-              onClick={ closeCallBack }
-              children={ '閉じる' }
-            />
-            <Button
-              type='main'
-              submitFormName='createForm'
-              onClickDelegationKeyboardEvents={ [ 'auxEnter' ] }
-              children={ '作成する' }
-              onClick={ async () => {
-                let form = await $.FormCollect( 'createForm' );
-                if ( form.valid ) {
-                  let result = await $.fetch( {
-                    method: 'post',
-                    url: '/club/create',
-                    body: form.data
-                  } );
-                  if ( result.ok ) {
-                    let {
-                      insertId
-                    } = result.body.club;
-
-                    console.log( insertId );
-                    // window.location.
-                  }
-                }
-              } }
-            />
-          </>
-        }
-      />
-    );
-  },
-  // openAfterCallBack : () => {
-  //   $( 'input[id="regionSearch"]' ).focus();
-  // }
-}
-
 
 const ClubList: FNC<{}> = () => {
-  let { clubs } = global.Temps[ 'clubListEnv' ];
+  let { clubs = [] } = global.Temps[ 'clubManageList' ] || {};
 
   let HeadData: Orgs.Tables.Data.HeadProps[] = [
-    { label: '名前',data: '名前' },
     { label: 'タイプ',data: 'タイプ' },
+    { label: '名前',data: '名前' },
     {
       label: '所属地区',data: '所属地区',
-      style : {
-        phoneStyles : {
-          display : 'none'
+      style: {
+        phoneStyles: {
+          display: 'none'
         }
       }
     },
-    { label: 'メンバー',data: 'メンバー' }
+    { label: 'メンバー',data: 'メンバー' },
+    { label: '設立年月日',data: '設立年月日' },
   ];
   let BodyData: Orgs.Tables.Data.RowProps[] = [];
   for ( let club of clubs ) {
@@ -183,6 +135,7 @@ const ClubList: FNC<{}> = () => {
       clubId,
       clubName,
       clubTypeId,
+      clubSdate,
       regionName,
       userCount
     } = club as any;
@@ -192,6 +145,10 @@ const ClubList: FNC<{}> = () => {
     BodyData.push( {
       columns: [
         {
+          type: 'td',
+          label: clubType,
+          data: clubType
+        },{
           type: 'th',
           label: clubName,
           data: clubName,
@@ -200,15 +157,11 @@ const ClubList: FNC<{}> = () => {
           }
         },{
           type: 'td',
-          label: clubType,
-          data: clubType
-        },{
-          type: 'td',
           label: regionName,
           data: regionName,
-          style : {
-            phoneStyles : {
-              display : 'none'
+          style: {
+            phoneStyles: {
+              display: 'none'
             }
           }
         },{
@@ -226,7 +179,7 @@ const ClubList: FNC<{}> = () => {
                       children={
                         <>
                           <Img
-                            src={ FS.usr.top }
+                            src={ FS.usr.profile.icon }
                             className={ style.MemberImage }
                           />
                           <Img
@@ -244,7 +197,11 @@ const ClubList: FNC<{}> = () => {
               />
             </>,
           data: userCount
-        }
+        },{
+          type: 'td',
+          label: clubSdate,
+          data: clubSdate,
+        },
       ],
       rowId: clubId
     } );
@@ -252,7 +209,7 @@ const ClubList: FNC<{}> = () => {
 
   return (
     <Table.Data
-      colLength={ 4 }
+      colLength={ 5 }
       appearance={ {
         format: 'rowBorder'
       } }
@@ -261,8 +218,8 @@ const ClubList: FNC<{}> = () => {
       option={ {
         excelDownLoadable: false,
         order: true,
-        defaultOrder: [ 0,'ASC' ],
-        filter : [ false,true,true,false ]
+        defaultOrder: [ 1,'ASC' ],
+        filter: [ false,true,true,false ]
       } }
       rowClickCallBack={ ( rowId ) => {
         console.log( rowId );
@@ -271,24 +228,30 @@ const ClubList: FNC<{}> = () => {
   );
 }
 
-export const ClubContent: FNC<{}> = () => {
-  let [ val_def,set_def ] = useState( false );
+export const ClubDashboard: FNC<{}> = () => {
+  let [ val_refresh,set_refresh ] = useState( $.uuidGen( 16 ) );
 
   useEffect( () => {
-    ( async () => {
-      let result = await $.fetch( {
-        method: 'post',
-        url: 'club/listEnv',
-        trafficControl: 400
-      } );
-      if ( result.ok ) {
-        global.Temps[ 'clubListEnv' ] = result.body;
-        set_def( true )
+    useStore( {
+      insertId: 'managerTab-club',
+      data: {
+        refresh: async () => {
+          $.fetch( {
+            method: 'post',
+            url: 'club/manageList',
+            trafficControl: 400,
+            loaderEffect : 'corner'
+          },
+            ( result ) => {
+              global.Temps[ 'clubManageList' ] = result.body;
+              set_refresh( $.uuidGen( 16 ) );
+            }
+          );
+        }
       }
-    } )();
+    } );
   },[] );
 
-  if ( !val_def ) return null;
   return (
     <Flex
       type='col'
@@ -309,10 +272,154 @@ export const ClubContent: FNC<{}> = () => {
                     </>
                   }
                   onClick={ () => {
-                    setTimeout( () => {
-                      Modal
-                        .open( CreateModalProps );
-                    },100 );
+                    Modal.toggle( {
+                      modalId: 'createClub',
+                      size: 'S',
+                      type: 'center',
+                      header:
+                        <Box
+                          padding={ [ 1,2 ] }
+                          children={ 'クラブの作成' }
+                        />,
+                      body: <CreateModal />,
+                      footer: ( closeCallBack ) => {
+                        return (
+                          <Flex
+                            type='row'
+                            wrap={ false }
+                            gap={ 1 }
+                            padding={ [ 1,2 ] }
+                            justify='between'
+                            children={
+                              <>
+                                <Button
+                                  type='border'
+                                  onClick={ closeCallBack }
+                                  children={ '閉じる' }
+                                />
+                                <Button
+                                  type='main'
+                                  submitFormName='createClub'
+                                  onClickDelegationKeyboardEvents={ [ 'auxEnter' ] }
+                                  children={ '作成する' }
+                                  onClick={ async () => {
+                                    let form = await $.FormCollect( 'createClub' );
+                                    if ( form.valid ) {
+                                      let {
+                                        uuid
+                                      } = form.data;
+
+                                      let result = await $.fetch( {
+                                        name : 'createClub',
+                                        method: 'post',
+                                        url: '/club/create',
+                                        body: form.data
+                                      } );
+                                      if ( result.ok ) {
+                                        let history = global.Temps[ 'history' ];
+                                        history.push( '/club/obj?id=' + uuid );
+                                      }
+                                    }
+                                  } }
+                                />
+                              </>
+                            }
+                          />
+                        );
+                      },
+                      openAfter: () => {
+                        $( 'input[id="createClubNameInput"]' ).focus();
+                      }
+                    } );
+                  } }
+                />
+              </>
+            }
+          />
+          <ClubList />
+        </>
+      }
+    />
+  );
+
+  return (
+    <Flex
+      type='col'
+      gap={ 2 }
+      padding={ 2 }
+      children={
+        <>
+          <Flex
+            justify='right'
+            children={
+              <>
+                <Button
+                  type='main'
+                  padding={ [ 1,2 ] }
+                  children={
+                    <>
+                      <Icon d='plus' /> クラブを作成
+                    </>
+                  }
+                  onClick={ () => {
+                    Modal.toggle( {
+                      modalId: 'createClub',
+                      size: 'S',
+                      type: 'center',
+                      header:
+                        <Box
+                          padding={ [ 1,2 ] }
+                          children={ 'クラブの作成' }
+                        />,
+                      body: <CreateModal />,
+                      footer: ( closeCallBack ) => {
+                        return (
+                          <Flex
+                            type='row'
+                            wrap={ false }
+                            gap={ 1 }
+                            padding={ [ 1,2 ] }
+                            justify='between'
+                            children={
+                              <>
+                                <Button
+                                  type='border'
+                                  onClick={ closeCallBack }
+                                  children={ '閉じる' }
+                                />
+                                <Button
+                                  type='main'
+                                  submitFormName='createClub'
+                                  onClickDelegationKeyboardEvents={ [ 'auxEnter' ] }
+                                  children={ '作成する' }
+                                  onClick={ async () => {
+                                    let form = await $.FormCollect( 'createClub' );
+                                    if ( form.valid ) {
+                                      let result = await $.fetch( {
+                                        method: 'post',
+                                        url: '/club/create',
+                                        body: form.data
+                                      } );
+                                      if ( result.ok ) {
+                                        let {
+                                          insertId
+                                        } = result.body.club;
+                    
+                                        console.log( insertId );
+                                        // window.location.
+                                      }
+                                    }
+                                  } }
+                                />
+                              </>
+                            }
+                          />
+                        );
+                      },
+                      openAfter: () => {
+                        $( 'input[id="createClubName"]' ).focus();
+                      }
+                    } );
                   } }
                 />
               </>

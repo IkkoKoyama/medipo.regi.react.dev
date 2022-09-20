@@ -40,9 +40,13 @@ export class SignIn extends Component {
     });
 
     if ( result.ok ) {
-      let { hash } = result.body;
+      let {
+        token
+      } = result.body;
+
       let origin = new URL( location as any ).origin;
-      window.location.href = `http://localhost:10001/signLink?hash=${ hash }&url=${ origin.encode() }&appname=${ Env.AppName }`;
+
+      window.location.href = 'http://localhost:10001/signLink?token=' + token + '&origin=' + origin.encode();
     }
   }
   componentDidMount() {
