@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "clean:css": "rimraf public/css",
-    "clean:js": "rimraf public/js",
+    "clean:root": "rimraf public/root",
     "dev:webpack": "webpack --mode development --watch",
     "dev:server": "nodemon app.js --ignore public --ignore package.json --ignore src --ignore webpack.config.js --ignore tsconfig.json",
     "pro:webpack": "webpack --mode production",

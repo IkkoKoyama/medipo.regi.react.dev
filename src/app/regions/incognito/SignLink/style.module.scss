@@ -1,0 +1,18 @@
+/* import css property */
+@use '@uniss' as *;
+
+.accountBox {
+  border-radius: 3rem;
+  border:$b2;
+  padding: $m-2;
+  text-align: left;
+  .icon {
+    width:$m3;
+    height:$m3;
+    border-radius: 50%;
+  }
+  .name {
+    flex:1 1 auto;
+    padding: 0 $m-1;
+  }
+}

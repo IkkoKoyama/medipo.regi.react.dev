@@ -6,12 +6,10 @@
     "sourceMap": false,
     "baseUrl": "./",
     "paths":{
-      "@styleProps" : [ "src/@uni/@styles/var" ],
+      "@uniss" : [ "src/@uni/@styles/var" ],
       
-      "@appComps" : [ "src/app/components" ],
-      "@appComps/*" : [ "src/app/components/*" ],
-
-      "@appWare" : [ "src/app/@core/middleware" ]
+      "@appComps" : [ "src/app/appComps" ],
+      "@appComps/*" : [ "src/app/appComps/*" ]
     },
     "strict": true,
     "skipLibCheck": true,
