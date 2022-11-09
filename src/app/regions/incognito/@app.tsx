@@ -15,7 +15,7 @@ const {
   orgs: {
     PageRouter
   },
-  xtraMinifyComponent : {
+  xtraMinifyComponent: {
     logos: {
       MingooIcon,
       MinifyLogoH
@@ -44,33 +44,30 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
         phoneStyles={ {
           position: 'relative'
         } }
-        children={
-          <Flex
-            justify='right'
-            align='center'
-            gap={ 1 }
-            children={
-              <>
-                <Span fontColor={ 3 } fontSize={ 0 }>
-                  Presented by
-                </Span>
-                <Anchor.Clear
-                  size='S'
-                  href="https://google.com"
-                  tabIndex={ -1 }
-                  newTab={ true }
-                  padding={ -1 }
-                  activeEffect={ 'ripple.theme' }
-                >
-                  <Flex gap={ -1 } flexCenter={ true }>
-                    <MingooIcon size='S' /> mingoo
-                  </Flex>
-                </Anchor.Clear>
-              </>
-            }
-          />
-        }
-      />
+      >
+        <Flex
+          justify='right'
+          align='center'
+          gap={ 1 }
+        >
+          <Span fontColor={ 3 } fontSize={ 0 }>
+            Presented by
+          </Span>
+          <Anchor.Clear
+            disabled={ true }
+            size='S'
+            href={ '' }
+            tabIndex={ -1 }
+            newTab={ true }
+            padding={ -1 }
+            activeEffect={ 'ripple.theme' }
+          >
+            <Flex gap={ -1 } flexCenter={ true }>
+              <MingooIcon size='S' /> mingoo
+            </Flex>
+          </Anchor.Clear>
+        </Flex>
+      </Box>
     </Flex>
   );
 }

@@ -38,10 +38,6 @@ interface JsminExtension {
     ( url: string ): void
   }
 
-  fileToBase64: {
-    ( file: File ): Promise<ProgressEvent<string>>
-  }
-
   ImageLoader: {
     ( dataUrl: string,img?: HTMLImageElement ): Promise<HTMLImageElement>
   }

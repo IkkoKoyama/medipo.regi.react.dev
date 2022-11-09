@@ -6,8 +6,7 @@ const {
   },
   atoms: {
     Buttons: {
-      Button,
-      Anchor
+      Button
     },
     Box,
     Paragraph,
@@ -17,8 +16,8 @@ const {
   },
   mols: {
   },
-  xtraMinifyComponent : {
-    logos : {
+  xtraMinifyComponent: {
+    logos: {
       MinifyIcon,
     }
   }
@@ -102,21 +101,17 @@ const InteractRegon: FNC<{}> = () => {
         </Box>
         <Button.Prime
           onClick={ () => {
-            $.fetch(
-              {
-                method: 'post',
-                url: 'signLink/getToken',
-                trafficControl: 300
-              },
-              ( result ) => {
-                if ( result.ok ) {
-                  let token = result.body;
-                  let redirect = new URL( location as any ).origin;
-                  window.location.href = Env.adminUrl + 'signLink?token=' + token + '&redirect=' + redirect.encode();
-                }
+            $.fetch( {
+              method: 'post',
+              url: 'signLink/getToken',
+              trafficControl: 300
+            },( result ) => {
+              if ( result.ok ) {
+                let token = result.body;
+                let redirect = new URL( location as any ).origin;
+                window.location.href = Links.admin + 'signLink?token=' + token + '&redirect=' + redirect.encode();
               }
-            );
-
+            } );
           } }
           miniLoader={ true }
           padding={ [ 1,2 ] }
@@ -127,13 +122,14 @@ const InteractRegon: FNC<{}> = () => {
   );
 }
 const GetRegion: FNC<{}> = () => {
-  let { AT,RT } = $.getQueryParams();
   useEffect( () => {
+    let { accessToken,refreshToken } = $.getQueryParams();
+
     $.fetch(
       {
         method: 'post',
         url: 'signLink/get',
-        body: { AT,RT }
+        body: { accessToken,refreshToken }
       },
       ( result ) => {
         if ( result.ok ) {
@@ -152,9 +148,9 @@ export const SignLink: FNC<{}> = () => {
   let Url = new URL( location.href );
   let Progress = 1;
   if ( Url.pathname == '/signLink/get' ) {
-    let { AT,RT } = $.getQueryParams();
+    let { accessToken,refreshToken } = $.getQueryParams();
 
-    if ( AT && RT ) {
+    if ( accessToken && refreshToken ) {
       Progress = 200;
     }
   }

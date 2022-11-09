@@ -605,13 +605,13 @@ const LocationRegion: FNC<{}> = () => {
                         forceOverRide={ true }
                         required={ true }
                         placeholder='郵便番号'
-                        appearance={{
-                          box : {
-                            style : {
-                              minWidth : 12
+                        appearance={ {
+                          box: {
+                            style: {
+                              minWidth: 12
                             }
                           }
-                        }}
+                        } }
                         onGeoCodingCallBack={ ( data ) => {
                           let {
                             location,
@@ -859,7 +859,7 @@ const AttachmentRegion: FNC<{}> = () => {
     $.fetch(
       {
         method: 'post',
-        url: 'cors/idp/s3/getFolderFiles',
+        url: 'mod/auth/s3/getFolderFiles',
         body: {
           bucket: 'private',
           folder: 'app/racco/event/attachments/' + eventUuid
@@ -884,7 +884,7 @@ const AttachmentRegion: FNC<{}> = () => {
           onClick={ () => {
             $.fetch( {
               method: 'post',
-              url: 'cors/idp/s3/getPresignedUrl',
+              url: 'mod/auth/s3/getPresignedUrl',
               body: {
                 bucket: 'private',
                 key: key,
@@ -912,7 +912,7 @@ const AttachmentRegion: FNC<{}> = () => {
                 $.fetch(
                   {
                     method: 'post',
-                    url: 'cors/idp/s3/deleteFiles',
+                    url: 'mod/auth/s3/deleteFiles',
                     body: {
                       bucket: 'private',
                       keys: [ key ]
@@ -1002,7 +1002,7 @@ const AttachmentRegion: FNC<{}> = () => {
                             let Key = 'app/racco/event/attachments/' + eventUuid + '/' + fileName;
                             let getUrl = await $.fetch( {
                               method: 'post',
-                              url: 'cors/idp/s3/getPresignedUrl',
+                              url: 'mod/auth/s3/getPresignedUrl',
                               body: {
                                 bucket: 'private',
                                 key: Key,
@@ -1139,7 +1139,7 @@ const HeaderRegion: FNC<{}> = () => {
               let Key = 'app/racco/event/header/' + ImageId + '/' + size + '.jpeg';
               let getUrl = await $.fetch( {
                 method: 'post',
-                url: 'cors/idp/s3/getPresignedUrl',
+                url: 'mod/auth/s3/getPresignedUrl',
                 body: {
                   bucket: 'public',
                   key: Key,

@@ -187,7 +187,7 @@ const IconRegion: FNC<plainObject> = ( props ) => {
 
               let getUrl = await $.fetch( {
                 method: 'post',
-                url: 'cors/idp/s3/getPresignedUrl',
+                url: 'mod/auth/s3/getPresignedUrl',
                 body: {
                   bucket: 'public',
                   key: Key,
@@ -1522,7 +1522,7 @@ const ObjPage: FNC<{}> = () => {
                       let Key = 'app/racco/org/header/' + ImageId + '/' + size + '.jpeg';
                       let getUrl = await $.fetch( {
                         method: 'post',
-                        url: 'cors/idp/s3/getPresignedUrl',
+                        url: 'mod/auth/s3/getPresignedUrl',
                         body: {
                           bucket: 'public',
                           key: Key,

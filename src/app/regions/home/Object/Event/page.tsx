@@ -429,7 +429,7 @@ const DetailsRegion: FNC<{}> = () => {
     $.fetch(
       {
         method: 'post',
-        url: 'cors/idp/s3/getFolderFiles',
+        url: 'mod/auth/s3/getFolderFiles',
         body: {
           bucket: 'private',
           folder: 'app/racco/event/attachments/' + eventUuid
@@ -453,7 +453,7 @@ const DetailsRegion: FNC<{}> = () => {
             $.fetch(
               {
                 method: 'post',
-                url: 'cors/idp/s3/getPresignedUrl',
+                url: 'mod/auth/s3/getPresignedUrl',
                 body: {
                   bucket: 'private',
                   method: 'get',

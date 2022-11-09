@@ -687,7 +687,7 @@ const SubmitAction = async () => {
 
       let getUrl = await $.fetch( {
         method: 'post',
-        url: 'cors/idp/s3/getPresignedUrl',
+        url: 'mod/auth/s3/getPresignedUrl',
         body: {
           bucket: 'public',
           key: Key,
@@ -720,7 +720,7 @@ const SubmitAction = async () => {
       let Key = 'app/racco/event/attachments/' + eventId + '/' + fileName;
       let getUrl = await $.fetch( {
         method: 'post',
-        url: 'cors/idp/s3/getPresignedUrl',
+        url: 'mod/auth/s3/getPresignedUrl',
         body: {
           bucket: 'private',
           key: Key,

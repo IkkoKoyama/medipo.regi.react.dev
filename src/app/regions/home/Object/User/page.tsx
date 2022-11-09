@@ -149,7 +149,7 @@ const HeaderRegion: FNC<{}> = () => {
                   let Key = 'app/racco/user/header/' + ImageId + '/' + size + '.jpeg';
                   let getUrl = await $.fetch( {
                     method: 'post',
-                    url: 'cors/idp/s3/getPresignedUrl',
+                    url: 'mod/auth/s3/getPresignedUrl',
                     body: {
                       bucket: 'public',
                       key: Key,

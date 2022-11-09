@@ -2,7 +2,6 @@ declare var Env : {
   readonly AppId : string
   readonly AppName : string
   readonly csrfToken : string
-  readonly adminUrl? : string
   // readonly sockRoot : string
   readonly cdn : {
     readonly libVer : string
@@ -46,8 +45,14 @@ declare var CDN : {
   readonly proEnv : string
   readonly devEnv : string
   readonly usr : string
-  // readonly org : string
 }
+
+interface Links {
+  readonly admin : string
+  readonly gogoleMapsApi : string
+}
+declare var Links : Links
+
 declare var Images : {
   readonly minify : {
     readonly Icon : string
