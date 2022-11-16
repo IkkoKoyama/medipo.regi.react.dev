@@ -5,7 +5,7 @@
   color : inherit;
   &:hover {
     .Icon {
-      color : $fc6 !important;
+      color : $fontColor6 !important;
     }
   }
 }
@@ -19,14 +19,14 @@
     height : 100%;
     .Icon {
       animation : animateHeartOut .3s linear forwards;
-      fill : $lc4;
-      transition: $at2;
+      fill : $layerColor4;
+      transition: $animationTimeVeryLong;
       transform-origin : 50% 50%;
     }
     .Circle {
       transform-origin : 50% 50%;
       opacity: 0;
-      fill : $c;
+      fill : $themeColor;
     }
     .Group {
       opacity: 0;
@@ -71,27 +71,27 @@
   }
   &.Size_ {
     &S .SVG {
-      width : $m2;
+      width : $unit2;
     }
     &R .SVG {
-      width : $m3;
+      width : $unit3;
     }
     &L .SVG {
-      width : $m4;
+      width : $unit4;
     }
     &XL .SVG {
-      width : $m6;
+      width : $unit6;
     }
   }
   &.Type_ {
     &heart.Open_true .Icon {
-      fill : $cNega;
+      fill : $colorNegative;
     }
     &star.Open_true .Icon {
       fill : rgb( 255,105,0 );
     }
     &thumbs-up.Open_true .Icon {
-      fill : $cPosi;
+      fill : $colorPositive;
     }
   }
   &.Animation {

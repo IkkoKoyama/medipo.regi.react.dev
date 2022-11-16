@@ -8,6 +8,6 @@ body {
 
 .TableMemberCellImage {
   border-radius: 100%;
-  margin-left: calc( -1 * $m1 );
-  box-shadow: $bs2;
+  margin-left: calc( -1 * $unit1 );
+  box-shadow: $shadow2;
 }

@@ -58,18 +58,15 @@ const updateNameModal = (
     />,
     body: <Box
       padding={ [ 1,2 ] }
-      children={
-        <>
-          <Input.Text
-            required={ true }
-            value={ val_objName }
-            form='updateName'
-            name='name'
-            id='updateName'
-          />
-        </>
-      }
-    />,
+    >
+      <Input.Text
+        required={ true }
+        value={ val_objName }
+        form='updateName'
+        name='name'
+        id='updateName'
+      />
+    </Box>,
     footer: ( { modalClose } ) => (
       <Flex
         type='row'
@@ -79,10 +76,12 @@ const updateNameModal = (
         justify='between'
       >
         <Button.Border
+          size="S"
           onClick={ modalClose }
           children={ '閉じる' }
         />
         <Button.Prime
+          size="S"
           formButton='updateName'
           submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
           children={ '変更' }
@@ -156,7 +155,7 @@ const IconRegion: FNC<plainObject> = ( props ) => {
         bottom={ 0 }
         left={ 0 }
         right={ 0 }
-        backgroundColor={ -2 }
+        backgroundColor={ 'lcOpMiddle' }
         fontColor={ 'white' }
         padding={ -2 }
         fontSize={ 4 }
@@ -178,28 +177,34 @@ const IconRegion: FNC<plainObject> = ( props ) => {
           let ImageId = $.uuidGen( 32 ).toUpper();
           let isFinished = false;
 
+          let sizes = [ 'S','R','L' ];
           await ( async () => {
-            for ( var index = 0; index < 3; index++ ) {
-              let size = [ 'S','R','L' ][ index ];
+            let getUrls = await $.fetch( {
+              method: 'post',
+              url: 'mod/auth/s3/getPresignedUrl',
+              body: {
+                type: 'app',
+                keys: sizes.map( ( size ) => ( {
+                  bucket: 'public',
+                  key: 'org/icon/' + ImageId + '/' + size + '.jpeg',
+                  method: 'put'
+                } ) )
+              }
+            } );
+            if ( !getUrls.ok ) return;
+
+            for ( let index = 0; index < getUrls.body.length; index++ ) {
+              let result = getUrls.body[ index ];
+              let {
+                ok,
+                body: url
+              } = result;
+
+              if ( !ok ) continue;
               let file = files[ index ];
 
-              let Key = 'app/racco/org/icon/' + ImageId + '/' + size + '.jpeg';
-
-              let getUrl = await $.fetch( {
-                method: 'post',
-                url: 'mod/auth/s3/getPresignedUrl',
-                body: {
-                  bucket: 'public',
-                  key: Key,
-                  method: 'put'
-                },
-                trafficControl: 0
-              } )
-              if ( !getUrl.ok ) return;
-              let Url = getUrl.body;
-
               let Upload = await $.fetch( {
-                url: Url,
+                url: url,
                 method: 'put',
                 mode: 'cors',
                 header: {
@@ -211,20 +216,19 @@ const IconRegion: FNC<plainObject> = ( props ) => {
               } );
               if ( !Upload.ok ) return;
             }
-            let result = await $.fetch(
-              {
-                name: 'updateObjIconImage',
-                method: 'post',
-                url: 'updateAColumn',
-                trafficControl: 0,
-                body: {
-                  objType: 'org',
-                  id: objId,
-                  column: 'iconImage',
-                  value: ImageId
-                }
+
+            let result = await $.fetch( {
+              name: 'updateObjIconImage',
+              method: 'post',
+              url: 'updateAColumn',
+              trafficControl: 0,
+              body: {
+                objType: 'org',
+                id: objId,
+                column: 'iconImage',
+                value: ImageId
               }
-            )
+            } )
             if ( !result.ok ) return;
             isFinished = true;
           } )();
@@ -264,13 +268,13 @@ const IconRegion: FNC<plainObject> = ( props ) => {
               position='relative'
               overflow='hidden'
               margin='auto'
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
               children={ IconImage }
             />
             <Box
               marginTop={ 2 }
               fontSize={ 6 }
-              fontWeight={ 3 }
+              fontWeight={ 'bold' }
               children={ val_objName }
             />
             { Editable ? <Button.Clear
@@ -294,10 +298,10 @@ const IconRegion: FNC<plainObject> = ( props ) => {
             wrap={ false }
             align='bottom'
             textAligin='center'
-            borderTop={ 2 }
+            borderTop={ 'normal' }
           >
             <Box
-              borderRight={ 2 }
+              borderRight={ 'normal' }
               padding={ 1 }
             >
               <Icon
@@ -312,7 +316,7 @@ const IconRegion: FNC<plainObject> = ( props ) => {
               <Box fontSize={ 0 } children='いいね!' />
             </Box>
             <Box
-              borderRight={ 2 }
+              borderRight={ 'normal' }
               padding={ 1 }
             >
               <Icon
@@ -387,7 +391,7 @@ const AddMemberModal: FNC<{}> = () => {
             <Img
               width={ 2 }
               height={ 2 }
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
               src={ $.userIconImage( iconImage,'S' ) }
             /> { name }
           </>
@@ -419,7 +423,7 @@ const AddMemberModal: FNC<{}> = () => {
   } );
 
   useEffect( () => {
-    let Button = $( '#addMemberButton' )[ 0 ];
+    let Button: any = $( '#addMemberButton' )[ 0 ];
     if ( Button ) Button.disabled = !val_users.length;
   } );
 
@@ -461,7 +465,7 @@ const AddMemberModal: FNC<{}> = () => {
         name={ 'orgId' }
         value={ objId }
       />
-      { val_addRegionOpen ? <Box border={ 2 } borderRadius={ 2 }>
+      { val_addRegionOpen ? <Box border={ 'normal' } borderRadius={ 2 }>
         <Flex
           padding={ 2 }
           align='top'
@@ -504,7 +508,7 @@ const AddMemberModal: FNC<{}> = () => {
                     icon: <Img
                       width={ 3 }
                       height={ 3 }
-                      borderRadius={ 100 }
+                      borderRadius={ 'sphere' }
                       src={ $.userIconImage( iconImage ) }
                     />,
                     label: <Box>
@@ -550,7 +554,7 @@ const AddMemberModal: FNC<{}> = () => {
         <Flex
           wrap={ false }
           gap={ 1 }
-          borderTop={ 2 }
+          borderTop={ 'normal' }
           padding={ [ 1,2 ] }
         >
           <Button.Sub
@@ -738,7 +742,7 @@ const HomeTab: FNC<{}> = () => {
               flex='none'
             />
             <Box flex={ 'auto' }>
-              <Box fontWeight={ 3 } fontSize={ 3 }>
+              <Box fontWeight={ 'bold' } fontSize={ 3 }>
                 { title }
               </Box>
               <Box fontColor={ 3 } fontSize={ 1 }>
@@ -777,9 +781,9 @@ const HomeTab: FNC<{}> = () => {
         wrap={ false }
         align='bottom'
         textAligin='center'
-        borderTop={ 2 }
+        borderTop={ 'normal' }
       >
-        <Box borderRight={ 2 } padding={ 1 }>
+        <Box borderRight={ 'normal' } padding={ 1 }>
           <Icon
             d='fal heart'
             fontColor={ 'nega' }
@@ -788,7 +792,7 @@ const HomeTab: FNC<{}> = () => {
           <Box fontSize={ 5 } children={ repCount | 0 } />
           <Box fontSize={ 1 } children='総いいね!' />
         </Box>
-        <Box borderRight={ 2 } padding={ 1 }>
+        <Box borderRight={ 'normal' } padding={ 1 }>
           <Icon
             d='fal users'
             fontColor={ 'posi' }
@@ -918,7 +922,7 @@ const MemberTab: FNC<{}> = () => {
               <Img
                 width={ 2 }
                 height={ 2 }
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
                 src={ $.userIconImage( iconImage,'S' ) }
               />
               { userName }
@@ -948,7 +952,7 @@ const MemberTab: FNC<{}> = () => {
                 padding={ 0 }
                 width={ 3 }
                 height={ 3 }
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
                 onClick={ () => {
                   Modal.add( {
                     modalId: 'editMemberInfo',
@@ -1005,7 +1009,7 @@ const MemberTab: FNC<{}> = () => {
                                     <Img
                                       width={ 4 }
                                       height={ 4 }
-                                      borderRadius={ 100 }
+                                      borderRadius={ 'sphere' }
                                       src={ $.userIconImage( iconImage ) }
                                     />
                                     <Box textAligin="left">
@@ -1139,7 +1143,7 @@ const MemberTab: FNC<{}> = () => {
                               <Img
                                 width={ 6 }
                                 height={ 6 }
-                                borderRadius={ 100 }
+                                borderRadius={ 'sphere' }
                                 src={ $.userIconImage( iconImage,'S' ) }
                               />
                               <Box>
@@ -1188,7 +1192,7 @@ const MemberTab: FNC<{}> = () => {
                               <Flex
                                 gap={ 1 }
                                 padding={ 1 }
-                                border={ 2 }
+                                border={ 'normal' }
                                 borderRadius={ 2 }
                                 marginBottom={ 1 }
                               >
@@ -1237,7 +1241,7 @@ const MemberTab: FNC<{}> = () => {
                               </Flex>
                             }
                             { !Histories.length ? null : <List
-                              border={ 2 }
+                              border={ 'normal' }
                               borderRadius={ 2 }
                               appearance='border'
                               gridsRate={ [ 2,10 ] }
@@ -1496,7 +1500,7 @@ const ObjPage: FNC<{}> = () => {
             { Editable ? <>
               <Label.Prime
                 size="S"
-                backgroundColor={ -2 }
+                backgroundColor={ 'lcOpMiddle' }
                 htmlFor='changeHeaderImage'
                 position='absolute'
                 bottom={ 1 }
@@ -1515,26 +1519,34 @@ const ObjPage: FNC<{}> = () => {
                   let ImageId = $.uuidGen( 32 ).toUpper();
                   let isFinished = false;
 
+                  let sizes = [ 'R','L' ];
                   await ( async () => {
-                    for ( let index = 0; index < 2; index++ ) {
-                      let file = files[ index ];
-                      let size = [ 'R','L' ][ index ];
-                      let Key = 'app/racco/org/header/' + ImageId + '/' + size + '.jpeg';
-                      let getUrl = await $.fetch( {
-                        method: 'post',
-                        url: 'mod/auth/s3/getPresignedUrl',
-                        body: {
+                    let getUrls = await $.fetch( {
+                      method: 'post',
+                      url: 'mod/auth/s3/getPresignedUrl',
+                      body: {
+                        type: 'app',
+                        keys: sizes.map( ( size ) => ( {
                           bucket: 'public',
-                          key: Key,
+                          key: 'org/header/' + ImageId + '/' + size + '.jpeg',
                           method: 'put'
-                        },
-                        trafficControl: 0
-                      } )
-                      if ( !getUrl.ok ) return;
-                      let Url = getUrl.body;
+                        } ) )
+                      }
+                    } );
+                    if ( !getUrls.ok ) return;
+
+                    for ( let index = 0; index < getUrls.body.length; index++ ) {
+                      let result = getUrls.body[ index ];
+                      let {
+                        ok,
+                        body: url
+                      } = result;
+
+                      if ( !ok ) continue;
+                      let file = files[ index ];
 
                       let Upload = await $.fetch( {
-                        url: Url,
+                        url: url,
                         method: 'put',
                         mode: 'cors',
                         header: {
@@ -1546,20 +1558,19 @@ const ObjPage: FNC<{}> = () => {
                       } );
                       if ( !Upload.ok ) return;
                     }
-                    let result = await $.fetch(
-                      {
-                        name: 'updateObjHeaderImage',
-                        method: 'post',
-                        url: 'updateAColumn',
-                        trafficControl: 0,
-                        body: {
-                          objType: 'org',
-                          id: objId,
-                          column: 'headerImage',
-                          value: ImageId
-                        }
+
+                    let result = await $.fetch( {
+                      name: 'updateObjIconImage',
+                      method: 'post',
+                      url: 'updateAColumn',
+                      trafficControl: 0,
+                      body: {
+                        objType: 'org',
+                        id: objId,
+                        column: 'headerImage',
+                        value: ImageId
                       }
-                    )
+                    } )
                     if ( !result.ok ) return;
                     isFinished = true;
                   } )();
@@ -1586,13 +1597,13 @@ const ObjPage: FNC<{}> = () => {
                 src={ val_iconImage }
                 width={ 6 }
                 height={ 6 }
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
                 showExpand={ val_iconImage.replace( /\/R\./,'/L.' ) }
               />
               <Box>
                 <Box
                   fontSize={ 6 }
-                  fontWeight={ 3 }
+                  fontWeight={ 'bold' }
                   children={ val_objName }
                 />
                 { Editable ?
@@ -1629,7 +1640,7 @@ const ObjPage: FNC<{}> = () => {
                 <Box
                   paddingTop={ 2 }
                   phoneStyles={ {
-                    padding: 1.5
+                    padding: 1
                   } }
                   children={ children }
                 />
@@ -1671,8 +1682,8 @@ export const OrgPage: FNC<{}> = () => {
       ( result ) => {
         if ( result.ok && result.body.obj.length === 1 ) {
           let Editable = Boolean( result.body.editable.length ) ||
-            result.body.obj[ 0 ].ownerId === Session.userId ||
-            Session.userLevel >= 3281;
+            result.body.obj[ 0 ].ownerId === Env.Session.userId ||
+            Env.Session.userLevel >= 3281;
 
           global.Temps[ 'objPage' ] = {
             ...result.body,

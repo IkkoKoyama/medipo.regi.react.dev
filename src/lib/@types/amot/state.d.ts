@@ -6,7 +6,7 @@ type justifyContentProp = 'center' | 'left' | 'right' | 'between' | 'around' | '
 
 type GridNumberProp = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
-type gapProp = -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8 | 12
+type gapProp = -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4
 type gapProps = gapProp | [ gapProp,gapProp ]
 
 type flexGrowProp = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
@@ -57,10 +57,10 @@ type PureStyleProps = {
   textAligin? : TextAliginProp
   whiteSpace? : WhiteSpaceProps
 
-  top? : PositionProp
-  right? : PositionProp
-  bottom? : PositionProp
-  left? : PositionProp
+  top? : TRBLProps
+  right? : TRBLProps
+  bottom? : TRBLProps
+  left? : TRBLProps
 
 
   flexCenter? : boolean
@@ -81,17 +81,19 @@ type PureStyleProps = {
   gridCenter? : boolean
   gridCols? : GridNumberProp
 
-  maxHeight? : SizeProps
-  maxWidth? : SizeProps
-  minHeight? : SizeProps
-  minWidth? : SizeProps
+  opacity? : OpacityInput
+
+  maxHeight? : SizeProps | 'unset' | '100%'
+  maxWidth? : SizeProps | 'unset' | '100%'
+  minHeight? : SizeProps | 'unset' | '100%'
+  minWidth? : SizeProps | 'unset' | '100%'
 
   wordBreak? : 'break-all' | 'normal'
 
-  transition? : 0 | 1 | 2 | 3 | 4
+  transition? : 'none' | 'short' | 'middle' | 'long' | 'veryLong'
 
-  width? : SizeProps
-  height? : SizeProps
+  width? : SizeProps | 'auto' | '1/4' | '1/3' | '1/2' | '2/3' | '3/4' | '100%'
+  height? : SizeProps | 'auto' | '1/4' | '1/3' | '1/2' | '2/3' | '3/4' | '100%'
 }
 
 type ActiveEffectTypes =
@@ -100,8 +102,8 @@ type ActiveEffectTypes =
 'expand' | 'shrink' | 'pudding'
 
 type OriginalStyleProps = PureStyleProps & {
+  hoverSyles? : PureStyleProps
   tabletStyles? : PureStyleProps
-  tabPhoneStyles? : PureStyleProps
   phoneStyles? : PureStyleProps
 
   customStyle? : React.CSSProperties
@@ -124,7 +126,6 @@ type OriginalStyleProps = PureStyleProps & {
   ssCardBoxBody? : boolean
   ssCardBoxFooter? : boolean
 
-
   copyToClipBoard? : {
     type? : 'string' | 'image'
     data : string | {
@@ -133,39 +134,43 @@ type OriginalStyleProps = PureStyleProps & {
   }
 }
 
-type ColorProps = 'inherit' | 'theme' | 'posi' | 'nega' | 'warn' | 'logo' | 'dark' | 'white' | 'black'
+type ColorProps = 'inherit' | 'theme' | 'posi' | 'nega' | 'warn' | 'white' | 'black'
 
-type DisplayProps = 'block' | 'none' | 'flex' | 'grid' | 'inline' | 'inlineFlex' | 'inlineBlock';
+type DisplayProps = 'block' | 'none' | 'flex' | 'grid' | 'inlineFlex' | 'inlineBlock'
 type PositionProps = 'relative' | 'absolute' | 'fixed' | 'sticky'
 type TextAliginProp = 'center' | 'left' | 'right'
-type FontColorProp = ColorProps | 1 | 2 | 3 | 4 | 5 | 6 | 'mono'
-type FontWeightProp = 1 | 2 | 3
+type FontColorProp = ColorProps | 1 | 2 | 3 | 4 | 5 | 6 | 'mono' | 'logo'
+type FontWeightProp = 'normal' | 'lighter' | 'bold'
 type FontSizeProp = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
-type WhiteSpaceProps = 'normal' | 'nowrap' | 'pre' |'preWrap'
+type WhiteSpaceProps = 'normal' | 'nowrap' |'preWrap'
+
+type OpacityInput = 'trans' | 'low' | 'middle' | 'high' | 'most'
 
 type backgroundColorProp =
 ColorProps |
-1 | 2 | 3 | 4 | 5 | 6 | -1 | -2 | -3 |
-'themeAlfa1' | 'themeAlfa2' | 'themeAlfa3' |
-'negaAlfa1' | 'negaAlfa2' |
-'trans' |
+'lcOpLow' | 'lcOpMiddle' | 'lcOpHigh' |
+1 | 2 | 3 | 4 | 5 | 6 |
+'themeOpLow' | 'themeOpMiddle' | 'themeOpHigh' |
+'negaOpLow' | 'negaOpMiddle' |
+'posiOpLow' | 'posiOpMiddle' |
+'trans' | 'dark' |
 'mono' | 'none' | 'LBMain' | 'LBReverse'
 
-type boxShadowProps = 1 | 2 | 3 | 4 | 5 | -1 | -2 | -3 | -4 | -5
+type boxShadowProps = 1 | 2 | 3 | 4 | 5 | -1 | -2 | -3 | -4 | -5 | 'none'
 
-type PositionProp = -3 | -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8 | 10 | 12 | 'auto'
+type TRBLProps = -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8
 
-type zIndexProps = -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 'inherit'
+type zIndexProps = -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
 type ParginProp = -3 | -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 'auto'
 type ParginProps = ParginProp | [ ParginProp,ParginProp ] | [ ParginProp,ParginProp,ParginProp,ParginProp ]
 
-type BorderRadiusProp = -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 50 | 100 | 'inherit'
+type BorderRadiusProp = -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 'sphere' | 'inherit'
 type BorderRadiusProps = BorderRadiusProp |  [ BorderRadiusProp,BorderRadiusProp,BorderRadiusProp,BorderRadiusProp ]
-type BorderProps = 'none' | 0 | 1 | 2 | 3
-type BorderColorProps = 0 | 1 | 2 | 3 | ColorProps
+type BorderProps = 'unset' | 'trans' | 'thin' | 'normal'
+type BorderColorProps = 'trans' | 'thin' | 'normal' | 'theme' | 'posi' | 'nega' | 'warn'
 
-type SizeProps = -3 | -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8 | 10 | 12 | 18 | 24 | 30 | 36 | 42 | 48 | 60 | '25%' | '33%' | '50%' | '66%' | '75%' | '100%' | 'auto'
+type SizeProps = -3 | -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8 | 10 | 12 | 18 | 24 | 30 | 36
 
 type TipsEffectProps = {
   position? : TipsEffectPositionProps

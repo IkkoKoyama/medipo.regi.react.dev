@@ -79,24 +79,24 @@ export const LineConnectPage: FNC<{}> = () => {
             align='center'
             margin={ 'auto' }
             wrap={ false }
-            border={ 2 }
-            borderRadius={ 100 }
+            border={ 'normal' }
+            borderRadius={ 'sphere' }
             padding={ -1 }
             paddingRight={ 1 }
           >
             <Img
-              src={ Images.usr.icon.S }
+              src={ Env.Images.usr.icon.S }
               width={ 3 }
               height={ 3 }
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
             />
             <Box
               flex='auto'
-              children={ Usr.name }
+              children={ Env.User.name }
             />
           </Flex>
           <Button.Prime
-            borderRadius={ 100 }
+            borderRadius={ 'sphere' }
             padding={ 1 }
             children={ 'ユーザー情報を共有' }
             onClick={ () => {

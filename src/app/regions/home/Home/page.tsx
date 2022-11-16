@@ -77,7 +77,7 @@ const Event: FNC<any> = ( props ) => {
       className={ 'TableMemberCellImage' }
       width={ 2 }
       height={ 2 }
-      borderRadius={ 100 }
+      borderRadius={ 'sphere' }
     />
   } );
   let Header = appEnv.eventHeaderImage( headerImage );
@@ -128,7 +128,7 @@ const Event: FNC<any> = ( props ) => {
         >
           <Img
             src={ OrgIcon }
-            borderRadius={ 100 }
+            borderRadius={ 'sphere' }
           />
         </Flex>
         <Flex
@@ -139,7 +139,7 @@ const Event: FNC<any> = ( props ) => {
           <Box>
             <Box
               fontSize={ 4 }
-              fontWeight={ 3 }
+              fontWeight={ 'bold' }
               children={ title }
             />
             <Box
@@ -321,7 +321,13 @@ const SearchSetting: FNC<{
           padding={ 2 }
           ssCardBoxBody={ true }
         >
-          <Flex flexChilds='even' gap={ 1 }>
+          <Flex
+            flexChilds='even'
+            gap={ 1 }
+            phoneStyles={ {
+              flexDirection : 'col'
+            } }
+          >
             <Input.Time.Month
               label='開催月'
               form='searchEventForm'

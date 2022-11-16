@@ -20,7 +20,7 @@ namespace AMOT {
 
     }
     UniConsole : FNC<{}>
-    DisplayModeChanger : FNC<{}>
+    DarkModeChanger : FNC<{}>
   }
 }
 

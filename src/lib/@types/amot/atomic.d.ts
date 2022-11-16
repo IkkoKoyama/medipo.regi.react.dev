@@ -43,9 +43,10 @@ namespace Atoms {
   /* atoms.button */
   namespace Buttons {
     type Types = {
-      Button: CoreTypes<ButtonProps>
-      Label: CoreTypes<LabelProps>
-      Anchor: CoreTypes<AnchorProps>
+      Button: CoreTypes<ButtonInput>
+      Label: CoreTypes<LabelInput>
+      Anchor: CoreTypes<AnchorInput>
+      MFButton : FNC<MultiFunctionInput>
     }
     type CoreTypes<T> = {
       Prime: (
@@ -66,7 +67,7 @@ namespace Atoms {
       ) => JSX.Element
       Border: ( props: T &
         SizeProps & {
-          color? : 'theme' | 'nega'
+          color?: 'theme' | 'nega'
         }
       ) => JSX.Element
       Link: ( props: T ) => JSX.Element
@@ -91,20 +92,31 @@ namespace Atoms {
       transColorAtDefault?: boolean
     }
 
-    type ButtonProps = UniProps & {
+    type ButtonInput = UniProps & {
       formButton?: string
       submitDelegationFormInputKeydownEvents?: delegateClickEventProps[]
     } & React.DOMAttributes<HTMLButtonElement>
-    type LabelProps = UniProps & {
+    type LabelInput = UniProps & {
       htmlFor?: string
     } & React.DOMAttributes<HTMLLabelElement>
-    type AnchorProps = UniProps & {
+    type AnchorInput = UniProps & {
       href: string
       newTab?: boolean
       sync?: boolean
       download?: any
       shiftQueryParams?: boolean
     } & React.DOMAttributes<HTMLAnchorElement>
+
+    type MultiFunctionInput = TagProps & SizeProps & {
+      type: 'prime' | 'sub' | 'border'
+      color: 'theme' | 'nega'
+      content: ReactElement
+      onClick: Atoms.Button.onClickProps
+      detailsModal: {
+        ( closeCallBack: Function ): ReactElement
+      }
+      closeModalDelegationAroundClick?: boolean
+    }
   }
 
   /* atoms.flex */
@@ -231,18 +243,6 @@ namespace Mols {
       }
       loop?: boolean
     }
-  }
-
-  /** mols.MFButton */
-  type MFButtonProps = TagProps & Atoms.Buttons.SizeProps & {
-    type: 'prime' | 'sub' | 'border'
-    color: 'theme' | 'nega'
-    content: ReactElement
-    onClick: Atoms.Button.onClickProps
-    detailsModal: {
-      ( closeCallBack: Function ): ReactElement
-    }
-    closeModalDelegationAroundClick?: boolean
   }
 
   /** mols.LinkifyText */
@@ -582,7 +582,6 @@ namespace AMOT {
     List: FNC<Mols.ListProps>
     Accordion: FNC<Mols.AccordionProps>
     SwipeContent: FNC<Mols.SwipeContentProps>
-    MFButton: FNC<Mols.MFButtonProps>
     LinkifyText: FNC<Atoms.LinkifyTextProps>
   }
   interface Orgs {
@@ -598,7 +597,7 @@ namespace AMOT {
     LayoutHC: FNC<Temps.Layout.HCProps>
     LayoutC: FNC<Temps.Layout.CProps>
   }
-  interface APP {}
+  interface APP { }
 }
 interface AMOT {
   glob: AMOT.GLOB
@@ -606,6 +605,6 @@ interface AMOT {
   mols: AMOT.Mols
   orgs: AMOT.Orgs
   temps: AMOT.Temps
-  app : AMOT.APP
+  app: AMOT.APP
 }
 var AMOT: AMOT;

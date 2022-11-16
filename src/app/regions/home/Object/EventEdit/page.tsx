@@ -23,6 +23,7 @@ const {
   mols: {
     Accordion,
     List,
+    LinkifyText
   },
   orgs: {
     LayoutContent,
@@ -72,7 +73,7 @@ const BasicRegion: FNC<{}> = () => {
       src={ OrgIcon }
       width={ 3 }
       height={ 3 }
-      borderRadius={ 100 }
+      borderRadius={ 'sphere' }
     />,
     value: orgId,
     label: orgName
@@ -208,7 +209,7 @@ const BasicRegion: FNC<{}> = () => {
                           src={ OrgIcon }
                           width={ 3 }
                           height={ 3 }
-                          borderRadius={ 100 }
+                          borderRadius={ 'sphere' }
                         />,
                       label: name,
                       keyword: name,
@@ -328,7 +329,7 @@ const TimesRegion: FNC<{}> = () => {
   return (
     <Box
       ssCardBox={ true }
-      minWidth={ '50%' }
+    // minWidth={ '50%' }
     >
       <Flex
         ssCardBoxHeader={ true }
@@ -450,24 +451,21 @@ const TimesRegion: FNC<{}> = () => {
             let form = await $.FormCollect( 'updateTimes' );
             if ( !form.valid ) return;
 
-            $.fetch(
-              {
-                name: 'updateEventTimes',
-                method: 'post',
-                url: 'event/updateEventTimes',
-                trafficControl: 0,
-                body: {
-                  ...form.data,
-                  eventId
-                }
-              },
-              ( result ) => {
-                if ( result.ok ) {
-                  set_times( form.data as any );
-                  set_edit( false );
-                }
+            $.fetch( {
+              name: 'updateEventTimes',
+              method: 'post',
+              url: 'event/updateEventTimes',
+              trafficControl: 0,
+              body: {
+                ...form.data,
+                eventId
               }
-            )
+            },( result ) => {
+              if ( result.ok ) {
+                set_times( form.data as any );
+                set_edit( false );
+              }
+            } )
           } }
         />
       </Flex> : null
@@ -504,7 +502,7 @@ const LocationRegion: FNC<{}> = () => {
   return (
     <Box
       ssCardBox={ true }
-      minWidth={ '50%' }
+    // minWidth={ '50%' }
     >
       <Flex
         ssCardBoxHeader={ true }
@@ -775,10 +773,12 @@ const DescriptionRegion: FNC<{}> = () => {
           ssCardBoxBody={ true }
         >
           { !val_edit ? <>
-            <Box
-              whiteSpace='preWrap'
-              children={ val_description || '説明文はありません' }
-            />
+            <Box whiteSpace='preWrap'>
+              <LinkifyText
+                text={ val_description }
+                placeholder={ '説明文はありません' }
+              />
+            </Box>
           </> : <>
             <Input.TextArea
               placeholder='説明文を入力'
@@ -856,19 +856,17 @@ const AttachmentRegion: FNC<{}> = () => {
   let [ val_files,set_files ] = useState( [] );
 
   useEffect( () => {
-    $.fetch(
-      {
-        method: 'post',
-        url: 'mod/auth/s3/getFolderFiles',
-        body: {
-          bucket: 'private',
-          folder: 'app/racco/event/attachments/' + eventUuid
-        }
-      },
-      ( result ) => {
-        if ( result.ok ) set_files( result.body.files );
+    $.fetch( {
+      method: 'post',
+      url: 'mod/auth/s3/getFolderFiles',
+      body: {
+        type: 'app',
+        bucket: 'private',
+        key: 'event/attachments/' + eventUuid
       }
-    )
+    },( result ) => {
+      if ( result.ok ) set_files( result.body.files );
+    } )
   },[] );
 
   let Attachments = <></>;
@@ -877,22 +875,28 @@ const AttachmentRegion: FNC<{}> = () => {
       let fileSplit = key.split( '/' );
       let fileName = fileSplit[ fileSplit.length - 1 ];
 
+      fileSplit.splice( 0,3 );
+      let Key = fileSplit.join( '/' );
+
       return (
         <Button.Clear
-          border={ 2 }
+          border={ 'normal' }
           padding={ 1 }
           onClick={ () => {
             $.fetch( {
               method: 'post',
               url: 'mod/auth/s3/getPresignedUrl',
               body: {
-                bucket: 'private',
-                key: key,
-                method: 'get'
+                type: 'app',
+                keys: [ {
+                  bucket: 'private',
+                  key: Key,
+                  method: 'get'
+                } ]
               },
               trafficControl: 0
             },( { ok,body } ) => {
-              if ( ok ) window.open( body,'_blank' );
+              if ( ok && body[ 0 ].ok ) window.open( body[ 0 ].body,'_blank' );
             } )
           } }
         >
@@ -914,8 +918,9 @@ const AttachmentRegion: FNC<{}> = () => {
                     method: 'post',
                     url: 'mod/auth/s3/deleteFiles',
                     body: {
+                      type: 'app',
                       bucket: 'private',
-                      keys: [ key ]
+                      keys: [ Key ]
                     },
                     trafficControl: 0
                   },
@@ -999,21 +1004,25 @@ const AttachmentRegion: FNC<{}> = () => {
 
                           for ( let file of attachments ) {
                             let fileName = file.name;
-                            let Key = 'app/racco/event/attachments/' + eventUuid + '/' + fileName;
+                            let Key = 'event/attachments/' + eventUuid + '/' + fileName;
                             let getUrl = await $.fetch( {
                               method: 'post',
                               url: 'mod/auth/s3/getPresignedUrl',
                               body: {
-                                bucket: 'private',
-                                key: Key,
-                                method: 'put'
+                                type: 'app',
+                                keys: [ {
+                                  bucket: 'private',
+                                  key: Key,
+                                  method: 'put'
+                                } ]
                               },
                               trafficControl: 0
                             } )
                             if ( !getUrl.ok ) return;
-                            let Url = getUrl.body;
-                            await $.fetch( {
-                              url: Url,
+                            let Url = getUrl.body[ 0 ];
+                            if ( !Url.ok ) return;
+                            let result = await $.fetch( {
+                              url: Url.body,
                               method: 'put',
                               mode: 'cors',
                               header: {
@@ -1023,7 +1032,10 @@ const AttachmentRegion: FNC<{}> = () => {
                               bodyStringify: false,
                               trafficControl: 0
                             } );
+                            console.log( result );
+                            if ( !result.ok ) return;
                           }
+
                           window.location.reload();
                         } }
                       />
@@ -1111,7 +1123,7 @@ const HeaderRegion: FNC<{}> = () => {
       />
       <Label.Prime
         size="S"
-        backgroundColor={ -2 }
+        backgroundColor={ 'lcOpMiddle' }
         htmlFor='changeHeaderImage'
         position='absolute'
         bottom={ 1 }
@@ -1131,27 +1143,34 @@ const HeaderRegion: FNC<{}> = () => {
           let ImageId = $.uuidGen( 32 ).toUpper();
           let isFinished = false;
 
+          let sizes = [ 'R','L' ];
           await ( async () => {
-            for ( let index = 0; index < 2; index++ ) {
-              let file = files[ index ];
-              let size = [ 'R','L' ][ index ];
-
-              let Key = 'app/racco/event/header/' + ImageId + '/' + size + '.jpeg';
-              let getUrl = await $.fetch( {
-                method: 'post',
-                url: 'mod/auth/s3/getPresignedUrl',
-                body: {
+            let getUrls = await $.fetch( {
+              method: 'post',
+              url: 'mod/auth/s3/getPresignedUrl',
+              body: {
+                type: 'app',
+                keys: sizes.map( ( size ) => ( {
                   bucket: 'public',
-                  key: Key,
+                  key: 'event/header/' + ImageId + '/' + size + '.jpeg',
                   method: 'put'
-                },
-                trafficControl: 0
-              } )
-              if ( !getUrl.ok ) return;
-              let Url = getUrl.body;
+                } ) )
+              }
+            } );
+            if ( !getUrls.ok ) return;
+
+            for ( let index = 0; index < getUrls.body.length; index++ ) {
+              let result = getUrls.body[ index ];
+              let {
+                ok,
+                body: url
+              } = result;
+
+              if ( !ok ) continue;
+              let file = files[ index ];
 
               let Upload = await $.fetch( {
-                url: Url,
+                url: url,
                 method: 'put',
                 mode: 'cors',
                 header: {
@@ -1163,27 +1182,24 @@ const HeaderRegion: FNC<{}> = () => {
               } );
               if ( !Upload.ok ) return;
             }
-            let result = await $.fetch(
-              {
-                name: 'updateObjDescription',
-                method: 'post',
-                url: 'updateAColumn',
-                trafficControl: 0,
-                body: {
-                  objType: 'event',
-                  id: eventId,
-                  column: 'headerImage',
-                  value: ImageId
-                }
+
+            let result = await $.fetch( {
+              name: 'updateObjIconImage',
+              method: 'post',
+              url: 'updateAColumn',
+              trafficControl: 0,
+              body: {
+                objType: 'event',
+                id: eventId,
+                column: 'headerImage',
+                value: ImageId
               }
-            )
+            } )
             if ( !result.ok ) return;
             isFinished = true;
           } )();
 
           if ( isFinished ) {
-            setTimeout( () => {
-            },1000 );
             set_headerImage( ImageId );
           }
         } }
@@ -1344,7 +1360,7 @@ const UserList: FNC<{}> = () => {
                 src={ $.userIconImage( userIcon ) }
                 width={ 3 }
                 height={ 3 }
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
               />
               { userName }
             </Flex>
@@ -1396,7 +1412,7 @@ const UserList: FNC<{}> = () => {
                         src={ $.userIconImage( userIcon ) }
                         width={ 4 }
                         height={ 4 }
-                        borderRadius={ 100 }
+                        borderRadius={ 'sphere' }
                       />
                       <Box textAligin="left">
                         { userName }
@@ -1510,7 +1526,7 @@ const UserList: FNC<{}> = () => {
                           icon: <Img
                             width={ 3 }
                             height={ 3 }
-                            borderRadius={ 100 }
+                            borderRadius={ 'sphere' }
                             src={ $.userIconImage( iconImage ) }
                           />,
                           label: <Box>
@@ -1944,7 +1960,7 @@ export const ObjPage: FNC<{}> = () => {
             >
               掲載を停止する
             </Button.Sub> : val_status == 400 ? <Box
-              border={ 2 }
+              border={ 'normal' }
               borderColor={ 'warn' }
               borderRadius={ 2 }
               padding={ 1 }
@@ -2160,8 +2176,8 @@ export const EventEditPage: FNC<{}> = () => {
       ( result ) => {
         if ( result.ok && result.body.obj.length === 1 ) {
           let Editable = Boolean( result.body.editable.length ) ||
-            result.body.obj[ 0 ].ownerId === Session.userId ||
-            Session.userLevel >= 3281;
+            result.body.obj[ 0 ].ownerId === Env.Session.userId ||
+            Env.Session.userLevel >= 3281;
           if ( Editable ) {
             Temps[ 'editPage' ] = {
               ...result.body,

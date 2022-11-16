@@ -36,7 +36,6 @@ export const ManagerPage: FNC<{}> = () => {
           '#TopHeader'
         ]
       } }
-      Swipeable={ true }
       onTabChange={ ( index ) => {
         localStorage.setItem(
           'raccoManagerTabIndex',

@@ -37,6 +37,10 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
     <Flex
       flexCenter={ true }
       className={ style.Wrap }
+      padding={ [ 4,2 ] }
+      phoneStyles={{
+        padding : 1
+      }}
     >
       { children }
       <Box

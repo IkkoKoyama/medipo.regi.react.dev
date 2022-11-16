@@ -190,7 +190,7 @@ const CreateClubRegion: FNC<{}> = () => {
                                 src={ Image }
                                 width={ 2 }
                                 height={ 2 }
-                                borderRadius={ 100 }
+                                borderRadius={ 'sphere' }
                               />,
                             label: name,
                             keyword: name
@@ -297,8 +297,11 @@ export const ClubDashboard: FNC<{}> = () => {
       type='col'
       gap={ 2 }
       padding={ 2 }
+      phoneStyles={ {
+        padding: 1
+      } }
     >
-      { Session.userLevel >= 3281 ? <CreateClubRegion /> : null }
+      { Env.Session.userLevel >= 3281 ? <CreateClubRegion /> : null }
       <ClubList />
     </Flex>
   );

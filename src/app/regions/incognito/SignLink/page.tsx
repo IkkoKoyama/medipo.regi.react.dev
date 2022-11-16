@@ -6,7 +6,8 @@ const {
   },
   atoms: {
     Buttons: {
-      Button
+      Button,
+      Anchor
     },
     Box,
     Paragraph,
@@ -51,7 +52,7 @@ const InteractRegon: FNC<{}> = () => {
       <Flex
         type='col'
         gap={ 2 }
-        border={ 2 }
+        border={ 'normal' }
         padding={ 2 }
         borderRadius={ 3 }
         maxWidth={ 36 }
@@ -66,6 +67,9 @@ const InteractRegon: FNC<{}> = () => {
           padding={ 1 }
           align='center'
           justify='center'
+          phoneStyles={{
+            flexDirection : 'col'
+          }}
         >
           <Logo.Horizon
             size='L'
@@ -74,14 +78,14 @@ const InteractRegon: FNC<{}> = () => {
           />
           <Box
             fontSize={ 4 }
-            fontWeight={ 3 }
+            fontWeight={ 'bold' }
             children={ 'サインイン' }
           />
         </Flex>
         <Paragraph fontColor={ 2 }>
           RACCO はロータリクラブ・ローターアクトクラブ会員専用のアプリです
         </Paragraph>
-        <Box borderTop={ 2 } paddingTop={ 1 } textAligin='left'>
+        <Box borderTop={ 'normal' } paddingTop={ 1 } textAligin='left'>
           <Flex
             wrap={ false }
             gap={ 1 }
@@ -90,7 +94,7 @@ const InteractRegon: FNC<{}> = () => {
           >
             <MinifyIcon />
             <Box
-              fontWeight={ 3 }
+              fontWeight={ 'bold' }
               children={ 'racco を利用するには minify にサインインしてください' }
             />
           </Flex>
@@ -103,13 +107,13 @@ const InteractRegon: FNC<{}> = () => {
           onClick={ () => {
             $.fetch( {
               method: 'post',
-              url: 'signLink/getToken',
+              url: 'signLink/getSignLinkToken',
               trafficControl: 300
             },( result ) => {
               if ( result.ok ) {
                 let token = result.body;
                 let redirect = new URL( location as any ).origin;
-                window.location.href = Links.admin + 'signLink?token=' + token + '&redirect=' + redirect.encode();
+                window.location.href = Env.Links.admin + 'signLink?token=' + token + '&redirect=' + redirect.encode();
               }
             } );
           } }
@@ -121,40 +125,73 @@ const InteractRegon: FNC<{}> = () => {
     </Box>
   );
 }
-const GetRegion: FNC<{}> = () => {
+const GetRegion: FNC<{
+  set_progress: React.Dispatch<React.SetStateAction<number>>
+}> = ( props ) => {
+  let {
+    set_progress
+  } = props;
+
+  let [ val_error,set_error ] = useState( false );
+
   useEffect( () => {
-    let { accessToken,refreshToken } = $.getQueryParams();
+    let { token } = $.getQueryParams();
 
     $.fetch(
       {
         method: 'post',
         url: 'signLink/get',
-        body: { accessToken,refreshToken }
+        body: { token }
       },
       ( result ) => {
         if ( result.ok ) {
           let redirect = localStorage.getItem( 'siru' ) || '/';
           localStorage.removeItem( 'siru' );
           window.location.href = redirect;
+          return;
         }
+        set_error( true );
       }
     )
   },[] );
 
-  return ( <Loading /> );
+  if ( !val_error ) {
+    return ( <Loading /> );
+  }
+  return (
+    <>
+      <Box
+        ssCardBox={ true }
+        padding={ 2 }
+      >
+        <Paragraph>
+          サインリンクを完了できませんでした。
+          <br />
+          以下のボタンから再度実行してください
+        </Paragraph>
+        <Button.Prime
+          size='S'
+          marginTop={ 1 }
+          onClick={ () => {
+            set_progress( 1 );
+          } }
+        >
+          戻る
+        </Button.Prime>
+      </Box>
+    </>
+  );
 }
 
 export const SignLink: FNC<{}> = () => {
   let Url = new URL( location.href );
   let Progress = 1;
   if ( Url.pathname == '/signLink/get' ) {
-    let { accessToken,refreshToken } = $.getQueryParams();
+    let { token } = $.getQueryParams();
 
-    if ( accessToken && refreshToken ) {
-      Progress = 200;
-    }
+    if ( token ) Progress = 200;
   }
   let [ val_progress,set_progress ] = useState( Progress );
 
-  return ( val_progress == 200 ? <GetRegion /> : <InteractRegon /> );
+  return ( val_progress == 200 ? <GetRegion set_progress={ set_progress } /> : <InteractRegon /> );
 }

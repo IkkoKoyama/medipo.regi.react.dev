@@ -229,8 +229,11 @@ export const RegionDashboard: FNC<{}> = () => {
       type='col'
       gap={ 2 }
       padding={ 2 }
+      phoneStyles={ {
+        padding: 1
+      } }
     >
-      { Session.userLevel >= 3281 ? <CreateRegionRegion /> : null }
+      { Env.Session.userLevel >= 3281 ? <CreateRegionRegion /> : null }
       <OrgList />
     </Flex>
   );

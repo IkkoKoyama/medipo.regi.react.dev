@@ -137,75 +137,67 @@ export const InteractButton: FNC<InteractButtonProps> = ( props ) => {
     }
   },[ val_check ] );
 
-  let ClassName =
-    `
-  ${ style.Wrap }
-  ${ style[ `Type_${ type }` ] }
-  ${ style[ `Open_${ val_check }` ] }
-  ${ style[ `Size_${ size }` ] }
-  `.trim();
+  let ClassName = [
+    style.Wrap,
+    style[ 'Type_' + type ],
+    style[ 'Open_' + val_check ],
+    style[ 'Size_' + size ]
+  ].join( ' ' );
 
   return (
     <Button.Plain
       className={ style.Button + ' ' + className }
       { ...styles }
-      children={
-        <>
-          <Box
-            className={ ClassName }
-            id={ val_componentId }
-          >
-            <svg
-              viewBox="0 0 100 100"
-              className={ style.SVG }
-            >
-              {
-                type == 'heart' ? <HeartSVG />
-                  : type == 'star' ? <StarSVG />
-                    : type == 'thumbs-up' ? <ThumbsUpSVG /> : null
-              }
-
-              <circle
-                className={ style.Circle }
-                cx="50" cy="50" r="4"
-              />
-              <g className={ style.Group + ' ' + style.Group_1 }>
-                <circle className={ style.Oval1 } cx="2.5" cy="3" r='10' />
-                <circle className={ style.Oval2 } cx="7.5" cy="2" r='5' />
-              </g>
-              <g className={ style.Group + ' ' + style.Group_2 }>
-                <circle className={ style.Oval1 } cx="5" cy="6" r='10' />
-                <circle className={ style.Oval2 } cx="2" cy="2" r='5' />
-              </g>
-              <g className={ style.Group + ' ' + style.Group_3 }>
-                <circle className={ style.Oval1 } cx="2" cy="7" r='10' />
-                <circle className={ style.Oval2 } cx="4" cy="2" r='5' />
-              </g>
-              <g className={ style.Group + ' ' + style.Group_4 }>
-                <circle className={ style.Oval1 } cx="6" cy="5" r='10' />
-                <circle className={ style.Oval2 } cx="2" cy="2" r='5' />
-              </g>
-              <g className={ style.Group + ' ' + style.Group_5 }>
-                <circle className={ style.Oval1 } cx="6" cy="5" r='10' />
-                <circle className={ style.Oval2 } cx="2" cy="2" r='5' />
-              </g>
-              <g className={ style.Group + ' ' + style.Group_6 }>
-                <circle className={ style.Oval1 } cx="2" cy="7" r='10' />
-                <circle className={ style.Oval2 } cx="3" cy="2" r='5' />
-              </g>
-              <g className={ style.Group + ' ' + style.Group_7 }>
-                <circle className={ style.Oval1 } cx="2" cy="6" r='10' />
-                <circle className={ style.Oval2 } cx="5" cy="2" r='5' />
-              </g>
-            </svg>
-            { free }
-          </Box>
-        </>
-      }
       onClick={ ( event ) => {
         event.stopPropagation();
         set_check( !val_check );
       } }
-    />
+    >
+      <Box
+        className={ ClassName }
+        id={ val_componentId }
+      >
+        <svg viewBox="0 0 100 100" className={ style.SVG }>
+          {
+            type == 'heart' ? <HeartSVG />
+              : type == 'star' ? <StarSVG />
+                : type == 'thumbs-up' ? <ThumbsUpSVG /> : null
+          }
+          <circle
+            className={ style.Circle }
+            cx="50" cy="50" r="4"
+          />
+          <g className={ style.Group + ' ' + style.Group_1 }>
+            <circle className={ style.Oval1 } cx="2.5" cy="3" r='10' />
+            <circle className={ style.Oval2 } cx="7.5" cy="2" r='5' />
+          </g>
+          <g className={ style.Group + ' ' + style.Group_2 }>
+            <circle className={ style.Oval1 } cx="5" cy="6" r='10' />
+            <circle className={ style.Oval2 } cx="2" cy="2" r='5' />
+          </g>
+          <g className={ style.Group + ' ' + style.Group_3 }>
+            <circle className={ style.Oval1 } cx="2" cy="7" r='10' />
+            <circle className={ style.Oval2 } cx="4" cy="2" r='5' />
+          </g>
+          <g className={ style.Group + ' ' + style.Group_4 }>
+            <circle className={ style.Oval1 } cx="6" cy="5" r='10' />
+            <circle className={ style.Oval2 } cx="2" cy="2" r='5' />
+          </g>
+          <g className={ style.Group + ' ' + style.Group_5 }>
+            <circle className={ style.Oval1 } cx="6" cy="5" r='10' />
+            <circle className={ style.Oval2 } cx="2" cy="2" r='5' />
+          </g>
+          <g className={ style.Group + ' ' + style.Group_6 }>
+            <circle className={ style.Oval1 } cx="2" cy="7" r='10' />
+            <circle className={ style.Oval2 } cx="3" cy="2" r='5' />
+          </g>
+          <g className={ style.Group + ' ' + style.Group_7 }>
+            <circle className={ style.Oval1 } cx="2" cy="6" r='10' />
+            <circle className={ style.Oval2 } cx="5" cy="2" r='5' />
+          </g>
+        </svg>
+        { free }
+      </Box>
+    </Button.Plain>
   );
 }

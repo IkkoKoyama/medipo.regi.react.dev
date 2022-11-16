@@ -97,7 +97,7 @@ const BasicInfoRegion: FNC<{}> = () => {
                         src={ OrgIcon }
                         width={ 2 }
                         height={ 2 }
-                        borderRadius={ 100 }
+                        borderRadius={ 'sphere' }
                       />,
                       label: <Box
                         fontSize={ 1 }
@@ -534,7 +534,7 @@ const HeaderImageRegion: FNC<{}> = () => {
               src={ val_image.dataUrl ? val_image.dataUrl : defaultUrl }
             />
             { val_image.files.length ? <Button.Clear
-              backgroundColor={ -2 }
+              backgroundColor={ 'lcOpMiddle' }
               width={ 3 }
               height={ 3 }
               top={ 1 }
@@ -679,27 +679,34 @@ const SubmitAction = async () => {
   await ( async () => {
     if ( !headerImage.length ) return;
     let ImageId = $.uuidGen( 32 );
+    let sizes = [ 'R','L' ];
     let files = headerImage;
-    for ( let index = 0; index < 2; index++ ) {
-      let file = files[ index ];
-      let size = [ 'R','L' ][ index ];
-      let Key = 'app/racco/event/header/' + ImageId + '/' + size + '.jpeg';
-
-      let getUrl = await $.fetch( {
-        method: 'post',
-        url: 'mod/auth/s3/getPresignedUrl',
-        body: {
+    let getUrls = await $.fetch( {
+      method: 'post',
+      url: 'mod/auth/s3/getPresignedUrl',
+      body: {
+        type : 'app',
+        keys: sizes.map( ( size ) => ( {
           bucket: 'public',
-          key: Key,
+          key: 'event/header/' + ImageId + '/' + size + '.jpeg',
           method: 'put'
-        },
-        trafficControl: 0
-      } )
-      if ( !getUrl.ok ) return;
-      let Url = getUrl.body;
+        } ) )
+      }
+    } );
+    if ( !getUrls.ok ) return;
+
+    for ( let index = 0; index < getUrls.body.length; index++ ) {
+      let result = getUrls.body[ index ];
+      let {
+        ok,
+        body: url
+      } = result;
+
+      if ( !ok ) continue;
+      let file = files[ index ];
 
       let Upload = await $.fetch( {
-        url: Url,
+        url: url,
         method: 'put',
         mode: 'cors',
         header: {
@@ -717,21 +724,27 @@ const SubmitAction = async () => {
     if ( !attachment.length ) return;
     for ( let file of attachment ) {
       let fileName = file.name;
-      let Key = 'app/racco/event/attachments/' + eventId + '/' + fileName;
+      let Key = 'event/attachments/' + eventId + '/' + fileName;
       let getUrl = await $.fetch( {
         method: 'post',
         url: 'mod/auth/s3/getPresignedUrl',
         body: {
-          bucket: 'private',
-          key: Key,
-          method: 'put'
+          type: 'app',
+          keys: [ {
+            bucket: 'private',
+            key: Key,
+            method: 'put'
+          } ]
         },
         trafficControl: 0
       } )
+
       if ( !getUrl.ok ) return;
-      let Url = getUrl.body;
+      let Url = getUrl.body[ 0 ];
+      if ( !Url.ok ) return;
+
       await $.fetch( {
-        url: Url,
+        url: Url.body,
         method: 'put',
         mode: 'cors',
         header: {
@@ -770,14 +783,14 @@ export const CreateEventPage: FNC<{}> = () => {
       <Flex
         type='col'
         gap={ 1 }
-        // border={ 2 }
+        // border={ 'normal' }
         // borderRadius={ 2 }
         ssCardBox={ true }
         padding={ 2 }
       >
         <Box
           fontSize={ 5 }
-          fontWeight={ 3 }
+          fontWeight={ 'bold' }
         >
           <Icon d='plus-square' fontColor='theme' /> イベントの作成
         </Box>
@@ -824,7 +837,7 @@ export const CreateEventPage: FNC<{}> = () => {
           miniLoader={ true }
           children={ '作成する' }
           padding={ 1.5 }
-          borderRadius={ 100 }
+          borderRadius={ 'sphere' }
           marginTop={ 3 }
           fontSize={ 3 }
           formButton='eventCreate'

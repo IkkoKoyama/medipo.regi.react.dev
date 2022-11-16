@@ -1,19 +1,6 @@
-interface Event {
-  ctrlKey: boolean
-  metaKey: boolean
-  keyCode: number
-  pageX: number
-  pageY: number
-  dataTransfer: any
-}
-interface EventTarget {
-  closest: any
-}
 namespace Jsmin {
   type Args = any
-  type Doms = any
-  type Child = Jsmin.Args
-  type Childs = Jsmin.Child[]
+  type ElementableValue = any
 
   interface jsMin {
     new( v?: Args ): Method
@@ -21,7 +8,7 @@ namespace Jsmin {
 
   interface Method {
     [ Symbol.iterator ](): void
-    [ index: number ]: Jsmin.Child
+    [ index: number ]: HTMLElement
     length: number
     queue: Function[]
     queueProcess: boolean
@@ -32,11 +19,9 @@ namespace Jsmin {
 
     jsMin: Jsmin.jsMin
 
-    get( v?: number ): Jsmin.Childs
-    for( v: ForFunction,n?: number ): Jsmin.Childs[]
+    get( v?: number ): HTMLElement[]
+    for( v: ForFunction,n?: number ): any[]
 
-    sync(): Jsmin.Method
-    async(): Jsmin.Method
     await( time: number ): Jsmin.Method
     abort(): Jsmin.Method
     callback: {
@@ -48,21 +33,19 @@ namespace Jsmin {
     click(): Jsmin.Method
     focus(): Jsmin.Method
 
-    on( ...args: Jsmin.OnArgs ): Jsmin.Method
-    off( ...args: Jsmin.OffArgs ): Jsmin.Method
+    addEvent( args: Events.AddEventInput ): Jsmin.Method
+    removeEvent( args: Events.RemoveEventInput ): Jsmin.Method
 
-    html( v: Jsmin.Doms ): Jsmin.Method
+    html( v: Jsmin.ElementableValue ): Jsmin.Method
     empty(): Jsmin.Method
-    append( ...args: Jsmin.AppendArgs ): Jsmin.Method
+    append( v: Jsmin.ElementableValue ): Jsmin.Method
     remove(): Jsmin.Method
-    before( ...v: Jsmin.Doms[] ): Jsmin.Method
-    after( ...v: Jsmin.Doms[] ): Jsmin.Method
-    find( v: Jsmin.Doms | Jsmin.Child ): Jsmin.Method
+    before( ...v: Jsmin.ElementableValue[] ): Jsmin.Method
+    after( ...v: Jsmin.ElementableValue[] ): Jsmin.Method
+    find( v: Jsmin.ElementableValue ): Jsmin.Method
     parent( v?: string ): Jsmin.Method
     children( v?: string | 'first' | 'last' | number ): Jsmin.Method
 
-    show(): Jsmin.Method
-    hide(): Jsmin.Method
     addClass( v: string | string[] ): Jsmin.Method
     removeClass( v: string | string[] ): Jsmin.Method
     toggleClass( v: string ): Jsmin.Method
@@ -80,7 +63,7 @@ namespace Jsmin {
     position(): DOMRect
   }
   type ForFunction = {
-    ( element: Childs,index: number ): void
+    ( element: HTMLElement,index: number ): void
   }
   interface IsCheck {
     what( v: any ): string
@@ -102,24 +85,37 @@ namespace Jsmin {
       tag?: string
       className?: string
       id?: string
-      html?: Jsmin.Doms
+      html?: Jsmin.ElementableValue
       attr?: plainObject
-      parent?: Jsmin.Doms
+      parent?: Jsmin.ElementableValue
       style?: React.CSSProperties
     }
   }
 
-  interface EventCallback {
-    ( this: HTMLElement,e: Event ): any
+  namespace Events {
+    type customEvent = Event & {
+      target: HTMLElement | null
+    }
+    type customEventListener = {
+      ( this: HTMLElement,evt: customEvent ): void;
+    }
+    interface EventCallback {
+      ( this: HTMLElement,event: Event ): any
+    }
+    type EventType = 'input' | 'click' | 'mouseover' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mousewheel' | 'touchstart' | 'touchmove' | 'touchend' | 'keypress' | 'keydown' | 'keyup' | 'change' | 'focus' | 'blur' | 'dragstart' | 'drag' | 'dragend' | 'dragover' | 'dragleave' | 'drop' | 'beforeunload' | 'scroll'
+
+    type AddEventInput = {
+      eventType: EventType
+      eventId?: string
+      target?: string | Jsmin.Method | HTMLElement
+      callback: customEventListener
+      option?: {
+        passive?: boolean
+        capture?: boolean
+      }
+    }
+    type RemoveEventInput = string | string[]
   }
-  type EventType = 'input' | 'click' | 'mouseover' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mousewheel' | 'touchstart' | 'touchmove' | 'touchend' | 'keypress' | 'keydown' | 'keyup' | 'change' | 'focus' | 'blur' | 'dragstart' | 'drag' | 'dragend' | 'dragover' | 'dragleave' | 'drop' | 'beforeunload' | 'scroll'
-  type EventOption = {
-    passive?: boolean
-    capture?: boolean
-  }
-  type OnArgs = [ EventType,Jsmin.EventCallback ] | [ EventType,Jsmin.EventCallback,EventOption ] | [ EventType,Jsmin.Doms,Jsmin.EventCallback ] | [ EventType,Jsmin.Doms,Jsmin.EventCallback,EventOption ]
-  type OffArgs = [ 'ALL' ] | [ Jsmin.EventType ] | [ Jsmin.EventType,Jsmin.EventCallback ] | [ Jsmin.EventType,Jsmin.Doms ] | [ Jsmin.EventType,Jsmin.Doms,Jsmin.EventCallback ]
-  type AppendArgs = [ Jsmin.Doms ] | [ Jsmin.Doms,Jsmin.Method ]
 
   namespace Fetch {
     interface Args {
@@ -167,6 +163,10 @@ interface Jsmin {
 
   ajax( o: Jsmin.Fetch.Args ): Promise<Jsmin.Fetch.Res>
 
+  getCursor( event: Event ): {
+    x: number
+    y: number
+  }
   getScreenSize(): {
     height: number
     width: number
@@ -213,6 +213,7 @@ interface String {
   toUpper(): string
   toCapital(): string
   clip( from: number,to: number ): string
+  toBlob( mimeType: base64ToBlobTypeProps ): Blob | false
 }
 
 namespace Array {
@@ -245,6 +246,11 @@ interface Date {
   dML(): Date
   dWF(): Date
   dWL(): Date
+}
+
+interface File {
+  read(): Promise<ProgressEvent<FileReader>>
+  toDataUrl(): Promise<string>
 }
 
 type glob = typeof window | typeof global | typeof self;

@@ -322,7 +322,7 @@ namespace Input {
 
       delegationFormSubmit?: boolean
 
-      value?: string | number | plainObject
+      value?: string | number | boolean | plainObject
       placeholder?: string
       appearance?: {
         format?: 'border' | 'cloud' | 'plain'
@@ -350,7 +350,7 @@ namespace Input {
     }
 
     type OptionProps = {
-      value: string | number | plainObject
+      value: string | number | boolean | plainObject
       label: string
       displayLabel?: ReactElement
     }
@@ -543,7 +543,7 @@ namespace Input {
     }
   }
   namespace Validation {
-    type EventType = 'init' | 'update' | 'override' | 'refresh' | 'foreign'
+    type EventType = 'init' | 'update' | 'override' | 'refresh' | 'foreign' | string
     type Reason = {
       type: 'valid' | 'invalid' | 'warn',
       label: ReactElement
@@ -555,7 +555,7 @@ namespace Input {
     type CustomResultProps = {
       result: boolean
       messages?: Reason[]
-      safeValue?: any
+      safeValue: any
     }
     type CustomProps = {
       (
@@ -568,6 +568,7 @@ namespace Input {
     }
     type ResultProps = {
       eventType: EventType
+      refreshEnd? : boolean
       result: true | false
       messages: ReactElement | null
       safeValue?: any

@@ -83,25 +83,32 @@ global.appEnv.eventStatus = {
 }
 
 global.appEnv.eventHeaderImage = ( value = '',size = 'R' ) => {
-  let src = CDN.proEnv + 'app/racco/event/header/' + ( ( !value || value.length <= 1 ) ? '_default/' + ( value || '1' ) : value ) + '/' + size + '.jpeg';
+  let src = value && value.length == 32 ?
+    Env.CDN.public + 'app/racco/' + Env.Org.id + '/event/header/' + value + '/' + size + '.jpeg' :
+    Env.CDN.public + 'app/racco/_uni/event/header/_default/' + ( value || 1 ) + '/' + size + '.jpeg';
   return src;
 }
 
 global.appEnv.orgIconImage = ( value = '',size = 'R' ) => {
-  let src = CDN.proEnv + 'app/racco/org/icon/' + ( value || '_default' ) + '/' + size + '.jpeg';
+  let src = value && value.length == 32 ?
+    Env.CDN.public + 'app/racco/' + Env.Org.id + '/org/icon/' + value + '/' + size + '.jpeg' :
+    Env.CDN.public + 'app/racco/_uni/org/icon/_default/' + size + '.jpeg';
   return src;
 }
 
 global.appEnv.orgHeaderImage = ( value = '',size = 'R' ) => {
-  let src = CDN.proEnv + 'app/racco/org/header/' + ( value || '_default' ) + '/' + size + '.jpeg';
+  let src = value && value.length == 32 ?
+    Env.CDN.public + 'app/racco/' + Env.Org.id + '/org/header/' + value + '/' + size + '.jpeg' :
+    Env.CDN.public + 'app/racco/_uni/org/header/_default/' + size + '.jpeg';
   return src;
 }
 
 global.appEnv.userHeaderImage = ( value = '',size = 'R' ) => {
-  let src = CDN.proEnv + 'app/racco/user/header/' + ( value || '_default' ) + '/' + size + '.jpeg';
+  let src = value && value.length == 32 ?
+    Env.CDN.public + 'app/racco/' + Env.Org.id + '/user/header/' + value + '/' + size + '.jpeg' :
+    Env.CDN.public + 'app/racco/_uni/user/header/_default/' + size + '.jpeg';
   return src;
 }
-
 
 global.appEnv.lineLink = 'https://lin.ee/4Cm1oMO';
 
@@ -125,7 +132,7 @@ const {
 global.AMOT.app.logo = {
   icon: ( props ) => ( <Logo.Icon { ...props } children={
     <img
-      src={ CDN.proEnv + 'app/racco/@logo/Rotaract_Icon.svg' }
+      src={ Env.CDN.static + 'racco/@logo/Rotaract_Icon.svg' }
       alt=''
       style={ {
         padding: '.25rem'

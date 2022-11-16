@@ -152,7 +152,7 @@ const TitlesRegion: FNC<{
           <Flex
             align='center'
             padding={ [ -2,-1 ] }
-            border={ 2 }
+            border={ 'normal' }
             borderRadius={ 1 }
             borderColor={ 'theme' }
             fontColor={ 'theme' }
@@ -162,7 +162,7 @@ const TitlesRegion: FNC<{
           <Flex
             align='center'
             padding={ [ -2,-1 ] }
-            border={ 2 }
+            border={ 'normal' }
             borderRadius={ 1 }
             borderColor={ 'theme' }
             fontColor={ 'theme' }
@@ -385,17 +385,18 @@ const OrgRegion: FNC<{}> = () => {
           src={ appEnv.orgIconImage( orgIcon,'S' ) }
           width={ 3 }
           height={ 3 }
-          borderRadius={ 100 }
+          borderRadius={ 'sphere' }
         />
         <Box flex='auto'>
           <Box
             fontSize={ 4 }
             children={ orgName }
           />
-          <Box
-            whiteSpace='preWrap'
-            children={ orgDescription }
-          />
+          <Box whiteSpace='preWrap'>
+            <LinkifyText
+              text={ orgDescription }
+            />
+          </Box>
           <Flex
             justify='right'
           >
@@ -426,19 +427,17 @@ const DetailsRegion: FNC<{}> = () => {
   let [ val_files,set_files ] = useState( [] );
 
   useEffect( () => {
-    $.fetch(
-      {
-        method: 'post',
-        url: 'mod/auth/s3/getFolderFiles',
-        body: {
-          bucket: 'private',
-          folder: 'app/racco/event/attachments/' + eventUuid
-        }
-      },
-      ( result ) => {
-        if ( result.ok ) set_files( result.body.files );
+    $.fetch( {
+      method: 'post',
+      url: 'mod/auth/s3/getFolderFiles',
+      body: {
+        type: 'app',
+        bucket: 'private',
+        key: 'event/attachments/' + eventUuid
       }
-    )
+    },( result ) => {
+      if ( result.ok ) set_files( result.body.files );
+    } )
   },[] );
 
   let Attachments = <></>;
@@ -446,28 +445,29 @@ const DetailsRegion: FNC<{}> = () => {
     let Files = val_files.map( ( key: string ) => {
       let fileSplit = key.split( '/' );
       let fileName = fileSplit[ fileSplit.length - 1 ];
+
+      fileSplit.splice( 0,3 );
+      let Key = fileSplit.join( '/' );
+
       return (
         <Button.Clear
-          border={ 2 }
+          border={ 'normal' }
           onClick={ () => {
-            $.fetch(
-              {
-                method: 'post',
-                url: 'mod/auth/s3/getPresignedUrl',
-                body: {
+            $.fetch( {
+              method: 'post',
+              url: 'mod/auth/s3/getPresignedUrl',
+              body: {
+                type: 'app',
+                keys: [ {
                   bucket: 'private',
                   method: 'get',
-                  key: key
-                },
-                trafficControl: 0
+                  key: Key
+                } ]
               },
-              ( result ) => {
-                if ( result.ok ) {
-                  let url = result.body;
-                  window.open( url,'_blank' );
-                }
-              }
-            )
+              trafficControl: 0
+            },( { ok,body } ) => {
+              if ( ok && body[ 0 ].ok ) window.open( body[ 0 ].body,'_blank' );
+            } )
           } }
         >
           <Flex
@@ -590,7 +590,7 @@ const registerModal = (
                 cell: {
                   style: {
                     flex: 'auto',
-                    borderRadius: 100
+                    borderRadius: 'sphere'
                   }
                 }
               } }
@@ -625,7 +625,7 @@ const registerModal = (
             }
 
             <Button.Prime
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
               formButton='eventRegister'
               width={ '100%' }
               padding={ 1 }
@@ -710,7 +710,7 @@ const liftModal = () => {
               <Button.Prime
                 size='S'
                 color='nega'
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
                 formButton='eventRegister'
                 width={ '100%' }
                 padding={ 1 }
@@ -724,7 +724,7 @@ const liftModal = () => {
                       url: 'event/liftRegister',
                       body: {
                         eventId,
-                        userId: Session.userId
+                        userId: Env.Session.userId
                       }
                     },
                     ( result ) => {
@@ -786,7 +786,7 @@ const DashBoardTab: FNC<{
             !val_myRegister ? <Button.Prime
               padding={ 1.5 }
               fontSize={ 4 }
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
               margin={ 2 }
               children={ '参加する' }
               onClick={ () => {
@@ -798,7 +798,7 @@ const DashBoardTab: FNC<{
               color='nega'
               padding={ 1.5 }
               fontSize={ 4 }
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
               margin={ 2 }
               onClick={ () => {
                 liftModal();
@@ -885,7 +885,7 @@ const CommentTab: FNC<{}> = () => {
             src={ IconImage }
             width={ 3 }
             height={ 3 }
-            borderRadius={ 100 }
+            borderRadius={ 'sphere' }
           />
           <Box flex={ 'auto' }>
             <Flex
@@ -901,7 +901,7 @@ const CommentTab: FNC<{}> = () => {
             <Box
               backgroundColor={ 'LBReverse' }
               borderRadius={ 2 }
-              border={ 2 }
+              border={ 'normal' }
               padding={ 1 }
               whiteSpace='preWrap'
               children={ description }
@@ -984,8 +984,8 @@ const CommentTab: FNC<{}> = () => {
                         eventId,
                         eventUuid,
                         title,
-                        iconImage: Images.usr.icon.S,
-                        userName: Usr.name,
+                        iconImage: Env.Images.usr.icon.S,
+                        userName: Env.User.name,
                         ...form.data
                       },
                       trafficControl: 0
@@ -1042,7 +1042,7 @@ const UsersTab: FNC<{}> = () => {
         key={ id }
         href={ '/user/obj?id=' + userUuid }
         borderRadius={ 0 }
-        borderBottom={ 2 }
+        borderBottom={ 'normal' }
         padding={ 1 }
         width='100%'
       >
@@ -1054,7 +1054,7 @@ const UsersTab: FNC<{}> = () => {
             src={ IconImage }
             width={ 3 }
             height={ 3 }
-            borderRadius={ 100 }
+            borderRadius={ 'sphere' }
           />
           <Box flex={ 'auto' }>
             <Flex
@@ -1162,7 +1162,7 @@ const ClosingRegion: FNC<{
               src={ appEnv.orgIconImage( orgIcon ) }
               width={ 3 }
               height={ 3 }
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
             />
             <Anchor.Plain
               textAligin='left'
@@ -1273,7 +1273,9 @@ export const ObjPage: FNC<{}> = () => {
           gap={ 2 }
           flex={ 0 }
         >
-          <Box>
+          <Box
+            padding={ 1 }
+          >
             { Registable ? <Flex
               gap={ 1 }
               align='center'
@@ -1319,7 +1321,7 @@ export const ObjPage: FNC<{}> = () => {
                 <Box
                   paddingTop={ 2 }
                   phoneStyles={ {
-                    padding: 1.5
+                    padding: 1
                   } }
                   children={ children }
                 />

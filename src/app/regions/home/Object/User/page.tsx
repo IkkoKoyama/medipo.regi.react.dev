@@ -37,62 +37,6 @@ const {
   }
 } = AMOT;
 
-const IconRegion: FNC<{}> = () => {
-  let {
-    Editable,
-    user
-  } = global.Temps[ 'objPage' ]
-  let {
-    name,
-    kana,
-    iconImage
-  } = user[ 0 ];
-
-  let IconImage = $.userIconImage( iconImage );
-
-  return (
-    <Flex
-      type='col'
-      gap={ 1 }
-      border={ 2 }
-      borderRadius={ 4 }
-      padding={ [ 2,4 ] }
-      backgroundColor={ 1 }
-      maxWidth={ 30 }
-      justify='center'
-      align='center'
-      position='sticky'
-      top={ 6 }
-      phoneStyles={ {
-        display: 'none'
-      } }
-    >
-      <Img
-        src={ IconImage }
-        showExpand={ IconImage.replace( /\/R\./,'/L.' ) }
-        width={ 12 }
-        height={ 12 }
-        borderRadius={ 100 }
-      />
-      <Flex
-        type='col'
-        wrap={ false }
-      >
-        <Box
-          fontSize={ 6 }
-          fontWeight={ 3 }
-          children={ name }
-        />
-        <Box
-          fontWeight={ 3 }
-          fontColor={ 4 }
-          children={ kana }
-        />
-      </Flex>
-    </Flex>
-  )
-}
-
 const HeaderRegion: FNC<{}> = () => {
   let {
     Editable,
@@ -110,6 +54,7 @@ const HeaderRegion: FNC<{}> = () => {
     <Box position='relative'>
       <Box
         position='relative'
+        minHeight={ 6 }
       >
         <Img
           src={ val_headerImage }
@@ -122,7 +67,7 @@ const HeaderRegion: FNC<{}> = () => {
         { Editable ? <>
           <Label.Prime
             size="S"
-            backgroundColor={ -2 }
+            backgroundColor={ 'lcOpMiddle' }
             htmlFor='changeHeaderImage'
             position='absolute'
             bottom={ 1 }
@@ -142,26 +87,34 @@ const HeaderRegion: FNC<{}> = () => {
               let ImageId = $.uuidGen( 32 ).toUpper();
               let isFinished = false;
 
+              let sizes = [ 'R','L' ];
               await ( async () => {
-                for ( let index = 0; index < 2; index++ ) {
-                  let file = files[ index ];
-                  let size = [ 'R','L' ][ index ];
-                  let Key = 'app/racco/user/header/' + ImageId + '/' + size + '.jpeg';
-                  let getUrl = await $.fetch( {
-                    method: 'post',
-                    url: 'mod/auth/s3/getPresignedUrl',
-                    body: {
+                let getUrls = await $.fetch( {
+                  method: 'post',
+                  url: 'mod/auth/s3/getPresignedUrl',
+                  body: {
+                    type: 'app',
+                    keys: sizes.map( ( size ) => ( {
                       bucket: 'public',
-                      key: Key,
+                      key: 'user/header/' + ImageId + '/' + size + '.jpeg',
                       method: 'put'
-                    },
-                    trafficControl: 0
-                  } )
-                  if ( !getUrl.ok ) return;
-                  let Url = getUrl.body;
+                    } ) )
+                  }
+                } );
+                if ( !getUrls.ok ) return;
+
+                for ( let index = 0; index < getUrls.body.length; index++ ) {
+                  let result = getUrls.body[ index ];
+                  let {
+                    ok,
+                    body: url
+                  } = result;
+
+                  if ( !ok ) continue;
+                  let file = files[ index ];
 
                   let Upload = await $.fetch( {
-                    url: Url,
+                    url: url,
                     method: 'put',
                     mode: 'cors',
                     header: {
@@ -173,20 +126,19 @@ const HeaderRegion: FNC<{}> = () => {
                   } );
                   if ( !Upload.ok ) return;
                 }
-                let result = await $.fetch(
-                  {
-                    name: 'updateObjHeaderImage',
-                    method: 'post',
-                    url: 'updateAColumn',
-                    trafficControl: 0,
-                    body: {
-                      objType: 'user',
-                      id: userId,
-                      column: 'headerImage',
-                      value: ImageId
-                    }
+
+                let result = await $.fetch( {
+                  name: 'updateObjHeaderImage',
+                  method: 'post',
+                  url: 'updateAColumn',
+                  trafficControl: 0,
+                  body: {
+                    objType: 'user',
+                    id: userId,
+                    column: 'headerImage',
+                    value: ImageId
                   }
-                )
+                } )
                 if ( !result.ok ) return;
                 isFinished = true;
               } )();
@@ -264,7 +216,7 @@ const OrgRegion: FNC<{}> = () => {
             <Img
               width={ 3 }
               height={ 3 }
-              borderRadius={ 100 }
+              borderRadius={ 'sphere' }
               src={ appEnv.orgIconImage( orgIcon ) }
             />
             <Anchor.Plain
@@ -276,7 +228,7 @@ const OrgRegion: FNC<{}> = () => {
             </Box>
           </Flex>
           <Box
-            border={ 2 }
+            border={ 'normal' }
             borderRadius={ 2 }
             padding={ [ -1,1 ] }
           >
@@ -406,10 +358,10 @@ const HomeTab: FNC<{}> = () => {
         wrap={ false }
         align='bottom'
         textAligin='center'
-        borderTop={ 2 }
+        borderTop={ 'normal' }
       >
         <Box
-          borderRight={ 2 }
+          borderRight={ 'normal' }
           padding={ 1 }
         >
           <Icon
@@ -504,7 +456,7 @@ const EventRegion: FNC<{}> = () => {
               flex='none'
             />
             <Box flex={ 'auto' }>
-              <Box fontWeight={ 3 } fontSize={ 3 }>
+              <Box fontWeight={ 'bold' } fontSize={ 3 }>
                 { title }
               </Box>
               <Box fontColor={ 3 } fontSize={ 1 }>
@@ -605,7 +557,7 @@ const LineSettingRegion: FNC<{}> = () => {
                             url: 'updateAColumn',
                             body: {
                               objType: 'user',
-                              id: Session.userId,
+                              id: Env.Session.userId,
                               column: 'lineNoticeRemind',
                               value: Number( value )
                             },
@@ -644,7 +596,7 @@ const LineSettingRegion: FNC<{}> = () => {
                             url: 'updateAColumn',
                             body: {
                               objType: 'user',
-                              id: Session.userId,
+                              id: Env.Session.userId,
                               column: 'lineNoticeWeekly',
                               value: Number( value )
                             },
@@ -705,7 +657,7 @@ const LineSettingRegion: FNC<{}> = () => {
                                   url: 'updateAColumn',
                                   body: {
                                     objType: 'user',
-                                    id: Session.userId,
+                                    id: Env.Session.userId,
                                     column: 'lineId',
                                     value: null
                                   },
@@ -742,7 +694,7 @@ const LineSettingRegion: FNC<{}> = () => {
           <Box ssCardBox={ true }>
             <Box
               ssCardBoxBody={ true }
-              borderTop={ 'none' }
+              borderTop={ 'unset' }
             >
               <Box marginBottom={ 1 } fontSize={ 3 }>
                 <LINEIcon
@@ -788,7 +740,7 @@ const ObjPage: FNC<{}> = () => {
 
   return (
     <LayoutContent
-      size='MAX'
+      size='XL'
       styles={ {
         padding: [ 2,3 ],
         phoneStyles: {
@@ -804,7 +756,6 @@ const ObjPage: FNC<{}> = () => {
           display: 'block',
         } }
       >
-        <IconRegion />
         <Flex
           type='col'
           gap={ 2 }
@@ -812,11 +763,7 @@ const ObjPage: FNC<{}> = () => {
         >
           <HeaderRegion />
           <Box
-            display={ 'none' }
             padding={ [ 0,1 ] }
-            phoneStyles={ {
-              display: 'block'
-            } }
           >
             <Flex
               wrap={ false }
@@ -828,12 +775,12 @@ const ObjPage: FNC<{}> = () => {
                 showExpand={ IconImage.replace( /\/R\./,'/L.' ) }
                 width={ 6 }
                 height={ 6 }
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
               />
               <Box>
                 <Box
                   fontSize={ 6 }
-                  fontWeight={ 3 }
+                  fontWeight={ 'bold' }
                   children={ name }
                 />
                 <Box
@@ -856,7 +803,7 @@ const ObjPage: FNC<{}> = () => {
                 <Box
                   paddingTop={ 2 }
                   phoneStyles={ {
-                    padding: 1.5
+                    padding: 1
                   } }
                   children={ children }
                 />
@@ -888,30 +835,27 @@ export const UserPage: FNC<{}> = () => {
 
   useEffect( () => {
     let {
-      id = Session.userUuid
+      id = Env.Session.userUuid
     } = $.getQueryParams();
-    let Editable = id === Session.userUuid ||
-      Session.userLevel >= 3281;
+    let Editable = id === Env.Session.userUuid ||
+      Env.Session.userLevel >= 3281;
 
-    $.fetch(
-      {
-        method: 'post',
-        url: 'user/obj',
-        body: {
-          id
-        },
-        trafficControl: 800
+    $.fetch( {
+      method: 'post',
+      url: 'user/obj',
+      body: {
+        id
       },
-      ( result ) => {
-        if ( result.ok && result.body.user.length === 1 ) {
-          global.Temps[ 'objPage' ] = {
-            ...result.body,
-            Editable
-          };
-          set_def( true );
-        }
+      trafficControl: 800
+    },( result ) => {
+      if ( result.ok && result.body.user.length === 1 ) {
+        global.Temps[ 'objPage' ] = {
+          ...result.body,
+          Editable
+        };
+        set_def( true );
       }
-    )
+    } )
   },[] );
 
   if ( !val_def ) return (

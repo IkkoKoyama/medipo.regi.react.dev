@@ -38,24 +38,21 @@ const EventSearchFunction = async () => {
   let form = await $.FormCollect( 'eventSearchForm' );
   if ( !form.valid ) return;
 
-  $.fetch(
-    {
-      name: 'searchManageEventList',
-      method: 'post',
-      url: 'event/manageList',
-      trafficControl: 800,
-      body: form.data
-    },
-    ( result ) => {
-      if ( result.ok ) {
-        global.Temps[ 'EventManageList' ] = result.body;
-        let component = global.StoreComponents[ 'managerTab-eventList' ];
-        if ( component && component.refresh ) {
-          component.refresh();
-        }
+  $.fetch( {
+    name: 'searchManageEventList',
+    method: 'post',
+    url: 'event/manageList',
+    trafficControl: 800,
+    body: form.data
+  },( result ) => {
+    if ( result.ok ) {
+      global.Temps[ 'EventManageList' ] = result.body;
+      let component = global.StoreComponents[ 'managerTab-eventList' ];
+      if ( component && component.refresh ) {
+        component.refresh();
       }
     }
-  )
+  } )
 }
 
 const SearchSettingRegion: FNC<{}> = () => {
@@ -141,7 +138,7 @@ const SearchSettingRegion: FNC<{}> = () => {
             詳細設定 <Icon d='angle-down' />
           </Button.Border>
           <Flex
-            border={ 2 }
+            border={ 'normal' }
             borderRadius={ 'LBSub1' }
             backgroundColor={ 1 }
             padding={ 2 }
@@ -216,11 +213,11 @@ const SearchSettingRegion: FNC<{}> = () => {
         <Flex
           align='bottom'
           padding={ 2 }
-          borderLeft={ 2 }
+          borderLeft={ 'normal' }
           backgroundColor={ 1 }
           phoneStyles={ {
-            border: 0,
-            borderTop: 2
+            border: 'unset',
+            borderTop: 'normal'
           } }
         >
           <Button.Prime
@@ -281,15 +278,24 @@ const EventListRegion: FNC<{}> = () => {
     { label: 'イベント',data: '名前' },
     { label: '主催',data: '主催' },
     {
-      label: '日時',data: '日時',
+      label: '日時',data: '日時'
+    },
+    {
+      label: '参加予定',data: '参加予定',
       style: {
         phoneStyles: {
           display: 'none'
         }
       }
     },
-    { label: '参加予定',data: '参加予定' },
-    { label: 'ステータス',data: 'ステータス' }
+    {
+      label: 'ステータス',data: 'ステータス',
+      style: {
+        phoneStyles: {
+          display: 'none'
+        }
+      }
+    }
   ];
 
   let BodyData: Orgs.Tables.Data.RowProps[] = [];
@@ -319,6 +325,9 @@ const EventListRegion: FNC<{}> = () => {
             wrap={ false }
             gap={ 1 }
             align='center'
+            phoneStyles={{
+              flexDirection : 'col'
+            }}
           >
             <Img
               src={ EventHeader }
@@ -346,12 +355,15 @@ const EventListRegion: FNC<{}> = () => {
               gap={ 1 }
               wrap={ false }
               align='center'
+              phoneStyles={{
+                flexDirection : 'col'
+              }}
             >
               <Img
                 src={ OrgIcon }
                 width={ 2.5 }
                 height={ 2.5 }
-                borderRadius={ 100 }
+                borderRadius={ 'sphere' }
               />
               { orgName }
             </Flex>,
@@ -369,7 +381,12 @@ const EventListRegion: FNC<{}> = () => {
         },{
           label: registers + '人',
           data: registers + '人',
-          orderIndex: registers
+          orderIndex: registers,
+          style: {
+            phoneStyles: {
+              display: 'none'
+            }
+          }
         },{
           label: <Box
             display='inlineBlock'
@@ -380,7 +397,12 @@ const EventListRegion: FNC<{}> = () => {
             children={ EventStatuss[ eventStatus ] }
           />,
           data: EventStatuss[ eventStatus ],
-          orderIndex: eventStatus
+          orderIndex: eventStatus,
+          style: {
+            phoneStyles: {
+              display: 'none'
+            }
+          }
         }
       ],
       rowId: eventUuid
@@ -430,6 +452,9 @@ export const EventDashBoard: FNC<{}> = () => {
       type='col'
       gap={ 2 }
       padding={ 2 }
+      phoneStyles={ {
+        padding: 1
+      } }
     >
       <Flex justify='right'>
         <Anchor.Prime
