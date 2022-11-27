@@ -30,7 +30,7 @@ const {
     TabContent,
     Table
   },
-  xtraMinifyComponent: {
+  minifyGlobalComponent: {
     logos: {
       LINEIcon
     },
@@ -41,7 +41,7 @@ const HeaderRegion: FNC<{}> = () => {
   let {
     Editable,
     user
-  } = global.Temps[ 'objPage' ]
+  } = AMOT.inmemory[ 'objPage' ]
   let {
     userId,
     headerImage
@@ -157,7 +157,7 @@ const OrgRegion: FNC<{}> = () => {
   let {
     user,
     orgs
-  } = global.Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
   } = user[ 0 ];
 
@@ -261,7 +261,7 @@ const HomeTab: FNC<{}> = () => {
     events,
     user,
     reps = []
-  } = global.Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     userId,
     description = ''
@@ -311,30 +311,27 @@ const HomeTab: FNC<{}> = () => {
             submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
             children={ '変更' }
             onClick={ async () => {
-              let form = await $.FormCollect( 'updateDescription' );
+              let form = await $.formCollect( 'updateDescription' );
               if ( !form.valid ) return;
               let { description } = form.data;
 
-              $.fetch(
-                {
-                  name: 'updateObjDescription',
-                  method: 'post',
-                  url: 'updateAColumn',
-                  trafficControl: 0,
-                  body: {
-                    objType: 'user',
-                    id: userId,
-                    column: 'description',
-                    value: description
-                  }
-                },
-                ( result ) => {
-                  if ( result.ok ) {
-                    Modal.hide( 'updateDescription' );
-                    set_description( description );
-                  }
+              $.fetch( {
+                name: 'updateObjDescription',
+                method: 'post',
+                url: 'updateAColumn',
+                trafficControl: 0,
+                body: {
+                  objType: 'user',
+                  id: userId,
+                  column: 'description',
+                  value: description
                 }
-              )
+              },( result ) => {
+                if ( result.ok ) {
+                  Modal.hide( 'updateDescription' );
+                  set_description( description );
+                }
+              } )
             } }
           />
         </Flex>
@@ -415,7 +412,7 @@ const HomeTab: FNC<{}> = () => {
 }
 
 const EventRegion: FNC<{}> = () => {
-  let { events } = global.Temps[ 'objPage' ]
+  let { events } = AMOT.inmemory[ 'objPage' ];
 
   let Events: ReactElement[] = [];
 
@@ -501,7 +498,7 @@ const LineSettingRegion: FNC<{}> = () => {
   let {
     Editable,
     user
-  } = global.Temps[ 'objPage' ]
+  } = AMOT.inmemory[ 'objPage' ]
   let {
     userId,
     lineId,
@@ -729,7 +726,7 @@ const ObjPage: FNC<{}> = () => {
   let {
     Editable,
     user
-  } = global.Temps[ 'objPage' ]
+  } = AMOT.inmemory[ 'objPage' ]
   let {
     name,
     kana,
@@ -849,7 +846,7 @@ export const UserPage: FNC<{}> = () => {
       trafficControl: 800
     },( result ) => {
       if ( result.ok && result.body.user.length === 1 ) {
-        global.Temps[ 'objPage' ] = {
+        AMOT.inmemory[ 'objPage' ] = {
           ...result.body,
           Editable
         };

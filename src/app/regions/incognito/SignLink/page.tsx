@@ -10,6 +10,7 @@ const {
       Anchor
     },
     Box,
+    Iframe,
     Paragraph,
     Flex,
     Loading,
@@ -17,7 +18,7 @@ const {
   },
   mols: {
   },
-  xtraMinifyComponent: {
+  minifyGlobalComponent: {
     logos: {
       MinifyIcon,
     }
@@ -25,7 +26,6 @@ const {
 } = AMOT;
 
 import style from './style.module.scss';
-
 
 const InteractRegon: FNC<{}> = () => {
   useEffect( () => {
@@ -67,9 +67,9 @@ const InteractRegon: FNC<{}> = () => {
           padding={ 1 }
           align='center'
           justify='center'
-          phoneStyles={{
-            flexDirection : 'col'
-          }}
+          phoneStyles={ {
+            flexDirection: 'col'
+          } }
         >
           <Logo.Horizon
             size='L'
@@ -137,22 +137,19 @@ const GetRegion: FNC<{
   useEffect( () => {
     let { token } = $.getQueryParams();
 
-    $.fetch(
-      {
-        method: 'post',
-        url: 'signLink/get',
-        body: { token }
-      },
-      ( result ) => {
-        if ( result.ok ) {
-          let redirect = localStorage.getItem( 'siru' ) || '/';
-          localStorage.removeItem( 'siru' );
-          window.location.href = redirect;
-          return;
-        }
-        set_error( true );
+    $.fetch( {
+      method: 'post',
+      url: 'signLink/get',
+      body: { token }
+    },( result ) => {
+      if ( result.ok ) {
+        let redirect = localStorage.getItem( 'siru' ) || '/';
+        localStorage.removeItem( 'siru' );
+        window.location.href = redirect;
+        return;
       }
-    )
+      set_error( true );
+    } )
   },[] );
 
   if ( !val_error ) {

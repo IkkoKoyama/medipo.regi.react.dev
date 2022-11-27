@@ -31,11 +31,11 @@ const {
 } = AMOT;
 
 const EventSearchFunction = async () => {
-  StoreComponents[ 'SearchSettingRegion' ].close();
-  let component = StoreComponents[ 'managerTab-eventList' ];
+  AMOT.inmemory[ 'SearchSettingRegion' ].close();
+  let component = AMOT.inmemory[ 'managerTab-eventList' ];
   component.search();
 
-  let form = await $.FormCollect( 'eventSearchForm' );
+  let form = await $.formCollect( 'eventSearchForm' );
   if ( !form.valid ) return;
 
   $.fetch( {
@@ -46,8 +46,8 @@ const EventSearchFunction = async () => {
     body: form.data
   },( result ) => {
     if ( result.ok ) {
-      global.Temps[ 'EventManageList' ] = result.body;
-      let component = global.StoreComponents[ 'managerTab-eventList' ];
+      AMOT.inmemory[ 'EventManageList' ] = result.body;
+      let component = AMOT.inmemory[ 'managerTab-eventList' ];
       if ( component && component.refresh ) {
         component.refresh();
       }
@@ -240,7 +240,7 @@ const SearchSettingRegion: FNC<{}> = () => {
 
 const EventListRegion: FNC<{}> = () => {
   let [ val_searching,set_searching ] = useState( false );
-  let EventList = global.Temps[ 'EventManageList' ]?.event || [];
+  let EventList = AMOT.inmemory[ 'EventManageList' ]?.event || [];
 
   useEffect( () => {
     useStore( {
@@ -425,7 +425,7 @@ const EventListRegion: FNC<{}> = () => {
           head={ HeadData }
           rows={ BodyData }
           rowClickCallBack={ ( rowId ) => {
-            global.Temps[ 'history' ].push( '/event/edit?id=' + rowId );
+            AMOT.inmemory[ 'history' ].push( '/event/edit?id=' + rowId );
           } }
         />
       </Box>

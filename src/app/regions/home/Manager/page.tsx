@@ -43,7 +43,7 @@ export const ManagerPage: FNC<{}> = () => {
         )
 
         let name = [ 'region','club','event' ][ index ];
-        let component = global.StoreComponents[ 'managerTab-' + name ];
+        let component = AMOT.inmemory[ 'managerTab-' + name ];
         if ( component && component.refresh ) {
           component.refresh();
         }

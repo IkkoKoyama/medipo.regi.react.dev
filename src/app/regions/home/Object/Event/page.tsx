@@ -38,7 +38,7 @@ import { InteractButton } from '@appComps/InteractButton/parts';
 const HeaderImageRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     headerImage
   } = obj[ 0 ];
@@ -73,7 +73,7 @@ const TitlesRegion: FNC<{
   } = props;
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId,
     title,
@@ -178,7 +178,7 @@ const TitlesRegion: FNC<{
 const TimePlaceRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId,
     title,
@@ -344,7 +344,7 @@ const TimePlaceRegion: FNC<{}> = () => {
 const DescriptionRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let { description } = obj[ 0 ];
 
   return (
@@ -363,7 +363,7 @@ const DescriptionRegion: FNC<{}> = () => {
 const OrgRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     orgName,
     orgDescription,
@@ -413,7 +413,7 @@ const OrgRegion: FNC<{}> = () => {
 const DetailsRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId,
     eventUuid,
@@ -546,7 +546,7 @@ const registerModal = (
   } = props;
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId,
     way,
@@ -630,7 +630,7 @@ const registerModal = (
               width={ '100%' }
               padding={ 1 }
               onClick={ async () => {
-                let form = await $.FormCollect( 'eventRegister' );
+                let form = await $.formCollect( 'eventRegister' );
                 if ( !form.valid ) return;
 
                 $.fetch(
@@ -669,7 +669,7 @@ const liftModal = () => {
   let {
     Registable,
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId
   } = obj[ 0 ];
@@ -715,7 +715,7 @@ const liftModal = () => {
                 width={ '100%' }
                 padding={ 1 }
                 onClick={ async () => {
-                  let form = await $.FormCollect( 'eventRegister' );
+                  let form = await $.formCollect( 'eventRegister' );
                   if ( !form.valid ) return;
 
                   $.fetch(
@@ -764,7 +764,7 @@ const DashBoardTab: FNC<{
   let {
     Registable,
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId,
 
@@ -820,7 +820,7 @@ const DashBoardTab: FNC<{
 const CommentTab: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId,
     eventUuid,
@@ -972,7 +972,7 @@ const CommentTab: FNC<{}> = () => {
                 formButton='eventComment'
                 submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                 onClick={ async () => {
-                  let form = await $.FormCollect( 'eventComment' );
+                  let form = await $.formCollect( 'eventComment' );
                   if ( !form.valid ) return;
 
                   $.fetch(
@@ -994,7 +994,7 @@ const CommentTab: FNC<{}> = () => {
                       if ( result.ok ) {
                         set_addComment( false );
 
-                        StoreComponents[ 'eventObj-comment' ].refresh();
+                        AMOT.inmemory[ 'eventObj-comment' ].refresh();
                       }
                     }
                   )
@@ -1014,7 +1014,7 @@ const UsersTab: FNC<{}> = () => {
   let {
     obj,
     users
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     eventId
   } = obj[ 0 ];
@@ -1102,7 +1102,7 @@ const ClosingRegion: FNC<{
     Registable,
     obj,
     users
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     title,
     dateFrom,
@@ -1233,7 +1233,7 @@ export const ObjPage: FNC<{}> = () => {
   let {
     Registable,
     obj
-  } = Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     registerExpireDate,
 
@@ -1313,7 +1313,7 @@ export const ObjPage: FNC<{}> = () => {
             } }
             onTabChange={ ( index ) => {
               let name = [ '','comment','users' ][ index ];
-              let component = global.StoreComponents[ 'eventObj-' + name ];
+              let component = AMOT.inmemory[ 'eventObj-' + name ];
               if ( component && component.refresh ) component.refresh();
             } }
             bodyTemplate={ ( children ) => {
@@ -1398,7 +1398,7 @@ export const EventPage: FNC<{}> = () => {
           }
           Registable &= Number( Number( EventStartTime ) >= Number( CurrentTime.ymdhms() ) );
 
-          Temps[ 'objPage' ] = {
+          AMOT.inmemory[ 'objPage' ] = {
             ...result.body,
             Registable: Boolean( Registable )
           };

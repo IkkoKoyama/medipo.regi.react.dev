@@ -24,7 +24,7 @@ const {
 } = AMOT;
 
 const ClubList: FNC<{}> = () => {
-  let { orgs = [] } = global.Temps[ 'clubManageList' ] || {};
+  let { orgs = [] } = AMOT.inmemory[ 'clubManageList' ] || {};
 
   let HeadData: Orgs.Tables.Data.HeadProps[] = [
     { label: '名前',data: '名前' },
@@ -105,7 +105,7 @@ const ClubList: FNC<{}> = () => {
           filter: [ true,false,false,false ]
         } }
         rowClickCallBack={ ( rowId ) => {
-          global.Temps[ 'history' ].push( '/org/obj?id=' + rowId );
+          AMOT.inmemory[ 'history' ].push( '/org/obj?id=' + rowId );
         } }
       />
     </Box>
@@ -226,7 +226,7 @@ const CreateClubRegion: FNC<{}> = () => {
                       submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                       children={ '作成する' }
                       onClick={ async () => {
-                        let form = await $.FormCollect( 'createClub' );
+                        let form = await $.formCollect( 'createClub' );
                         if ( form.valid ) {
                           let { uuid } = form.data;
 
@@ -242,7 +242,7 @@ const CreateClubRegion: FNC<{}> = () => {
                             },
                             ( result ) => {
                               if ( result.ok ) {
-                                let history = global.Temps[ 'history' ];
+                                let history = AMOT.inmemory[ 'history' ];
                                 history.push( '/org/obj?id=' + uuid );
                               }
                             }
@@ -283,7 +283,7 @@ export const ClubDashboard: FNC<{}> = () => {
             trafficControl: 400
           },
             ( result ) => {
-              global.Temps[ 'clubManageList' ] = result.body;
+              AMOT.inmemory[ 'clubManageList' ] = result.body;
               set_refresh( $.uuidGen( 16 ) );
             }
           );

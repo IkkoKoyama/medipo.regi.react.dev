@@ -46,7 +46,7 @@ let Way: any = appEnv.eventWay;
 const BasicRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
 
@@ -278,7 +278,7 @@ const BasicRegion: FNC<{}> = () => {
           submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
           children={ '変更' }
           onClick={ async () => {
-            let form = await $.FormCollect( 'updateBasicForm' );
+            let form = await $.formCollect( 'updateBasicForm' );
             if ( !form.valid ) return;
 
             $.fetch(
@@ -305,7 +305,7 @@ const BasicRegion: FNC<{}> = () => {
 const TimesRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
 
@@ -448,7 +448,7 @@ const TimesRegion: FNC<{}> = () => {
           submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
           children={ '変更' }
           onClick={ async () => {
-            let form = await $.FormCollect( 'updateTimes' );
+            let form = await $.formCollect( 'updateTimes' );
             if ( !form.valid ) return;
 
             $.fetch( {
@@ -476,7 +476,7 @@ const TimesRegion: FNC<{}> = () => {
 const LocationRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
 
@@ -696,7 +696,7 @@ const LocationRegion: FNC<{}> = () => {
           submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
           children={ '変更' }
           onClick={ async () => {
-            let form = await $.FormCollect( 'updateEventLocation' );
+            let form = await $.formCollect( 'updateEventLocation' );
             if ( !form.valid ) return;
 
             let Params = form.data;
@@ -739,7 +739,7 @@ const LocationRegion: FNC<{}> = () => {
 const DescriptionRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
     description
@@ -811,7 +811,7 @@ const DescriptionRegion: FNC<{}> = () => {
             formButton='updateDescription'
             children={ '変更' }
             onClick={ async () => {
-              let form = await $.FormCollect( 'updateDescription' );
+              let form = await $.formCollect( 'updateDescription' );
               if ( !form.valid ) return;
 
               let { description } = form.data;
@@ -847,7 +847,7 @@ const DescriptionRegion: FNC<{}> = () => {
 const AttachmentRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
     eventUuid
@@ -998,7 +998,7 @@ const AttachmentRegion: FNC<{}> = () => {
                         submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                         children={ 'アップロード' }
                         onClick={ async () => {
-                          let form = await $.FormCollect( 'addFiles' );
+                          let form = await $.formCollect( 'addFiles' );
                           if ( !form.valid ) return;
                           let { attachments } = form.data;
 
@@ -1062,7 +1062,7 @@ const AttachmentRegion: FNC<{}> = () => {
 const DashBoardRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
     eventUuid
@@ -1102,7 +1102,7 @@ const DashBoardRegion: FNC<{}> = () => {
 const HeaderRegion: FNC<{}> = () => {
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
     headerImage
@@ -1214,7 +1214,7 @@ const TitlesRegion: FNC<{
   } = props;
   let {
     obj
-  } = Temps[ 'editPage' ];
+  } = AMOT.inmemory[ 'editPage' ];
   let {
     eventId,
     title,
@@ -1293,7 +1293,7 @@ const TitlesRegion: FNC<{
               submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
               children={ '変更' }
               onClick={ async () => {
-                let form = await $.FormCollect( 'updateTitles' );
+                let form = await $.formCollect( 'updateTitles' );
                 if ( !form.valid ) return;
 
                 $.fetch(
@@ -1330,7 +1330,7 @@ const UserList: FNC<{}> = () => {
   let {
     users,
     obj = []
-  } = Temps[ 'editPage' ] || {};
+  } = AMOT.inmemory[ 'editPage' ] || {};
   let {
     eventId,
     way
@@ -1434,7 +1434,7 @@ const UserList: FNC<{}> = () => {
                           if ( result.ok ) {
                             let newUsers = [ ...users ];
                             newUsers.splice( index,1 );
-                            Temps[ 'editPage' ].users = newUsers;
+                            AMOT.inmemory[ 'editPage' ].users = newUsers;
                             set_refresh( $.uuidGen() )
                             Modal.remove( 'adminLiftRegister' );
                           }
@@ -1587,7 +1587,7 @@ const UserList: FNC<{}> = () => {
                 ][ way ] }
                 <Button.Prime
                   onClick={ async () => {
-                    let form = await $.FormCollect( 'adminRegisterForm' );
+                    let form = await $.formCollect( 'adminRegisterForm' );
                     if ( !form.valid ) return;
 
                     let {
@@ -1610,7 +1610,7 @@ const UserList: FNC<{}> = () => {
                           userIcon: user.iconImage,
                           way
                         }
-                        Temps[ 'editPage' ].users = [ ...users,User ];
+                        AMOT.inmemory[ 'editPage' ].users = [ ...users,User ];
                         set_refresh( $.uuidGen() )
                         Modal.hide( 'adminAddRegister' );
                       }
@@ -1657,7 +1657,7 @@ const UserRegistration: FNC<{}> = () => {
   );
 }
 const UserExport: FNC<{}> = () => {
-  let { obj = [] } = Temps[ 'editPage' ] || {};
+  let { obj = [] } = AMOT.inmemory[ 'editPage' ] || {};
   let { eventId,title } = obj[ 0 ] || {};
 
   let [ val_users,set_users ] = useState( [] );
@@ -1821,7 +1821,7 @@ const UserExport: FNC<{}> = () => {
 
             $.exportToSpreadSheet( {
               type: 'xlsx',
-              fileName: title + '参加者一覧',
+              fileName: 'イベント_' + title + '_参加者一覧',
               sheets: [
                 {
                   sheetName: 'シート1',
@@ -1900,7 +1900,7 @@ const UsersRegion: FNC<{}> = () => {
 export const ObjPage: FNC<{}> = () => {
   let {
     obj = []
-  } = Temps[ 'editPage' ] || {};
+  } = AMOT.inmemory[ 'editPage' ] || {};
   let {
     eventId,
     status,
@@ -2074,7 +2074,7 @@ export const ObjPage: FNC<{}> = () => {
                                 formButton={ 'deleteComplete' }
                                 submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                                 onClick={ async () => {
-                                  let form = await $.FormCollect( 'deleteComplete' );
+                                  let form = await $.formCollect( 'deleteComplete' );
                                   if ( !form.valid ) return;
                                   if ( form.data.confirm !== '完全に削除' ) return;
 
@@ -2166,30 +2166,27 @@ export const EventEditPage: FNC<{}> = () => {
       id
     } = $.getQueryParams();
 
-    $.fetch(
-      {
-        method: 'post',
-        url: 'event/obj',
-        body: { id },
-        trafficControl: 800
-      },
-      ( result ) => {
-        if ( result.ok && result.body.obj.length === 1 ) {
-          let Editable = Boolean( result.body.editable.length ) ||
-            result.body.obj[ 0 ].ownerId === Env.Session.userId ||
-            Env.Session.userLevel >= 3281;
-          if ( Editable ) {
-            Temps[ 'editPage' ] = {
-              ...result.body,
-              Editable
-            };
-            set_def( 200 );
-          } else {
-            set_def( 400 );
-          }
+    $.fetch( {
+      method: 'post',
+      url: 'event/obj',
+      body: { id },
+      trafficControl: 800
+    },( result ) => {
+      if ( result.ok && result.body.obj.length === 1 ) {
+        let Editable = Boolean( result.body.editable.length ) ||
+          result.body.obj[ 0 ].ownerId === Env.Session.userId ||
+          Env.Session.userLevel >= 3281;
+        if ( Editable ) {
+          AMOT.inmemory[ 'editPage' ] = {
+            ...result.body,
+            Editable
+          };
+          set_def( 200 );
+        } else {
+          set_def( 400 );
         }
       }
-    )
+    } )
   },[] );
 
   if ( val_def == 0 ) {
@@ -2213,7 +2210,7 @@ export const EventEditPage: FNC<{}> = () => {
           </Box>
           <Button.Prime
             onClick={ () => {
-              global.Temps[ 'history' ].goBack();
+              AMOT.inmemory[ 'history' ].goBack();
             } }
             children={ '戻る' }
           />

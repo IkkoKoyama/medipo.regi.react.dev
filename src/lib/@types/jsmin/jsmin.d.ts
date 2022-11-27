@@ -1,3 +1,7 @@
+interface plainObject {
+  [ index:string ] : any;
+}
+
 namespace Jsmin {
   type Args = any
   type ElementableValue = any
@@ -187,6 +191,12 @@ interface Jsmin {
   } ): string
 
   is: Jsmin.IsCheck
+
+  flatArray( v: any,regression?: '-R' ): any[]
+  toJson( value: any ): {
+    ok: boolean
+    body: any
+  }
 }
 interface JsminExtension {
 }

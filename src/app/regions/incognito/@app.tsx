@@ -15,7 +15,7 @@ const {
   orgs: {
     PageRouter
   },
-  xtraMinifyComponent: {
+  minifyGlobalComponent: {
     logos: {
       MingooIcon,
       MinifyLogoH
@@ -38,9 +38,9 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
       flexCenter={ true }
       className={ style.Wrap }
       padding={ [ 4,2 ] }
-      phoneStyles={{
-        padding : 1
-      }}
+      phoneStyles={ {
+        padding: 1
+      } }
     >
       { children }
       <Box

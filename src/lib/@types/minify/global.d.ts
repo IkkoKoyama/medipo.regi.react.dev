@@ -8,7 +8,6 @@ declare var Env : {
   Org : Org
   Session : Session
   CDN : {
-    libVer : string
     appVer : string
     static : string
     dev : string
@@ -46,10 +45,7 @@ declare var Env : {
     }
   }
 }
-interface RegularCDN {
-  readonly gogoleMapsApi : string
-  readonly excelJS : string
-}
+interface RegularCDN {}
 interface GlobalLinks {
   readonly admin : string
 }

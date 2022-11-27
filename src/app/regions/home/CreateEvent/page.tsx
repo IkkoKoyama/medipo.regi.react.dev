@@ -652,7 +652,7 @@ const OthersRegion: FNC<{}> = () => {
 
 
 const SubmitAction = async () => {
-  let form = await $.FormCollect( 'eventCreate' );
+  let form = await $.formCollect( 'eventCreate' );
   if ( !form.valid ) return;
   let eventId = $.uuidGen( 32 );
   let {
@@ -767,7 +767,7 @@ const SubmitAction = async () => {
       loaderEffect: 'top'
     },
     ( result ) => {
-      if ( result.ok ) global.Temps[ 'history' ].push( '/event/edit?id=' + eventId );
+      if ( result.ok ) AMOT.inmemory[ 'history' ].push( '/event/edit?id=' + eventId );
     }
   )
 }

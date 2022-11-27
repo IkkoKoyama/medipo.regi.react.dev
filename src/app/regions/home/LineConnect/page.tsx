@@ -23,7 +23,7 @@ let {
   },
   temps: {
   },
-  xtraMinifyComponent: {
+  minifyGlobalComponent: {
     logos: {
       LINEIcon
     },

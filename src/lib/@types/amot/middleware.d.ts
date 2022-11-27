@@ -78,7 +78,6 @@ namespace Toast {
     hideInterval?: boolean
     hideTime?: number
     appearance?: 'plain' | 'dark' | 'theme' | 'border' | 'posi' | 'nega' | 'warn'
-    soundEffect?: 'dageki' | 'papo' | 'mokkin'
   } & (
       {
         type: 'message'

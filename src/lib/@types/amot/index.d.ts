@@ -1,3 +1,12 @@
+declare module "*.scss";
+declare module "react-dom";
+
+type FNC<P> = React.FC<P>;
+
+interface plainObject {
+  [ index: string ]: any;
+}
+
 namespace Glob {
   /** glob.render  */
   type RenderProps = {
@@ -40,13 +49,19 @@ namespace Atoms {
       height?: string
     } & React.DOMAttributes<HTMLCanvasElement>
   }
+  namespace Iframe {
+    type Props = TagProps & {
+      src? : string
+      frameBorder? : string
+    } & React.DOMAttributes<HTMLIFrameElement>
+  }
   /* atoms.button */
   namespace Buttons {
     type Types = {
       Button: CoreTypes<ButtonInput>
       Label: CoreTypes<LabelInput>
       Anchor: CoreTypes<AnchorInput>
-      MFButton : FNC<MultiFunctionInput>
+      MFButton: FNC<MultiFunctionInput>
     }
     type CoreTypes<T> = {
       Prime: (
@@ -563,6 +578,7 @@ namespace AMOT {
     Loading: FNC<Atoms.LoadingProps>
 
     Canvas: FNC<Atoms.Canvas.Props>
+    Iframe: FNC<Atoms.Iframe.Props>
 
     Grid: FNC<Atoms.GridProps>
 
@@ -600,11 +616,34 @@ namespace AMOT {
   interface APP { }
 }
 interface AMOT {
+  config: {
+    version: string
+    layoutStyle: number
+    themeColor: number
+    darkMode: boolean
+    readonly device: {
+      isWhat: string
+      isMiniDisplay: boolean
+      isPhone: boolean
+      isMouseDevice: boolean
+      isTouchDevice: boolean
+      isIOS: boolean
+    }
+    foreignLibraryRequired( type: string ): void
+    update: {
+      layoutStyle( value: number ): void
+      themeColor( value: number ): void
+      darkMode( value: boolean ): void
+    }
+  }
   glob: AMOT.GLOB
   atoms: AMOT.Atoms
   mols: AMOT.Mols
   orgs: AMOT.Orgs
   temps: AMOT.Temps
   app: AMOT.APP
+  inmemory: {
+    [ key: string ]: plainObject
+  }
 }
 var AMOT: AMOT;

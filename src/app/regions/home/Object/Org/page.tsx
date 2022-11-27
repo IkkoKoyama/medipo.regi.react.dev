@@ -86,12 +86,11 @@ const updateNameModal = (
           submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
           children={ '変更' }
           onClick={ async () => {
-            let form = await $.FormCollect( 'updateName' );
+            let form = await $.formCollect( 'updateName' );
             if ( !form.valid ) return;
             let { name } = form.data;
 
-            $.fetch(
-              {
+            $.fetch({
                 name: 'updateObjName',
                 method: 'post',
                 url: 'updateAColumn',
@@ -102,14 +101,12 @@ const updateNameModal = (
                   column: 'name',
                   value: name
                 }
-              },
-              ( result ) => {
+              },( result ) => {
                 if ( result.ok ) {
                   Modal.hide( 'updateName' );
                   set_objName( name );
                 }
-              }
-            )
+              })
           } }
         />
       </Flex>
@@ -134,7 +131,7 @@ const IconRegion: FNC<plainObject> = ( props ) => {
   let {
     obj,
     events,
-  } = global.Temps[ 'objPage' ]
+  } = AMOT.inmemory[ 'objPage' ]
   let {
     eventCount,
     repCount,
@@ -352,7 +349,7 @@ const IconRegion: FNC<plainObject> = ( props ) => {
 }
 
 const AddMemberModal: FNC<{}> = () => {
-  let Data = global.Temps[ 'objPage' ];
+  let Data = AMOT.inmemory[ 'objPage' ];
   let {
     id: objId
   } = Data.obj[ 0 ];
@@ -428,7 +425,7 @@ const AddMemberModal: FNC<{}> = () => {
   } );
 
   let AddUserAddButton = async () => {
-    let form = await $.FormCollect( 'addMemberAddForm' );
+    let form = await $.formCollect( 'addMemberAddForm' );
     if ( !form.valid ) return;
     let {
       user,
@@ -619,7 +616,7 @@ const HomeTab: FNC<{}> = () => {
     Editable,
     events = [],
     obj
-  } = global.Temps[ 'objPage' ];
+  } = AMOT.inmemory[ 'objPage' ];
   let {
     id: objId,
     description = '',
@@ -670,7 +667,7 @@ const HomeTab: FNC<{}> = () => {
             submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
             children={ '変更' }
             onClick={ async () => {
-              let form = await $.FormCollect( 'updateDescription' );
+              let form = await $.formCollect( 'updateDescription' );
               if ( !form.valid ) return;
               let { description } = form.data;
 
@@ -844,7 +841,7 @@ const HomeTab: FNC<{}> = () => {
   );
 }
 const MemberTab: FNC<{}> = () => {
-  let Data = global.Temps[ 'objPage' ];
+  let Data = AMOT.inmemory[ 'objPage' ];
   let {
     Editable,
     obj
@@ -1058,7 +1055,7 @@ const MemberTab: FNC<{}> = () => {
                                       formButton={ 'removeMemberForm' }
                                       submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                                       onClick={ async () => {
-                                        let form = await $.FormCollect( 'removeMemberForm' );
+                                        let form = await $.formCollect( 'removeMemberForm' );
                                         if ( !form.valid ) return;
                                         if ( form.data.confirm !== '退会' ) return;
 
@@ -1074,7 +1071,7 @@ const MemberTab: FNC<{}> = () => {
                                           if ( result.ok ) {
                                             Modal.remove( 'editMemberInfo' );
                                             Modal.remove( 'removeMember' );
-                                            let component = global.StoreComponents[ ObjTab + '-members' ];
+                                            let component = AMOT.inmemory[ ObjTab + '-members' ];
                                             if ( component && component.refresh ) component.refresh();
                                           }
                                         } );
@@ -1223,7 +1220,7 @@ const MemberTab: FNC<{}> = () => {
                                   formButton='addHistoryAddForm'
                                   submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                                   onClick={ async () => {
-                                    let form = await $.FormCollect( 'addHistoryAddForm' );
+                                    let form = await $.formCollect( 'addHistoryAddForm' );
                                     if ( !form.valid ) return;
                                     let {
                                       year,
@@ -1280,7 +1277,7 @@ const MemberTab: FNC<{}> = () => {
                           children={ '更新' }
                           id='addMemberButton'
                           onClick={ async () => {
-                            let form = await $.FormCollect( 'memberEditForm' );
+                            let form = await $.formCollect( 'memberEditForm' );
                             if ( !form.valid ) return;
 
                             $.fetch(
@@ -1298,7 +1295,7 @@ const MemberTab: FNC<{}> = () => {
                               ( result ) => {
                                 if ( result.ok ) {
                                   Modal.hide( 'editMemberInfo' );
-                                  let component = global.StoreComponents[ ObjTab + '-members' ];
+                                  let component = AMOT.inmemory[ ObjTab + '-members' ];
                                   if ( component && component.refresh ) component.refresh();
                                 }
                               }
@@ -1356,7 +1353,7 @@ const MemberTab: FNC<{}> = () => {
                 children={ '送信' }
                 id='addMemberButton'
                 onClick={ async () => {
-                  let form = await $.FormCollect( 'addMemberForm' );
+                  let form = await $.formCollect( 'addMemberForm' );
                   if ( !form.valid ) return;
 
                   $.fetch(
@@ -1369,7 +1366,7 @@ const MemberTab: FNC<{}> = () => {
                     ( result ) => {
                       if ( result.ok ) {
                         Modal.remove( 'addMember' );
-                        let component = global.StoreComponents[ ObjTab + '-members' ];
+                        let component = AMOT.inmemory[ ObjTab + '-members' ];
                         if ( component && component.refresh ) component.refresh();
                       }
                     }
@@ -1433,7 +1430,7 @@ const ObjPage: FNC<{}> = () => {
   let {
     Editable,
     obj
-  } = global.Temps[ 'objPage' ]
+  } = AMOT.inmemory[ 'objPage' ]
   let {
     id: objId,
     uuid: objUuid,
@@ -1632,7 +1629,7 @@ const ObjPage: FNC<{}> = () => {
             Swipeable={ true }
             onTabChange={ ( index ) => {
               let name = [ 'home','members' ][ index ];
-              let component = global.StoreComponents[ ObjTab + '-' + name ];
+              let component = AMOT.inmemory[ ObjTab + '-' + name ];
               if ( component && component.refresh ) component.refresh();
             } }
             bodyTemplate={ ( children ) => {
@@ -1685,7 +1682,7 @@ export const OrgPage: FNC<{}> = () => {
             result.body.obj[ 0 ].ownerId === Env.Session.userId ||
             Env.Session.userLevel >= 3281;
 
-          global.Temps[ 'objPage' ] = {
+          AMOT.inmemory[ 'objPage' ] = {
             ...result.body,
             Editable
           };

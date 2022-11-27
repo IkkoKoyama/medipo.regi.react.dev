@@ -29,7 +29,7 @@ const {
 } = AMOT;
 
 const OrgList: FNC<{}> = () => {
-  let { orgs = [] } = global.Temps[ 'regionManageList' ] || {};
+  let { orgs = [] } = AMOT.inmemory[ 'regionManageList' ] || {};
 
   let HeadData: Orgs.Tables.Data.HeadProps[] = [
     { label: '名前',data: '名前' },
@@ -92,7 +92,7 @@ const OrgList: FNC<{}> = () => {
           filter: [ true ]
         } }
         rowClickCallBack={ ( rowId ) => {
-          global.Temps[ 'history' ].push( '/org/obj?id=' + rowId );
+          AMOT.inmemory[ 'history' ].push( '/org/obj?id=' + rowId );
         } }
       />
     </Box>
@@ -158,7 +158,7 @@ const CreateRegionRegion: FNC<{}> = () => {
                         submitDelegationFormInputKeydownEvents={ [ 'auxEnter' ] }
                         children={ '作成する' }
                         onClick={ async () => {
-                          let form = await $.FormCollect( 'createRegion' );
+                          let form = await $.formCollect( 'createRegion' );
                           if ( form.valid ) {
                             let {
                               uuid
@@ -176,7 +176,7 @@ const CreateRegionRegion: FNC<{}> = () => {
                               },
                               ( result ) => {
                                 if ( result.ok ) {
-                                  let history = global.Temps[ 'history' ];
+                                  let history = AMOT.inmemory[ 'history' ];
                                   history.push( '/org/obj?id=' + uuid );
                                 }
                               }
@@ -215,7 +215,7 @@ export const RegionDashboard: FNC<{}> = () => {
             trafficControl: 400
           },
             ( result ) => {
-              global.Temps[ 'regionManageList' ] = result.body;
+              AMOT.inmemory[ 'regionManageList' ] = result.body;
               set_refresh( $.uuidGen( 16 ) );
             }
           );

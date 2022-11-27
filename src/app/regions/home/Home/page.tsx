@@ -97,7 +97,7 @@ const Event: FNC<any> = ( props ) => {
       textAligin='left'
       key={ eventUuid }
       onClick={ () => {
-        Temps[ 'history' ].push( '/event/obj?id=' + eventUuid );
+        AMOT.inmemory[ 'history' ].push( '/event/obj?id=' + eventUuid );
       } }
     >
       <Box
@@ -390,7 +390,7 @@ const SearchSetting: FNC<{
 const searchEventFn = async (
   set_events: React.Dispatch<React.SetStateAction<never[]>>
 ) => {
-  let form = await $.FormCollect( 'searchEventForm' );
+  let form = await $.formCollect( 'searchEventForm' );
   if ( !form.valid ) return;
 
   $.fetch( {
