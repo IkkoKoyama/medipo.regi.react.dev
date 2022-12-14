@@ -65,8 +65,8 @@ const InteractRegon: FNC<{}> = () => {
           wrap={ false }
           gap={ 1 }
           padding={ 1 }
-          align='center'
-          justify='center'
+          vertical='center'
+          horizontal='center'
           phoneStyles={ {
             flexDirection: 'col'
           } }
@@ -83,14 +83,14 @@ const InteractRegon: FNC<{}> = () => {
           />
         </Flex>
         <Paragraph fontColor={ 2 }>
-          RACCO はロータリクラブ・ローターアクトクラブ会員専用のアプリです
+          [ medipoの説明 ]
         </Paragraph>
         <Box borderTop={ 'normal' } paddingTop={ 1 } textAligin='left'>
           <Flex
             wrap={ false }
             gap={ 1 }
             padding={ 1 }
-            align='center'
+            vertical='center'
           >
             <MinifyIcon />
             <Box

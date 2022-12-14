@@ -17,9 +17,10 @@ module.exports = ( () => {
     'root/fn/region/incognito': './src/app/regions/incognito/@app.tsx',
     'root/fn/region/home': './src/app/regions/home/@app.tsx',
 
-    'root/fn/appWare': './src/app/appWare.tsx',
+    'root/fn/appWare': './src/app/launch/appWare.tsx',
+    'root/launch': './src/app/launch/_.tsx',
 
-    '/uni': './src/app/@app.uni.scss'
+    '/uni': './src/app/launch/@app.uni.scss'
   }
 
   console.log( entry );

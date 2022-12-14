@@ -2,7 +2,7 @@
 
 const
   PORT = 35000,
-  ALIAS = 'racco',
+  ALIAS = 'medipo/design',
   express = require( 'express' ),
   APP = express(),
   HTTP = require( 'http' ).Server( APP );

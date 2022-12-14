@@ -1,15 +1,15 @@
 type ReactElement = React.ReactNode | React.ReactNode[]
 
 type flexDirectionProp = 'row' | 'row-r' | 'col' | 'col-r'
-type alignItemsProp = 'center' | 'top' | 'bottom' | 'unset'
-type justifyContentProp = 'center' | 'left' | 'right' | 'between' | 'around' | 'even' | 'unset'
+type flexVerticalProps = 'center' | 'top' | 'bottom' | 'unset'
+type flexHorizontalProps = 'center' | 'left' | 'right' | 'between' | 'around' | 'even' | 'unset'
+type flexGridProps = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
 type GridNumberProp = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
-type gapProp = -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4
+type gapProp = 0 | '1/3' | '2/3' | 1 | 1.5 | 2 | 2.5 | 3 | 4
 type gapProps = gapProp | [ gapProp,gapProp ]
 
-type flexGrowProp = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
 type PureTagProps = {
   style? : React.CSSProperties
@@ -31,7 +31,7 @@ type PureStyleProps = {
   borderColor? : BorderColorProps
   borderWidth? : 0 | 1 | 2 | 3 | 4
 
-  borderRadius? : BorderRadiusProps | 'LBMain' | 'LBSub1' | 'LBSub2'
+  borderRadius? : BorderRadiusProp |  [ BorderRadiusProp,BorderRadiusProp,BorderRadiusProp,BorderRadiusProp ] | 'LBMain' | 'LBSub1' | 'LBSub2'
   borderRadiusTopLeft? : BorderRadiusProp
   borderRadiusTopRight? : BorderRadiusProp
   borderRadiusBottomLeft? : BorderRadiusProp
@@ -42,18 +42,19 @@ type PureStyleProps = {
   fontSize? : FontSizeProp
   fontWeight? : FontWeightProp
   gap? : gapProps
+  overflow? : 'auto' | 'hidden' | 'scroll' | 'visible' | 'unset'
+  position? : PositionProps
   margin? : ParginProps
   marginTop? : ParginProp
   marginRight? : ParginProp
   marginBottom? : ParginProp
   marginLeft? : ParginProp
-  overflow? : 'auto' | 'hidden' | 'scroll' | 'visible' | 'unset'
-  position? : PositionProps
   padding? : ParginProps
   paddingTop? : ParginProp
   paddingRight? : ParginProp
   paddingBottom? : ParginProp
   paddingLeft? : ParginProp
+
   textAligin? : TextAliginProp
   whiteSpace? : WhiteSpaceProps
 
@@ -62,19 +63,16 @@ type PureStyleProps = {
   bottom? : TRBLProps
   left? : TRBLProps
 
-
   flexCenter? : boolean
   flexWrap? : boolean
   flexDirection? : flexDirectionProp
 
   flex? : 'none' | 'auto' | 0
   flexChilds? : 'even' | 'auto'
-  flexGrow? : flexGrowProp
-  flexBasis? : 0 | 'auto'
-  flexShirnk? : 0 | 1
+  flexGrid? : flexGridProps
 
-  alignItems? : alignItemsProp
-  justifyContent? : justifyContentProp
+  flexVertical? : flexVerticalProps
+  flexHorizontal? : flexHorizontalProps
 
   zIndex? : zIndexProps
 
@@ -83,17 +81,17 @@ type PureStyleProps = {
 
   opacity? : OpacityInput
 
-  maxHeight? : SizeProps | 'unset' | '100%'
+  maxHeight? : SizeProps | 'unset' | '100%' | 'viewHeight'
   maxWidth? : SizeProps | 'unset' | '100%'
-  minHeight? : SizeProps | 'unset' | '100%'
+  minHeight? : SizeProps | 'unset' | '100%' | 'viewHeight'
   minWidth? : SizeProps | 'unset' | '100%'
 
   wordBreak? : 'break-all' | 'normal'
 
   transition? : 'none' | 'short' | 'middle' | 'long' | 'veryLong'
 
-  width? : SizeProps | 'auto' | '1/4' | '1/3' | '1/2' | '2/3' | '3/4' | '100%'
-  height? : SizeProps | 'auto' | '1/4' | '1/3' | '1/2' | '2/3' | '3/4' | '100%'
+  width? : SizeProps | 'auto' | '1/4' | '1/3' | '1/2' | '2/3' | '3/4' | '100%' | 'viewWidth'
+  height? : SizeProps | 'auto' | '1/4' | '1/3' | '1/2' | '2/3' | '3/4' | '100%' | 'viewHeight'
 }
 
 type ActiveEffectTypes =
@@ -148,9 +146,11 @@ type OpacityInput = 'trans' | 'low' | 'middle' | 'high' | 'most'
 
 type backgroundColorProp =
 ColorProps |
-'lcOpLow' | 'lcOpMiddle' | 'lcOpHigh' |
 1 | 2 | 3 | 4 | 5 | 6 |
-'themeOpLow' | 'themeOpMiddle' | 'themeOpHigh' |
+'lcOpLow' | 'lcOpMiddle' | 'lcOpHigh' |
+'tcOpLow' | 'tcOpMiddle' | 'tcOpHigh' |
+'tcLight' | 'tcLighter' | 'tcLightest' |
+'tcDark' | 'tcDarker' | 'tcDarkest' |
 'negaOpLow' | 'negaOpMiddle' |
 'posiOpLow' | 'posiOpMiddle' |
 'trans' | 'dark' |
@@ -158,19 +158,26 @@ ColorProps |
 
 type boxShadowProps = 1 | 2 | 3 | 4 | 5 | -1 | -2 | -3 | -4 | -5 | 'none'
 
-type TRBLProps = -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8
-
 type zIndexProps = -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
-type ParginProp = -3 | -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 'auto'
+type TRBLProps = -2 | -1.5 | -1 | '-1/3' | '-2/3' |
+0 |
+'1/3' | '2/3' | 1 | 1.5 | 2 | 2.5 | 3 | 4
+
+
+type ParginProp = 
+-2 | -1.5 | -1 | '-1/3' | '-2/3' |
+0 |
+'1/3' | '2/3' | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 8 |
+'auto'
 type ParginProps = ParginProp | [ ParginProp,ParginProp ] | [ ParginProp,ParginProp,ParginProp,ParginProp ]
 
-type BorderRadiusProp = -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 'sphere' | 'inherit'
-type BorderRadiusProps = BorderRadiusProp |  [ BorderRadiusProp,BorderRadiusProp,BorderRadiusProp,BorderRadiusProp ]
+type BorderRadiusProp = 0 | '1/3' | '2/3' | 1 | 2 | 3 | 4 | 5 | 'sphere' | 'inherit'
+
 type BorderProps = 'unset' | 'trans' | 'thin' | 'normal'
 type BorderColorProps = 'trans' | 'thin' | 'normal' | 'theme' | 'posi' | 'nega' | 'warn'
 
-type SizeProps = -3 | -2 | -1 | 0 | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8 | 10 | 12 | 18 | 24 | 30 | 36
+type SizeProps = 0 | '1/6unit' | '1/3unit' | '2/3unit' | 1 | 1.5 | 2 | 2.5 | 3 | 4 | 6 | 8 | 10 | 12 | 18 | 24 | 30 | 36
 
 type TipsEffectProps = {
   position? : TipsEffectPositionProps

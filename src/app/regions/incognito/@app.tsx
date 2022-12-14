@@ -50,8 +50,8 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
         } }
       >
         <Flex
-          justify='right'
-          align='center'
+          vertical='center'
+          horizontal='right'
           gap={ 1 }
         >
           <Span fontColor={ 3 } fontSize={ 0 }>
@@ -63,10 +63,10 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
             href={ '' }
             tabIndex={ -1 }
             newTab={ true }
-            padding={ -1 }
+            padding={ '2/3' }
             activeEffect={ 'ripple.theme' }
           >
-            <Flex gap={ -1 } flexCenter={ true }>
+            <Flex gap={ '2/3' } flexCenter={ true }>
               <MingooIcon size='S' /> mingoo
             </Flex>
           </Anchor.Clear>
@@ -76,18 +76,17 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
   );
 }
 
-let Pages =
-  <PageRouter
-    list={
-      [ {
-        path: '*',
-        body:
-          <IncognitoPlate>
-            <SignLink />
-          </IncognitoPlate>
-      } ]
-    }
-  />;
+let Pages = <PageRouter
+  list={
+    [ {
+      path: '*',
+      body:
+        <IncognitoPlate>
+          <SignLink />
+        </IncognitoPlate>
+    } ]
+  }
+/>;
 
 Render( {
   base: '#MAIN',

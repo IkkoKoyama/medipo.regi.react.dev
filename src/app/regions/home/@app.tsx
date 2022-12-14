@@ -35,21 +35,17 @@ let {
 import style from './style.module.scss';
 style.launch;
 
-import { HomePage } from './Home/page';
-
-import { CreateEventPage } from './CreateEvent/page';
-import { ManagerPage } from './Manager/page';
-
-import { LineConnectPage } from './LineConnect/page';
-
-import { UserPage } from './Object/User/page';
-import { EventPage } from './Object/Event/page';
-import { EventEditPage } from './Object/EventEdit/page';
-import { OrgPage } from './Object/Org/page';
+import { RegiDeskPage } from './RegiDesk/page';
+import { RegiCheck } from './RegiCheck/page';
+import { MasterList } from './MasterList/page';
+import { MasterObject } from './MasterObject/page';
 
 let Pages = <PageRouter
   list={ [
     {
+      path: '/regi',
+      body: <RegiCheck />
+    },{
       path: '*',
       body: <>
         <LayoutHNC
@@ -62,7 +58,7 @@ let Pages = <PageRouter
                 height={ 4 }
                 activeEffect={ 'ripple.theme' }
                 borderRadius={ 'sphere' }
-                paddingLeft={ -2 }
+                paddingLeft={ '1/3' }
                 paddingRight={ 1 }
                 flexCenter={ true }
               >
@@ -71,13 +67,6 @@ let Pages = <PageRouter
                   title={ AppTitle }
                 />
               </Anchor.Clear>
-              {/* <Anchor.Link
-                    href=''
-                    fontColor={ 'inherit' }
-                    fontSize={ 1 }
-                  >
-                    raccoとは <Icon d='arrow-up-right-from-square' />
-                  </Anchor.Link> */}
             </>,
             rightSpace: <>
               <UniConsole />
@@ -85,59 +74,39 @@ let Pages = <PageRouter
           } }
           navMenus={ [ {
             type: 'anchor',
-            icon: <Icon d='fal home' />,
+            icon: <Icon d='fal desktop' />,
             href: '/',
-            label: 'ホーム',
-            tipsContent: 'ホーム'
-          },
-          // {
-          //   type: 'anchor',
-          //   icon: <Icon d='fal plus-square' />,
-          //   href: '/create-event',
-          //   label: '作る',
-          //   tipsContent: 'イベントを作成する'
-          // },
-          {
-            type: 'anchor',
-            icon: <Icon d='fal user-circle' />,
-            href: '/user/obj',
-            label: 'アカウント',
-            tipsContent: 'アカウント'
+            label: '受付画面',
+            tipsContent: '受付画面'
           },{
             type: 'anchor',
-            icon: <Icon d='fal folder-gear' />,
-            href: '/manages',
-            label: 'マネジメント',
-            tipsContent: 'マネジメント'
+            icon: <Icon d='fal cash-register' />,
+            href: '/regi',
+            label: '会計画面'
+          },{
+            type: 'anchor',
+            icon: <Icon d='fal bars' />,
+            href: '/master/list',
+            label: 'マスター一覧'
+          },{
+            type: 'anchor',
+            icon: <Icon d='fal ball-pile' />,
+            href: '/master/obj',
+            label: 'マスター詳細'
           } ] }
           content={
             <PageRouter
               list={ [
                 {
                   path: '/',
-                  body: <HomePage />
+                  body: <RegiDeskPage />
                 },{
-                  path: '/create-event',
-                  body: <CreateEventPage />
+                  path: '/master/list',
+                  body: <MasterList />
                 },{
-                  path: '/manages',
-                  body: <ManagerPage />
-                },{
-                  path: '/user/obj',
-                  body: <UserPage />
-                },{
-                  path: '/org/obj',
-                  body: <OrgPage />
-                },{
-                  path: '/event/obj',
-                  body: <EventPage />
-                },{
-                  path: '/event/edit',
-                  body: <EventEditPage />
-                },{
-                  path: '/line-connect-user',
-                  body: <LineConnectPage />
-                },
+                  path: '/master/obj',
+                  body: <MasterObject />
+                }
               ] }
             />
           }

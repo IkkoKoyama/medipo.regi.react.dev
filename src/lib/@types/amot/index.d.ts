@@ -138,11 +138,12 @@ namespace Atoms {
   type FlexProps = TagProps & {
     children?: ReactElement
     gap?: gapProps
-    wrap?: boolean
 
-    type?: flexDirectionProp
-    align?: alignItemsProp
-    justify?: justifyContentProp
+    wrap?: boolean
+    type? : flexDirectionProp
+
+    vertical?: flexVerticalProps
+    horizontal?: flexHorizontalProps
   } & React.DOMAttributes<HTMLDivElement>
 
   /* atoms.grid */
@@ -197,7 +198,7 @@ namespace Atoms {
     value: string | number
     list: SwitchListProp[]
     cellStyles?: OriginalStyleProps
-    onChangeEvent?: Input.OnChangeCallBack
+    onChange? : Input.OnChangeCallBack
   }
   type SwitchListProp = {
     value: string | number

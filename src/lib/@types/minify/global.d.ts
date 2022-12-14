@@ -1,6 +1,6 @@
 declare var Env : {
-  AppId : string
-  AppName : string
+  appId : string
+  appAlias : string
   isProduct : boolean
   csrfToken : string
   region : string

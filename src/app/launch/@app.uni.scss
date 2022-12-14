@@ -1,0 +1,10 @@
+/* import css property */
+@use '@uniss' as *;
+
+body {
+  // --cRGB0 : 212,26,89;
+}
+
+.viewHeight {
+  height : $viewHeight;
+}
