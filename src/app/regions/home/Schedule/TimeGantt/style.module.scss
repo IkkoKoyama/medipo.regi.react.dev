@@ -1,0 +1,226 @@
+/* import css property */
+@use '@uniss' as *;
+
+html {
+  &.Grabbing {
+    cursor: grabbing !important;
+    * {
+      cursor: grabbing !important;
+    }
+  }
+}
+
+
+.Table {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+  @include pureTable();
+
+  .THead {
+    .TableCell {
+      position: sticky;
+      top: 0;
+    }
+  }
+  .TBody {
+  }
+  &.CellSize_ {
+    &S .FieldCell {
+      min-width: $unit4;
+    }
+    &R .FieldCell {
+      min-width: $unit6;
+    }
+    &L .FieldCell {
+      min-width: $unit8;
+    }
+  }
+
+  .Addable {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba( #000,0 );
+  }
+}
+
+.Row {
+  &.Last_true {
+    .TableCell {
+      border-bottom: none;
+    }
+  }
+  .TableCell {
+    &:first-child {
+      position: sticky;
+      left: 0;
+    }
+    &:last-child {
+      border-right: none;
+    }
+  }
+  .MetaCell {
+    width:0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+  }
+}
+.TableCell {
+  border-right: 1px dashed var(--bcNormal);
+  border-bottom: $borderNormal;
+  position: relative;
+  min-width: calc( $unit1 * 6 );
+  &.Origin {
+    min-width: calc($unit1 * 12);
+  }
+  &.Stem {
+    border-right-style: solid;
+    &.FieldCell {
+    }
+    border-right-color: var( --bcNormal );
+  }
+}
+.GanttCell {
+  .Expander {
+    width: 10%;
+    min-width: $unit1-5;
+    max-width: $unit2;
+    padding: 0 !important;
+    &.Right {
+      cursor: e-resize;
+    }
+    &.Left {
+      cursor: w-resize;
+    }
+  }
+  &.Dragger {
+    pointer-events: none;
+    box-shadow: $shadow2;
+    opacity: .4;
+    transition: left 0s, top 0s, transform $animationTimeMiddle, opacity $animationTimeMiddle;
+    &.FadeOut {
+      opacity: 0;
+    }
+    &.Active {
+      transform: rotate(5deg);
+    }
+  }
+  .ForEventClassStretch {
+    color: inherit;
+  }
+  .ForEventClassDrag {
+    color: inherit;
+  }
+}
+
+
+
+.THead {
+  .TableCell {
+    z-index: 60;
+  }
+}
+.TableCell {
+  &:first-child {
+    z-index: 99;
+  }
+  &.Origin {
+    z-index: 100;
+  }
+}
+
+.GanttCell {
+  z-index: 1;
+}
+
+.CurrentSign {
+  z-index: 80;
+}
+.ActiveIndicator {
+  z-index: 70;
+}
+
+
+
+.Editable {
+  .Addable {
+    pointer-events: none;
+  }
+  &.StretchEffect {
+    .ActiveOrigin {
+      box-shadow: $unit1-2 $unit1-2 $unit1 rgba($shadowColor, .6);
+    }
+  }
+  &.DragEffect {
+    .ActiveOrigin {
+      filter: grayscale(0%) !important;
+      background-color: $layerColor2 !important;
+      pointer-events: none;
+      animation: none !important;
+      * {
+        opacity: 0;
+      }
+      &:after {
+        border: 2px dashed $themeColor;
+        @include absoluteCovered();
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $fontColor5;
+        padding: $unit1;
+        text-align: center;
+        content: "ドロップで決定";
+      }
+    }
+  }
+  .GanttCell {
+    &.ActiveOrigin {
+      transition: $animationTimeMiddle;
+    }
+    &:not( .ActiveOrigin ) {
+      filter: grayscale(75%);
+      animation: jiggly .25s ease-in-out infinite;
+      cursor: grab;
+      user-select: none;
+      &.JiggType_ {
+        &1 {
+          animation-duration: .24s;
+        }
+        &2 {
+          animation-duration: .26s;
+        }
+        &3 {
+          animation-duration: .28s;
+        }
+        &4 {
+          animation-duration: .3s;
+        }
+        &5 {
+          animation-duration: .32s;
+        }
+      }
+    }
+  }
+}
+
+
+
+@keyframes jiggly {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-.4deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(.4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

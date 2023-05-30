@@ -5,6 +5,53 @@ body {
   // --cRGB0 : 212,26,89;
 }
 
-.viewHeight {
-  height : $viewHeight;
+.AppLogo {
+  .p1 {
+    fill: $fontColorLogoTitle;
+  }
+  .p2 {
+    fill: $colorWarning;
+  }
+  .p3 {
+    fill: $themeColor;
+  }
+  .p4 {
+    fill: $themeColorLighten;
+  }
+  &.Title {
+    width: auto;
+    &.Size_ {
+      &S {
+        height: 1rem;
+      }
+      &R {
+        height: 1.25rem;
+      }
+      &L {
+        height: 1.75rem;
+      }
+      &2L {
+        height: 2.25rem;
+      }
+      &3L {
+        height: 2.75rem;
+      }
+    }
+  }
+  &.Color_ {
+    &white {
+      .p1 {
+        fill: white;
+      }
+      .p2 {
+        fill: $colorWarning;
+      }
+      .p3 {
+        fill: $themeColorLighter;
+      }
+      .p4 {
+        fill: $themeColorLightest;
+      }
+    }
+  }
 }

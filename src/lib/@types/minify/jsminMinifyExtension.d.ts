@@ -1,40 +1,42 @@
 interface JsminExtension {
-  UpdateUsrImg( v: string ): void
-  userIconImage: {
-    ( value: string,size?: 'S' | 'R' | 'L' ): string
+  minifyEntities: {
+    Images: {
+      userIcon( value: string,size?: 'S' | 'R' | 'L' ): string
+      orgIcon( value: string,size?: 'S' | 'R' | 'L' ): string
+      orgHeader( value: string,size?: 'S' | 'R' | 'L' ): string
+    }
+    orgUserAuthorityName( level: number ): string
   }
-  fetch(
-    params: JsminExtension.Fetch.params,
-    callback?: JsminExtension.Fetch.callback
-  ): Jsmin.Fetch.Res
+
+  fetch: {
+    get: JsminExtension.Fetch.CoreParams
+    post: JsminExtension.Fetch.CoreParams
+    put: JsminExtension.Fetch.CoreParams
+    option: JsminExtension.Fetch.CoreParams
+  }
   fetchList: string[]
 }
 namespace JsminExtension {
   namespace Fetch {
-    type params = {
-      name?: string
-      method: "get" | "post" | "put" | "option"
-      url: string
-      mode?: "cors" | "navigate" | "no-cors" | "same-origin"
-      credentials?: "include" | "omit" | "same-origin"
-      header?: RequestInit[ 'headers' ]
-      body?: any
+    type CoreParams = {
+      ( params: JsminExtension.Fetch.Params,callback?: JsminExtension.Fetch.callback ): Jsmin.Fetch.Res
+    }
+    type Params = {
+      key: string
       bodyStringify?: boolean
       timeout?: number
       loaderEffect?: 'top' | 'corner'
-      onSuccess?(
-        resolve: Function,
-        reject: Function,
-        result: any,
-        option: {
-          time: number
-        }
-      ): void
       trafficControl?: number
       preventMultiRequest?: boolean
-    }
+    } & Omit<Jsmin.Fetch.Args,'method'>
     type callback = {
       ( result: Jsmin.Fetch.Res ): void
     }
+  }
+  namespace GoogleMaps {
+
+  }
+  interface GoogleMaps {
+
   }
 }

@@ -7,7 +7,7 @@ const
   APP = express(),
   HTTP = require( 'http' ).Server( APP );
 
-APP.use( '/' + ALIAS, express.static( process.cwd() + '/public/root' ) );
+APP.use( '/' + ALIAS, express.static( process.cwd() + '/public/' ) );
 
 HTTP.listen( PORT, () => {
   let ip, nif = require( 'os' ).networkInterfaces();

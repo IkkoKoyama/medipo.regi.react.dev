@@ -1,29 +1,27 @@
 const {
   glob: {
-    React,
-    useEffect,
-    useState
+    React: {
+      useEffect,
+      useState
+    }
   },
   atoms: {
-    Buttons: {
-      Button,
-      Anchor
-    },
     Box,
     Iframe,
     Paragraph,
     Flex,
-    Loading,
     Logo
   },
-  mols: {
+  fn: {
+    Buttons,
+    Loader
   },
-  minifyGlobalComponent: {
+  minifyComponent: {
     logos: {
       MinifyIcon,
     }
   }
-} = AMOT;
+} = amotify;
 
 import style from './style.module.scss';
 
@@ -45,30 +43,36 @@ const InteractRegon: FNC<{}> = () => {
   let {
     icon: AppIcon,
     title: AppTitle
-  } = global.AMOT.app.logo;
+  } = global.amotify.app.logo;
 
   return (
-    <Box maxWidth={ 36 }>
+    <Box
+      style={ {
+        maxWidth: 36 * 12
+      } }
+    >
       <Flex
-        type='col'
+        flexType='col'
         gap={ 2 }
-        border={ 'normal' }
+        border
         padding={ 2 }
         borderRadius={ 3 }
-        maxWidth={ 36 }
-        backgroundColor={ 1 }
+        style={ {
+          maxWidth: 36 * 12
+        } }
+        backgroundColor={ '1.layer.base' }
         margin={ [ 'auto',0 ] }
-        textAligin={ 'center' }
+        textAlign={ 'center' }
         className={ style.Form }
       >
         <Flex
-          wrap={ false }
+          flexWrap={ false }
           gap={ 1 }
           padding={ 1 }
-          vertical='center'
-          horizontal='center'
-          phoneStyles={ {
-            flexDirection: 'col'
+          verticalAlign='center'
+          horizontalAlign='center'
+          UnderBreakPointStyles={ {
+            flexType: 'col'
           } }
         >
           <Logo.Horizon
@@ -77,36 +81,44 @@ const InteractRegon: FNC<{}> = () => {
             title={ AppTitle }
           />
           <Box
-            fontSize={ 4 }
-            fontWeight={ 'bold' }
+            fontSize={ '3.paragraph' }
+            fontWeight='3.bold'
             children={ 'サインイン' }
           />
         </Flex>
-        <Paragraph fontColor={ 2 }>
+        <Paragraph fontColor={ '2.normal' }>
           [ medipoの説明 ]
         </Paragraph>
-        <Box borderTop={ 'normal' } paddingTop={ 1 } textAligin='left'>
+        <Box
+          borderTop
+          paddingTop={ 1 }
+          textAlign='left'
+        >
           <Flex
-            wrap={ false }
+            flexWrap={ false }
             gap={ 1 }
             padding={ 1 }
-            vertical='center'
+            verticalAlign='center'
           >
             <MinifyIcon />
             <Box
-              fontWeight={ 'bold' }
+              fontWeight={ '3.bold' }
               children={ 'racco を利用するには minify にサインインしてください' }
             />
           </Flex>
-          <Paragraph fontColor={ 2 } textAligin='center' padding={ 1 }>
+          <Paragraph
+            fontColor={ '2.normal' }
+            textAlign='center'
+            padding={ 1 }
+          >
             RACCO は minify プラットフォームアプリケーションの一つです。
             minify でサインリンク許可をすると racco をご利用できるようになります。
           </Paragraph>
         </Box>
-        <Button.Prime
+        <Buttons.Button.Prime
           onClick={ () => {
-            $.fetch( {
-              method: 'post',
+            $.fetch.post( {
+              key: 'getSignLinkToken',
               url: 'signLink/getSignLinkToken',
               trafficControl: 300
             },( result ) => {
@@ -117,7 +129,9 @@ const InteractRegon: FNC<{}> = () => {
               }
             } );
           } }
-          miniLoader={ true }
+          ssMiniLoader={ {
+            color: 'white'
+          } }
           padding={ [ 1,2 ] }
           children={ 'インタラクト' }
         />
@@ -137,8 +151,8 @@ const GetRegion: FNC<{
   useEffect( () => {
     let { token } = $.getQueryParams();
 
-    $.fetch( {
-      method: 'post',
+    $.fetch.post( {
+      key: 'interaceSignLink',
       url: 'signLink/get',
       body: { token }
     },( result ) => {
@@ -153,7 +167,7 @@ const GetRegion: FNC<{
   },[] );
 
   if ( !val_error ) {
-    return ( <Loading /> );
+    return ( <Loader /> );
   }
   return (
     <>
@@ -166,7 +180,7 @@ const GetRegion: FNC<{
           <br />
           以下のボタンから再度実行してください
         </Paragraph>
-        <Button.Prime
+        <Buttons.Button.Prime
           size='S'
           marginTop={ 1 }
           onClick={ () => {
@@ -174,7 +188,7 @@ const GetRegion: FNC<{
           } }
         >
           戻る
-        </Button.Prime>
+        </Buttons.Button.Prime>
       </Box>
     </>
   );

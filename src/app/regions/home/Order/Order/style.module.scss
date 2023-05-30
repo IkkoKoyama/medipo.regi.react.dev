@@ -1,0 +1,30 @@
+/* import css property */
+@use '@uniss' as *;
+.TenKeyWrapper {
+  button {
+    // background-color: $layerColor1;
+    // padding: 0;
+    min-width: $unit6;
+    min-height: $unit6;
+    font-size: inherit;
+    // white-space: nowrap;
+    // border-radius: 0;
+    // color: inherit;
+  }
+}
+.SelectMenuGridCells {
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+.Body {
+  .SelectedRegion {
+    width: 40vw;
+    max-width: calc($unit1 * 35);
+  }
+  .SelectedRegion {
+    min-width: calc($unit1 * 30);
+    @media (max-width:$breakPoint ) {
+      width: 100%;
+      max-width: 100vw;
+    }
+  }
+}

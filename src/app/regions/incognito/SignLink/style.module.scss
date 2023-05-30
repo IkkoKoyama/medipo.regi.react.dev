@@ -3,7 +3,7 @@
 .accountBox {
   border-radius: 3rem;
   border: $borderNormal;
-  padding: $unit-2;
+  padding: $unit1_3;
   text-align: left;
   .icon {
     width: $unit3;
@@ -12,6 +12,6 @@
   }
   .name {
     flex: 1 1 auto;
-    padding: 0 $unit-1;
+    padding: 0 $unit2_3;
   }
 }

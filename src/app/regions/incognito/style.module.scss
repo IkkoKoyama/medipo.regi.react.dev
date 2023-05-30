@@ -4,7 +4,7 @@
   height: calc($viewHeight );
   overflow: auto;
   background-color: $layerColor1;
-  @media (max-width:$deviceWidth1024) {
+  @media (max-width:$breakPoint) {
     .Form {
       padding: $unit2;
       min-width: 0;

@@ -1,27 +1,24 @@
 const {
   glob: {
-    React,
-    Render
+    LaunchReactApplication
   },
   atoms: {
-    Input,
     Box,
     Flex,
-    Span,
-    Buttons: {
-      Anchor
-    }
+    Span
   },
-  orgs: {
-    PageRouter
+  fn: {
+    Layout,
+    Input,
+    Buttons
   },
-  minifyGlobalComponent: {
+  minifyComponent: {
     logos: {
       MingooIcon,
       MinifyLogoH
     }
   }
-} = AMOT;
+} = amotify;
 
 import style from './style.module.scss';
 style.launch;
@@ -35,60 +32,60 @@ const IncognitoPlate: FNC<{ children: ReactElement }> = ( props ) => {
 
   return (
     <Flex
-      flexCenter={ true }
+      flexCenter
       className={ style.Wrap }
       padding={ [ 4,2 ] }
-      phoneStyles={ {
+      UnderBreakPointStyles={ {
         padding: 1
       } }
     >
       { children }
       <Box
         className={ style.Footer }
-        phoneStyles={ {
+        UnderBreakPointStyles={ {
           position: 'relative'
         } }
       >
         <Flex
-          vertical='center'
-          horizontal='right'
+          verticalAlign='center'
+          horizontalAlign='right'
           gap={ 1 }
         >
-          <Span fontColor={ 3 } fontSize={ 0 }>
+          <Span
+            fontColor={ '3.blur' }
+            fontSize={ '0.xs' }
+          >
             Presented by
           </Span>
-          <Anchor.Clear
+          <Buttons.Anchor.Clear
             disabled={ true }
             size='S'
             href={ '' }
             tabIndex={ -1 }
             newTab={ true }
             padding={ '2/3' }
-            activeEffect={ 'ripple.theme' }
+            ssEffectsOnActive={ 'ripple.theme' }
           >
             <Flex gap={ '2/3' } flexCenter={ true }>
               <MingooIcon size='S' /> mingoo
             </Flex>
-          </Anchor.Clear>
+          </Buttons.Anchor.Clear>
         </Flex>
       </Box>
     </Flex>
   );
 }
 
-let Pages = <PageRouter
-  list={
-    [ {
-      path: '*',
-      body:
-        <IncognitoPlate>
-          <SignLink />
-        </IncognitoPlate>
-    } ]
-  }
+let Pages = <Layout.PageRouter
+  pages={ [ {
+    path: '*',
+    content: <IncognitoPlate>
+      <SignLink />
+    </IncognitoPlate>
+  } ] }
 />;
 
-Render( {
-  base: '#MAIN',
-  content: Pages
+LaunchReactApplication( {
+  baseElement: '#MAIN',
+  reactElement: Pages
 } );

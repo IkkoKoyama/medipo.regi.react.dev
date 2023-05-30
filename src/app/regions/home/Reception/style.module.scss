@@ -1,0 +1,7 @@
+/* import css property */
+@use '@uniss' as *;
+.Wrapper {
+  @media (max-width:$breakPoint) {
+    max-width: calc( $unit1 * 40 );
+  }
+}

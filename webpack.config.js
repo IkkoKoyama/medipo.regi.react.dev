@@ -120,7 +120,7 @@ module.exports = ( () => {
       extensions: [ '.js', '.jsx', '.tsx', 'ts' ],
       alias: {
         '~': __dirname + '/src',
-        '@uniss': path.resolve( __dirname, 'src/lib/@styles/var' ),
+        '@uniss': path.resolve( __dirname, 'src/lib/@variables/var' ),
 
         '@appComps': path.resolve( __dirname, 'src/app/appComps' )
       }

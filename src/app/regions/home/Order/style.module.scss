@@ -1,0 +1,41 @@
+/* import css property */
+@use '@uniss' as *;
+.ReceiptBorder {
+  border-bottom: 1px dashed black;
+}
+.DisplayRegion {}
+.PrintDocument {}
+@media print {
+  .DisplayRegion {
+    display: none !important;
+  }
+  .PrintDocument {
+    display: block !important;
+  }
+  .MeisaiSection {
+    // width: 172mm; /* A4縦の幅 */
+    // height: 251mm; /* A4縦の高さ */
+    // page-break-after: always;
+    /* 各ページの終わりに改ページ */
+  }
+}
+.MeisaiSection {
+  font-size: 1rem;
+  .MeisaiTable {
+    @include pureTable();
+    border-color: #000 !important;
+    th, td {
+      padding: 6px;
+      border: 1px solid #000;
+    }
+    .insuranceDetails {
+      width: 3rem;
+      writing-mode: vertical-rl;
+      text-align: center;
+    }
+  }
+  .MeisaiTableRight {
+    writing-mode: vertical-rl;
+    text-align: center;
+  }
+}
